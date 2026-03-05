@@ -1,4 +1,5 @@
 import useDataStore from "../hooks/useDataStore";
+import DistributionStats from "./DistributionStats";
 
 function StatList() {
 
@@ -18,6 +19,7 @@ function StatList() {
   return (
     <div>
       <h2>Kommune Statistics</h2>
+      <DistributionStats />
       {dataModel && currentKommune && currentKommuneCache ? 
       (
         <ul>

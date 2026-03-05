@@ -169,6 +169,7 @@ const useDataStore = create<DataStore>((set, get) => ({
         cache.years[year as Year].byMetric[metric.key] = Object.values(data.years[year as Year].byKommune).map(kommune => {
           return sumInvertibleValues([metric], kommune);
         });
+        cache.years[year as Year].byMetric[metric.key].sort((a, b) => a - b);
       }
     }
     set({ cache });
