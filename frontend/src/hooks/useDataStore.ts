@@ -30,8 +30,15 @@ export type Year = string & { readonly __brand: unique symbol};
 export type KommuneNr = string & { readonly __brand: unique symbol};
 
 type Data = {
-  [year: Year]: {
-    [kommuneNr: KommuneNr]: KommuneData;
+  years: {
+    [year: Year]: {
+      byKommune: {
+        [kommuneNr: KommuneNr]: KommuneData;
+      }
+      byMetric: {
+        [metricKey: MetricKey]: number[];
+      }
+    }
   }
 }
 
@@ -43,7 +50,12 @@ type KommuneCache = {
 type Cache = {
   years: {
     [year: Year]: {
-      [kommuneNr: KommuneNr]: KommuneCache;
+      byKommune: { // Access values for a specific kommune
+        [kommuneNr: KommuneNr]: KommuneCache;
+      }
+      byMetric: { // Access values for a specific metric across all kommune
+        [metricKey: MetricKey]: number[];
+      }
     }
   }
   minRisk: number;
@@ -98,7 +110,7 @@ const useDataStore = create<DataStore>((set, get) => ({
       });
     });
 
-    const selectedYear = Object.keys(data)[0] as Year // TODO: Make default year property in kommune_data_model.json?
+    const selectedYear = Object.keys(data.years)[0] as Year // TODO: Make default year property in kommune_data_model.json?
     set({ dataModel, data, selectedYear });
 
     get().refreshCacheDeep();
@@ -121,7 +133,7 @@ const useDataStore = create<DataStore>((set, get) => ({
 
   refreshCacheDeep: () => {
     const { dataModel, data, calculateElementValue } = get();
-    if (!dataModel || !data) return;
+    if (!dataModel || !data || !data.years) return;
 
     const cache: Cache = {
       years: {},
@@ -129,9 +141,13 @@ const useDataStore = create<DataStore>((set, get) => ({
       maxRisk: -Infinity,
     } as Cache;
 
-    for (const year of Object.keys(data)) {
-      cache.years[year as Year] = {};
-      for (const komNr of Object.keys(data[year as Year])) {
+    for (const year of Object.keys(data.years)) {
+      cache.years[year as Year] = {
+        byKommune: {},
+        byMetric: {},
+      };
+      // Kommuner {}
+      for (const komNr of Object.keys(data.years[year as Year].byKommune)) {
         const kommuneCache: KommuneCache = { totalRisk: 0 };
         
         let totalRisk = 0;
@@ -146,7 +162,13 @@ const useDataStore = create<DataStore>((set, get) => ({
         if (totalRisk < cache.minRisk) cache.minRisk = totalRisk;
         if (totalRisk > cache.maxRisk) cache.maxRisk = totalRisk;
 
-        cache.years[year as Year][komNr as KommuneNr] = kommuneCache;
+        cache.years[year as Year].byKommune[komNr as KommuneNr] = kommuneCache;
+      }
+      // Metrics {}
+      for (const metric of dataModel.elements.flatMap(e => e.metrics)) {
+        cache.years[year as Year].byMetric[metric.key] = Object.values(data.years[year as Year].byKommune).map(kommune => {
+          return sumInvertibleValues([metric], kommune);
+        });
       }
     }
     set({ cache });
@@ -160,13 +182,14 @@ const useDataStore = create<DataStore>((set, get) => ({
     let maxRisk = -Infinity;
 
     const newYears = Object.fromEntries(
-      Object.entries(cache.years).map(([year, kommunes]) => [
-        year,
-        Object.fromEntries(
-          Object.entries(kommunes).map(([komNr, kommuneCache]) => {
+      Object.entries(cache.years).map(([year, yearCache]) => {
+        const { byKommune, byMetric } = yearCache;
+
+        const newByKommune = Object.fromEntries(
+          Object.entries(byKommune).map(([komNr, kommuneCache]) => {
 
             const totalRisk = dataModel.elements.reduce((acc, element, index) => {
-              const elementValue = cache.years[year as Year][komNr as KommuneNr][index];
+              const elementValue = cache.years[year as Year].byKommune[komNr as KommuneNr][index];
               return acc + (element.disabled ? 0 : (element.invert === true ? 100 - elementValue : elementValue));
             }, 0);
 
@@ -174,8 +197,16 @@ const useDataStore = create<DataStore>((set, get) => ({
             if (totalRisk > maxRisk) maxRisk = totalRisk;
             return [komNr, { ...kommuneCache, totalRisk }];
           })
-        ),
-      ])
+        );
+
+        return [
+          year,
+          {
+            byKommune: newByKommune,
+            byMetric, // preserve old byMetric
+          }
+        ]
+      })
     );
 
     set({ cache: { ...cache, years: newYears, minRisk, maxRisk } });
@@ -186,10 +217,11 @@ const useDataStore = create<DataStore>((set, get) => ({
     if (!cache) return;
 
     const newYears = Object.fromEntries(
-      Object.entries(cache.years).map(([year, kommunes]) => [
-        year,
-        Object.fromEntries(
-          Object.entries(kommunes).map(([komNr, kommuneCache]) => {
+      Object.entries(cache.years).map(([year, yearCache]) => {
+        const { byKommune, byMetric } = yearCache;
+
+        const newByKommune = Object.fromEntries(
+          Object.entries(byKommune).map(([komNr, kommuneCache]) => {
             const elementValue = calculateElementValue(elementIndex, komNr as KommuneNr, year as Year);
             if (elementValue === null) return [komNr, kommuneCache]; // No change if element value is null (e.g. all metrics disabled)
             return [
@@ -197,8 +229,16 @@ const useDataStore = create<DataStore>((set, get) => ({
               { ...kommuneCache, [elementIndex]: elementValue }
             ];
           })
-        ),
-      ])
+        )
+        
+        return [
+          year,
+          {
+            byKommune: newByKommune,
+            byMetric, // preserve old byMetric
+          }
+        ]
+      })
     );
 
     set({ cache: { ...cache, years: newYears } });
@@ -210,13 +250,13 @@ const useDataStore = create<DataStore>((set, get) => ({
     if (!dataModel || !data || !komNr || !year ) return null
 
     const metrics = dataModel.elements[elementIndex].metrics
-    const kommune = data[year][komNr]
+    const kommune = data.years[year].byKommune[komNr]
 
     const tmpRes = sumInvertibleValues(metrics, kommune)
     let min = Infinity
     let max = -Infinity
-    for (const year of Object.values(data)) {
-      for (const kom of Object.values(year)) {
+    for (const year of Object.values(data.years)) {
+      for (const kom of Object.values(year.byKommune)) {
         const calculatedRisk = sumInvertibleValues(metrics, kom)
         if (calculatedRisk < min) min = calculatedRisk;
         if (calculatedRisk > max) max = calculatedRisk;
@@ -230,8 +270,8 @@ const useDataStore = create<DataStore>((set, get) => ({
 
   getRiskColor: (komNr, colors = ['green', 'yellow', 'orange', 'red']) => {
     const { cache, selectedYear } = get();
-    if (!cache || !selectedYear || colors.length === 0) return 'gray';
-    const risk = cache.years[selectedYear][komNr].totalRisk;
+    if (!cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear]) return 'gray';
+    const risk = cache.years[selectedYear].byKommune[komNr].totalRisk;
     const { minRisk, maxRisk } = cache;
     if (minRisk === maxRisk) return 'gray'; // Avoid division by zero and invalid risk values
     const colorIndex = Math.floor((risk - minRisk) / (maxRisk - minRisk) * colors.length);

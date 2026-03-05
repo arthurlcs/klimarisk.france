@@ -12,8 +12,8 @@ function StatList() {
     selectedKommune,
   } = useDataStore();
 
-  const currentKommune = data && selectedYear && selectedKommune ? data[selectedYear][selectedKommune] : null
-  const currentKommuneCache = cache && selectedYear && selectedKommune ? cache.years[selectedYear][selectedKommune] : null
+  const currentKommune = data && selectedYear && selectedKommune ? data.years[selectedYear].byKommune[selectedKommune] : null
+  const currentKommuneCache = cache && selectedYear && selectedKommune ? cache.years[selectedYear].byKommune[selectedKommune] : null
 
   return (
     <div>

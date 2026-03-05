@@ -14,14 +14,18 @@ def fixKey(key: str, year: str):
 # Load data model
 dm = json.load(open("./scripts/kommune_data_model.json", 'r', encoding='utf-8'))
 
-kommune_data = {}
+kommune_data = {
+    "years": {}
+}
 
 for year in dm["years"]:
     yr = year["name"]
 
     df = pd.read_excel(file, sheet_name=year["sheet_name"])
 
-    kommune_data_year = {}
+    kommune_data_year = {
+        "byKommune": {}
+    }
 
     for index, row in df.iterrows():
         iKomNr = str(row["iKomNr"]).zfill(4) # Ensure 4-digit kommune number #TODO: settle on format, keep consistent with frontend
@@ -33,9 +37,9 @@ for year in dm["years"]:
             for metric in element["metrics"]: #TODO: maybe rename metric to indikator
                 row_data[metric["key"]] = row[fixKey(metric["col_name"], yr)]
 
-        kommune_data_year[iKomNr] = row_data
+        kommune_data_year["byKommune"][iKomNr] = row_data
 
-    kommune_data[yr] = kommune_data_year
+    kommune_data["years"][yr] = kommune_data_year
 
 print(df)
 print(df.columns)

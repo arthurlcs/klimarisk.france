@@ -7,11 +7,11 @@ function Yearcontrol() {
   const { 
     selectedYear, 
     setSelectedYear, 
-    data 
+    data, 
   } = useDataStore();
 
   const availableYears = useMemo(() => {
-    return data ? Object.keys(data) : [];
+    return data && data.years ? Object.keys(data.years) : [];
   }, [data]);
 
   const currentYearIndex = useMemo(() => {
