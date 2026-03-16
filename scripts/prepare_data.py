@@ -2,8 +2,8 @@ import pandas as pd
 import json
 
 file = "./scripts/kommunerangering+2024+-+datasett.xlsx"
-# out_path = "./scripts/kommune_data.json"
 out_path = "./frontend/public/data/kommune_data.json"
+out_path_model = "./frontend/public/data/kommune_data_model.json"
 
 
 # Workaround column names containg year, TODO: possibly define changed excel norm
@@ -49,3 +49,21 @@ print(df.iloc[0])
 
 with open(out_path, 'w', encoding='utf-8') as f:
     json.dump(kommune_data, f, ensure_ascii=False, indent=2)
+
+
+# Recreate the data model with only useful information for the frontend
+kommune_data_model = {
+    "elements": [{
+        "name": element["name"],
+        "key": element["key"],
+        **({"invert": element["invert"]} if "invert" in element else {}),
+        "metrics": [{
+            "name": metric["name"],
+            "key": metric["key"],
+            **({"invert": metric["invert"]} if "invert" in metric else {}),
+        } for metric in element["metrics"]],
+    } for element in dm["elements"]]
+}
+
+with open(out_path_model, "w", encoding="utf-8") as f:
+    json.dump(kommune_data_model, f, ensure_ascii=False, indent=2)
