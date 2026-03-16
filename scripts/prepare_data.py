@@ -19,37 +19,40 @@ kommune_data = {
 }
 
 for year in dm["years"]:
-    yr = year["name"]
-
     df = pd.read_excel(file, sheet_name=year["sheet_name"])
 
     kommune_data_year = {
-        "byKommune": {}
+        "byKommune": {},
+        "byMetric": {},
     }
-
     for index, row in df.iterrows():
-        iKomNr = str(row["iKomNr"]).zfill(4) # Ensure 4-digit kommune number #TODO: settle on format, keep consistent with frontend
-        row_data = {
+        iKomNr = str(row["iKomNr"]).zfill(4) # Ensure 4-digit kommune number
+
+        kommune_data_year_byKommune = {
             "name": row["KomNavn"],
         }
         for element in dm["elements"]: #TODO: maybe rename element to indeks
-            #TODO: add element weighting, as well as metric weightings
             for metric in element["metrics"]: #TODO: maybe rename metric to indikator
-                row_data[metric["key"]] = row[fixKey(metric["col_name"], yr)]
+                metric_value = row[fixKey(metric["col_name"], year["name"])]
 
-        kommune_data_year["byKommune"][iKomNr] = row_data
+                kommune_data_year_byKommune[metric["key"]] = metric_value
 
-    kommune_data["years"][yr] = kommune_data_year
+                # Add metric [] to byMetric dictionary if it doesnt exist
+                if metric["key"] not in kommune_data_year["byMetric"]:
+                    kommune_data_year["byMetric"][metric["key"]] = [metric_value]
+                else:
+                    kommune_data_year["byMetric"][metric["key"]].append(metric_value)
 
-print(df)
-print(df.columns)
-print(df.iloc[0])
+        kommune_data_year["byKommune"][iKomNr] = kommune_data_year_byKommune
 
-# print(kommune_data)
+    # sort byMetric {} metrics
+    for metric in kommune_data_year["byMetric"]:
+        kommune_data_year["byMetric"][metric].sort()
+
+    kommune_data["years"][year["name"]] = kommune_data_year
 
 with open(out_path, 'w', encoding='utf-8') as f:
     json.dump(kommune_data, f, ensure_ascii=False, indent=2)
-
 
 # Recreate the data model with only useful information for the frontend
 kommune_data_model = {

@@ -54,8 +54,9 @@ type Cache = {
       byKommune: { // Access values for a specific kommune
         [kommuneNr: KommuneNr]: KommuneCache;
       }
-      byMetric: { // Access values for a specific metric across all kommune
-        [metricKey: MetricKey]: number[];
+      byElement: { // Access values for a specific metric across all kommune
+        [elementKey: MetricKey]: number[];
+        totalRisk: number[];
       }
     }
   }
@@ -145,7 +146,9 @@ const useDataStore = create<DataStore>((set, get) => ({
     for (const year of Object.keys(data.years)) {
       cache.years[year as Year] = {
         byKommune: {},
-        byMetric: {},
+        byElement: {
+          totalRisk: []
+        },
       };
       // Kommuner {}
       for (const komNr of Object.keys(data.years[year as Year].byKommune)) {
@@ -165,13 +168,17 @@ const useDataStore = create<DataStore>((set, get) => ({
 
         cache.years[year as Year].byKommune[komNr as KommuneNr] = kommuneCache;
       }
-      // Metrics {}
-      for (const metric of dataModel.elements.flatMap(e => e.metrics)) {
-        cache.years[year as Year].byMetric[metric.key] = Object.values(data.years[year as Year].byKommune).map(kommune => {
-          return sumInvertibleValues([metric], kommune);
-        });
-        cache.years[year as Year].byMetric[metric.key].sort((a, b) => a - b);
+      // byElement {}
+      for (const element of dataModel.elements) { // Each element
+        cache.years[year as Year].byElement[element.key] = 
+          Object.values(cache.years[year as Year].byKommune)
+          .map(kommune => kommune[element.key])
+          .sort((a, b) => a - b);
       }
+      cache.years[year as Year].byElement.totalRisk = // Total risk
+        Object.values(cache.years[year as Year].byKommune)
+        .map(kommune => kommune.totalRisk)
+        .sort((a, b) => a - b);
     }
     set({ cache });
   },
@@ -185,7 +192,7 @@ const useDataStore = create<DataStore>((set, get) => ({
 
     const newYears = Object.fromEntries(
       Object.entries(cache.years).map(([year, yearCache]) => {
-        const { byKommune, byMetric } = yearCache;
+        const { byKommune, byElement } = yearCache;
 
         const newByKommune = Object.fromEntries(
           Object.entries(byKommune).map(([komNr, kommuneCache]) => {
@@ -201,11 +208,20 @@ const useDataStore = create<DataStore>((set, get) => ({
           })
         );
 
+        const newTotalRiskDistribution = Object.values(newByKommune)
+          .map(k => k.totalRisk)
+          .sort((a, b) => a - b);
+
+        const newByElement = {
+          ...byElement,
+          totalRisk: newTotalRiskDistribution,
+        }
+
         return [
           year,
           {
             byKommune: newByKommune,
-            byMetric, // preserve old byMetric
+            byElement: newByElement,
           }
         ]
       })
@@ -214,30 +230,45 @@ const useDataStore = create<DataStore>((set, get) => ({
     set({ cache: { ...cache, years: newYears, minRisk, maxRisk } });
   },
 
-  refreshCacheElement: (elementIndex) => {
-    const { cache, calculateElementValue, refreshCacheRisk } = get();
-    if (!cache) return;
+  refreshCacheElement: (elementKey) => {
+    const { cache, calculateElementValue, refreshCacheRisk, dataModel } = get();
+    if (!cache || !dataModel) return;
 
     const newYears = Object.fromEntries(
       Object.entries(cache.years).map(([year, yearCache]) => {
-        const { byKommune, byMetric } = yearCache;
+        const { byKommune, byElement } = yearCache;
 
         const newByKommune = Object.fromEntries(
           Object.entries(byKommune).map(([komNr, kommuneCache]) => {
-            const elementValue = calculateElementValue(elementIndex, komNr as KommuneNr, year as Year);
+            const elementValue = calculateElementValue(elementKey, komNr as KommuneNr, year as Year);
             if (elementValue === null) return [komNr, kommuneCache]; // No change if element value is null (e.g. all metrics disabled)
             return [
               komNr,
-              { ...kommuneCache, [elementIndex]: elementValue }
+              { ...kommuneCache, [elementKey]: elementValue }
             ];
           })
         )
+        
+        // rebuild distribution for this element
+        const newElementDistribution = Object.values(newByKommune)
+          .map(k => k[elementKey])
+          .sort((a, b) => a - b);
+
+        const newTotalRiskDistribution = Object.values(newByKommune)
+          .map(k => k.totalRisk)
+          .sort((a, b) => a - b);
+
+        const newByElement = {
+          ...byElement,
+          [elementKey]: newElementDistribution,
+          totalRisk: newTotalRiskDistribution,
+        }
         
         return [
           year,
           {
             byKommune: newByKommune,
-            byMetric, // preserve old byMetric
+            byElement: newByElement,
           }
         ]
       })

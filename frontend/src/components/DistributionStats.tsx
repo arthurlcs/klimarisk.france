@@ -11,19 +11,34 @@ function DistributionStats() {
     selectedKommune,
   } = useDataStore();
 
-  const currentKommune = data && selectedYear && selectedKommune ? data.years[selectedYear].byKommune[selectedKommune] : null
+  const yearData = data && selectedYear ? data.years[selectedYear] : null
   const yearCache = cache && selectedYear ? cache.years[selectedYear] : null
 
   return (
     <ul>
-      {dataModel && currentKommune && yearCache && dataModel.elements.flatMap(e => e.metrics).map(metric => {
+      {dataModel && yearData && selectedKommune && dataModel.elements.flatMap(e => e.metrics).map(metric => {
         const key = metric.key
         return (
           <li key={key}>
-            <strong>{metric.name}:</strong> Dårligere enn {percentile(yearCache.byMetric[key], currentKommune[key]).toFixed()}% av kommuner.
+            <strong>{metric.name}:</strong> Dårligere enn {percentile(yearData.byMetric[key], yearData.byKommune[selectedKommune][key]).toFixed()}% av kommuner.
           </li>
         )
       })}
+      {dataModel && yearCache && selectedKommune && dataModel.elements.map(element => {
+        const key = element.key
+        return (
+          <li key={key}>
+            <strong>{element.name}:</strong> Dårligere enn {percentile(yearCache.byElement[key], yearCache.byKommune[selectedKommune][key]).toFixed()}% av kommuner.
+          </li>
+        )
+      })}
+      { yearCache && selectedKommune &&
+        (
+          <li>
+            <strong>Total Risk:</strong> Dårligere enn {percentile(yearCache.byElement.totalRisk, yearCache.byKommune[selectedKommune].totalRisk).toFixed()}% av kommuner.
+          </li>
+        )
+      }
     </ul>
   )
 }
