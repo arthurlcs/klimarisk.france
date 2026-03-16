@@ -12,6 +12,7 @@ type Metric = {
 
 type Element = {
   name: string;
+  key: MetricKey;
   invert?: boolean;
   disabled: boolean;
   metrics: Metric[];
@@ -43,7 +44,7 @@ type Data = {
 }
 
 type KommuneCache = {
-  [elementIndex: number]: number;
+  [elementKey: MetricKey]: number;
   totalRisk: number;
 }
 
@@ -73,11 +74,11 @@ interface DataStore {
   fetchData: () => Promise<void>;
 
   cache: Cache | null;
-  refreshCache: (elementIndex?: number | "risk") => void;
+  refreshCache: (elementKey?: MetricKey | "risk") => void;
   refreshCacheDeep: () => void;
   refreshCacheRisk: () => void;
-  refreshCacheElement: (elementIndex: number) => void;
-  calculateElementValue: (elementIndex: number, komNr: KommuneNr, year: Year) => number | null; // takes index of the element (hazard, vulnr, expo or resp) in the elements list
+  refreshCacheElement: (elementKey: MetricKey) => void;
+  calculateElementValue: (elementKey: MetricKey, komNr: KommuneNr, year: Year) => number | null; // takes index of the element (hazard, vulnr, expo or resp) in the elements list
 
   getRiskColor: (komNr: KommuneNr, colors?: string[]) => string;
 
@@ -118,15 +119,15 @@ const useDataStore = create<DataStore>((set, get) => ({
 
   cache: null,
 
-  refreshCache: (elementIndex?: number | "risk") => {
-    if (elementIndex === undefined) { // Recalculate entire cache
+  refreshCache: (elementKey?: MetricKey | "risk") => {
+    if (elementKey === undefined) { // Recalculate entire cache
       get().refreshCacheDeep();
 
-    } else if (elementIndex === "risk") { // Only recalculate total risk for all kommunes (used when toggling element on/off to update total risk without recalculating all element values)
+    } else if (elementKey === "risk") { // Only recalculate total risk for all kommunes (used when toggling element on/off to update total risk without recalculating all element values)
       get().refreshCacheRisk();
 
     } else { // Recalculate only specified element for all kommunes (used when toggling metric on/off to update element value without recalculating total risk)
-      get().refreshCacheElement(elementIndex);
+      get().refreshCacheElement(elementKey);
 
     }
   },
@@ -151,11 +152,11 @@ const useDataStore = create<DataStore>((set, get) => ({
         const kommuneCache: KommuneCache = { totalRisk: 0 };
         
         let totalRisk = 0;
-        for (let i = 0; i < dataModel.elements.length; i++) {
-          const elementValue = calculateElementValue(i, komNr as KommuneNr, year as Year);
+        for (const element of Object.values(dataModel.elements)) {
+          const elementValue = calculateElementValue(element.key, komNr as KommuneNr, year as Year);
           if (elementValue !== null) {
-            kommuneCache[i] = elementValue;
-            totalRisk += dataModel.elements[i].disabled ? 0 : (dataModel.elements[i].invert === true ? 100 - elementValue : elementValue);
+            kommuneCache[element.key] = elementValue;
+            totalRisk += element.disabled ? 0 : (element.invert === true ? 100 - elementValue : elementValue);
           }
         }
         kommuneCache.totalRisk = totalRisk;
@@ -189,8 +190,8 @@ const useDataStore = create<DataStore>((set, get) => ({
         const newByKommune = Object.fromEntries(
           Object.entries(byKommune).map(([komNr, kommuneCache]) => {
 
-            const totalRisk = dataModel.elements.reduce((acc, element, index) => {
-              const elementValue = cache.years[year as Year].byKommune[komNr as KommuneNr][index];
+            const totalRisk = dataModel.elements.reduce((acc, element) => {
+              const elementValue = cache.years[year as Year].byKommune[komNr as KommuneNr][element.key];
               return acc + (element.disabled ? 0 : (element.invert === true ? 100 - elementValue : elementValue));
             }, 0);
 
@@ -246,11 +247,11 @@ const useDataStore = create<DataStore>((set, get) => ({
     refreshCacheRisk(); // Update total risk after element value change
   },
 
-  calculateElementValue: (elementIndex, komNr, year) => {
+  calculateElementValue: (elementKey, komNr, year) => {
     const { dataModel, data } = get()
     if (!dataModel || !data || !komNr || !year ) return null
 
-    const metrics = dataModel.elements[elementIndex].metrics
+    const metrics = dataModel.elements.find(el => el.key === elementKey)!.metrics
     const kommune = data.years[year].byKommune[komNr]
 
     const tmpRes = sumInvertibleValues(metrics, kommune)

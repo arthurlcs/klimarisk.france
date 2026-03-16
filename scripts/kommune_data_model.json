@@ -16,6 +16,7 @@
   "elements": [
     {
       "name": "Hazard",
+      "key": "f",
       "metrics": [
         {
           "name": "Råtefare",
@@ -41,6 +42,7 @@
     },
     {
       "name": "Vulnerability",
+      "key": "s",
       "metrics": [
         {
           "name": "Befolkningstetthet",
@@ -66,6 +68,7 @@
     },
     {
       "name": "Exposure",
+      "key": "e",
       "metrics": [
         {
           "name": "Skade på hus grunnet storm",
@@ -96,6 +99,7 @@
     },
     {
       "name": "Respons",
+      "key": "r",
       "invert": true,
       "metrics": [
         {

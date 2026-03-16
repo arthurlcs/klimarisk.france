@@ -26,20 +26,20 @@ function StatList() {
           <li><strong>Kommune:</strong> {currentKommune.name} ({selectedKommune})</li>
           <li><strong>Risk:</strong> {currentKommuneCache.totalRisk.toFixed(3) ?? "-"}
             <ul>
-              {dataModel.elements.map((element, index) => (
-                <li key={index}>
+              {dataModel.elements.map(element => (
+                <li key={element.key}>
                   <input type="checkbox" checked={!element.disabled} onChange={(e) => {
                     element.disabled = !e.target.checked;
                     refreshCacheRisk(); //TODO: Check if a metric has changed while disabled
                   }} />
-                  <strong>{element.name}:</strong> {currentKommuneCache[index]?.toFixed(0) ?? "-"}
+                  <strong>{element.name}:</strong> {currentKommuneCache[element.key]?.toFixed(0) ?? "-"}
                   
                   <ul>
-                    {element.metrics.map((metric, mIndex) => (
-                      <li key={mIndex}>
+                    {element.metrics.map(metric => (
+                      <li key={metric.key}>
                         <input type="checkbox" checked={!metric.disabled} onChange={(e) => {
                           metric.disabled = !e.target.checked;
-                          refreshCacheElement(index); // Update only this element's value
+                          refreshCacheElement(element.key); // Update only this element's value
                         }} />
                         <strong>{metric.name}:</strong> {currentKommune[metric.key]?.toFixed(0) ?? "-"}</li>
                     ))}
