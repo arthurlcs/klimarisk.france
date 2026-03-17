@@ -1,5 +1,6 @@
 import useDataStore from "../hooks/useDataStore";
 import DistributionStats from "./DistributionStats";
+import DistributionChart from "./DistributionChart";
 
 function StatList() {
 
@@ -20,6 +21,7 @@ function StatList() {
     <div>
       <h2>Kommune Statistics</h2>
       <DistributionStats />
+      <DistributionChart elementKey={"risk"} />
       {dataModel && currentKommune && currentKommuneCache ? 
       (
         <ul>

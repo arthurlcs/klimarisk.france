@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { getDataFileJSON } from './getPublicUrl';
 
-type MetricKey = string & { readonly __brand: unique symbol};
+export type MetricKey = string & { readonly __brand: unique symbol};
 
 type Metric = {
   name: string; 
