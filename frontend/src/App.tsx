@@ -8,6 +8,9 @@ function App() {
 
   const {
     fetchData,
+    highlightedKommune,
+    data,
+    selectedYear,
   } = useDataStore();
 
   // Fetch data on mount, only once
@@ -18,7 +21,13 @@ function App() {
   return (
     <>
       <header>
-        <h1 id="app-title">Klimarisk</h1>
+        <h1>
+          {
+            highlightedKommune && data && selectedYear
+              ? `${highlightedKommune} ${data.years[selectedYear].byKommune[highlightedKommune].name}` 
+              : "Klimarisk"
+          }
+        </h1>
       </header>
       <div className="dashboard">
         <Map />

@@ -8,9 +8,9 @@ import { getDataFileJSON } from '../hooks/getPublicUrl';
 
 type KommuneProperties = { 
   kommunenummer: KommuneNr; 
-  KomNavn: string; 
 };
 type KommuneFeature = Feature<Polygon | MultiPolygon, KommuneProperties>;
+type KommuneGeometryFeature = Feature<Geometry, KommuneProperties>;
 type KommuneGeoJSON = FeatureCollection<Polygon | MultiPolygon, KommuneProperties>;
 
 
@@ -19,7 +19,7 @@ function KommuneLayer() {
   const [komGeoJSON, setKomGeoJSON] = useState<KommuneGeoJSON | null>(null);
 
   useEffect(() => {
-    getDataFileJSON('kommune_simpl_25_25k.geojson').then(geojson => setKomGeoJSON(geojson));
+    getDataFileJSON('kommune.geojson').then(geojson => setKomGeoJSON(geojson));
   }, []);
 
   const {
@@ -30,18 +30,19 @@ function KommuneLayer() {
     getRiskColor,
   } = useDataStore();
 
+  if (!komGeoJSON) return null;
+
   const onEachFeature = (feature: KommuneFeature, layer: LeafletPolygon) => {
+    const komNr = feature.properties.kommunenummer;
     layer.on({
       mouseover: () => {
-        setHighlightedKommune(feature.properties.kommunenummer);
-        document.getElementById("app-title")!.innerText = `${feature.properties.kommunenummer} ${feature.properties.KomNavn}`;
+        setHighlightedKommune(komNr);
       },
       mouseout: () => {
         setHighlightedKommune(null);
-        document.getElementById("app-title")!.innerText = `Klimarisk`;
       },
       click: () => {
-        setSelectedKommune(feature.properties.kommunenummer);
+        setSelectedKommune(komNr);
       }
     });
   };
@@ -104,13 +105,13 @@ function KommuneLayer() {
     return komNr ? getRiskColor(komNr, colors): 'gray';
   }
 
-  const style = (feature?: Feature<Geometry, unknown>) => {
+  const style = (feature?: KommuneGeometryFeature) => {
 
-    const props = feature?.properties as KommuneProperties | undefined;
+    const komNr = feature?.properties.kommunenummer || undefined;
 
     return {
-      fillColor: getColor(props?.kommunenummer || null),
-      weight: props?.kommunenummer === highlightedKommune || props?.kommunenummer === selectedKommune ? 3 : 0.5,
+      fillColor: getColor(komNr || null),
+      weight: komNr === highlightedKommune || komNr === selectedKommune ? 3 : 0.5,
       opacity: 1,
       color: 'black',
       fillOpacity: 0.8,
@@ -118,7 +119,7 @@ function KommuneLayer() {
     };
   }
 
-  return komGeoJSON ? <GeoJSON data={komGeoJSON} onEachFeature={onEachFeature} style={style} /> : null;
+  return <GeoJSON data={komGeoJSON} onEachFeature={onEachFeature} style={style} />;
 }
 
 export default KommuneLayer;
