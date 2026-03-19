@@ -1,0 +1,5 @@
+.stat-list {
+  /* max-height: var(--dashboard-height); */
+  overflow-y: auto;
+  flex-grow: 1;
+}

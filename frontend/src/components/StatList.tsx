@@ -1,6 +1,7 @@
 import useDataStore from "../hooks/useDataStore";
 import DistributionStats from "./DistributionStats";
 import DistributionChart from "./DistributionChart";
+import "./StatList.css";
 
 function StatList() {
 
@@ -19,7 +20,7 @@ function StatList() {
   const currentKommuneCache = cache && selectedYear && selectedKommune ? cache.years[selectedYear].byKommune[selectedKommune] : null
 
   return (
-    <div>
+    <div className="stat-list">
       <h2>Kommune Statistics</h2>
       <DistributionStats />
       <DistributionChart distributionKey={selectedDistribuion} />
