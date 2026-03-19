@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { getDataFileJSON } from './getPublicUrl';
 
 export type MetricKey = string & { readonly __brand: unique symbol};
+export type ElementKey = string & { readonly __brand: unique symbol};
 
 type Metric = {
   name: string; 
@@ -12,7 +13,7 @@ type Metric = {
 
 type Element = {
   name: string;
-  key: MetricKey;
+  key: ElementKey;
   invert?: boolean;
   disabled: boolean;
   metrics: Metric[];
@@ -44,7 +45,7 @@ type Data = {
 }
 
 type KommuneCache = {
-  [elementKey: MetricKey]: number;
+  [elementKey: ElementKey]: number;
   totalRisk: number;
 }
 
@@ -55,7 +56,7 @@ type Cache = {
         [kommuneNr: KommuneNr]: KommuneCache;
       }
       byElement: { // Access values for a specific metric across all kommune
-        [elementKey: MetricKey]: number[];
+        [elementKey: ElementKey]: number[];
         totalRisk: number[];
       }
     }
@@ -64,6 +65,10 @@ type Cache = {
   maxRisk: number;
 }
 
+export type DistributionKey = 
+  | { type: "risk" }
+  | { type: "element"; key: ElementKey}
+  | { type: "metric"; key: MetricKey}
 
 const sumInvertibleValues = (metrics: Metric[], kommune: KommuneData): number => {
   return metrics.reduce((acc, metric) => acc + (metric.disabled ? 0 : (metric.invert === true ? 100-kommune[metric.key] : kommune[metric.key])), 0)
@@ -75,11 +80,11 @@ interface DataStore {
   fetchData: () => Promise<void>;
 
   cache: Cache | null;
-  refreshCache: (elementKey?: MetricKey | "risk") => void;
+  refreshCache: (elementKey?: ElementKey | "risk") => void;
   refreshCacheDeep: () => void;
   refreshCacheRisk: () => void;
-  refreshCacheElement: (elementKey: MetricKey) => void;
-  calculateElementValue: (elementKey: MetricKey, komNr: KommuneNr, year: Year) => number | null; // takes index of the element (hazard, vulnr, expo or resp) in the elements list
+  refreshCacheElement: (elementKey: ElementKey) => void;
+  calculateElementValue: (elementKey: ElementKey, komNr: KommuneNr, year: Year) => number | null; // takes index of the element (hazard, vulnr, expo or resp) in the elements list
 
   getRiskColor: (komNr: KommuneNr, colors?: string[]) => string;
 
@@ -92,6 +97,9 @@ interface DataStore {
   
   selectedKommune: KommuneNr | null;
   setSelectedKommune: (kommune: KommuneNr | null) => void;
+
+  selectedDistribuion: DistributionKey; //TODO allow null as value? or keep "risk" as default
+  setSelectedDistribution: (key: DistributionKey) => void;
 }
 
 const useDataStore = create<DataStore>((set, get) => ({
@@ -120,7 +128,7 @@ const useDataStore = create<DataStore>((set, get) => ({
 
   cache: null,
 
-  refreshCache: (elementKey?: MetricKey | "risk") => {
+  refreshCache: (elementKey) => {
     if (elementKey === undefined) { // Recalculate entire cache
       get().refreshCacheDeep();
 
@@ -328,6 +336,10 @@ const useDataStore = create<DataStore>((set, get) => ({
     }
     return { selectedKommune: kommune };
   }),
+
+  selectedDistribuion: { type: "risk" } as DistributionKey,
+
+  setSelectedDistribution: (key) => set({ selectedDistribuion: key})
 
 }));
 

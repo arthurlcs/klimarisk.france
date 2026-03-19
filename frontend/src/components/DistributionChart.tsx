@@ -1,9 +1,10 @@
 import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer } from "recharts";
-import useDataStore, { type MetricKey } from "../hooks/useDataStore";
+import useDataStore, { type DistributionKey } from "../hooks/useDataStore";
 import { useMemo } from "react";
+import DistributionSelect from "./DistributionSelect";
 
 type Props = {
-  elementKey: MetricKey | "risk"; // rename to metricKey and add support for metrics and elements and totalrisk
+  distributionKey: DistributionKey; 
   bins?: number;
 };
 
@@ -35,38 +36,45 @@ function buildHistogram(values: number[], bins: number): ChartPoint[] {
   }));
 }
 
-export default function DistributionChart({ elementKey, bins = 25 }: Props) {
+function DistributionChart({ distributionKey, bins = 25 }: Props) {
   const { 
+    data,
     cache, 
     selectedYear, 
     selectedKommune, 
   } = useDataStore();
 
-  const yearCache = cache!.years[selectedYear!];
+  const yearData = data && data.years && selectedYear ? data!.years[selectedYear] : undefined;
+  const yearCache = cache && cache.years && selectedYear ? cache!.years[selectedYear] : undefined;
 
   const distribution =
-    elementKey === "risk"
-      ? yearCache.byElement.totalRisk
-      : yearCache.byElement[elementKey]; //TODO yearData.byMetric support
+    !yearData || !yearCache
+      ? undefined 
+      : distributionKey.type === "risk"
+        ? yearCache.byElement.totalRisk
+        : distributionKey.type === "element" 
+          ? yearCache.byElement[distributionKey.key]
+          : yearData.byMetric[distributionKey.key];
 
   const chartData = useMemo(() => {
     if (!distribution) return []
     return buildHistogram(distribution, bins);
   }, [distribution, bins])
-  
 
-  let kommuneValue: number | null = null;
-
-  if (selectedKommune) {
-    const kommuneCache = yearCache.byKommune[selectedKommune];
-    kommuneValue =
-      elementKey === "risk"
+  const kommuneData = yearData && selectedKommune ? yearData.byKommune[selectedKommune] : undefined;
+  const kommuneCache = yearCache && selectedKommune ? yearCache.byKommune[selectedKommune] : undefined;
+  const kommuneValue =
+    !kommuneData || !kommuneCache 
+      ? undefined 
+      : distributionKey.type === "risk"
         ? kommuneCache.totalRisk
-        : kommuneCache[elementKey];
-  }
+        : distributionKey.type === "element"
+          ? kommuneCache[distributionKey.key]
+          : kommuneData[distributionKey.key];
 
   return (
     <ResponsiveContainer width="100%" height={250}>
+      <DistributionSelect />
       <AreaChart data={chartData}>
         <XAxis dataKey="value" type="number" />
         {/* <YAxis /> */}
@@ -95,3 +103,5 @@ export default function DistributionChart({ elementKey, bins = 25 }: Props) {
     </ResponsiveContainer>
   );
 }
+
+export default DistributionChart;

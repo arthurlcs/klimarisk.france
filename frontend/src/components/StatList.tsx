@@ -12,6 +12,7 @@ function StatList() {
     refreshCacheElement,
     selectedYear,
     selectedKommune,
+    selectedDistribuion,
   } = useDataStore();
 
   const currentKommune = data && selectedYear && selectedKommune ? data.years[selectedYear].byKommune[selectedKommune] : null
@@ -21,7 +22,7 @@ function StatList() {
     <div>
       <h2>Kommune Statistics</h2>
       <DistributionStats />
-      <DistributionChart elementKey={"risk"} />
+      <DistributionChart distributionKey={selectedDistribuion} />
       {dataModel && currentKommune && currentKommuneCache ? 
       (
         <ul>
