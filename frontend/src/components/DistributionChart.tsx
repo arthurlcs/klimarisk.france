@@ -42,6 +42,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     cache, 
     selectedYear, 
     selectedKommune, 
+    highlightedKommune, 
   } = useDataStore();
 
   const yearData = data && data.years && selectedYear ? data!.years[selectedYear] : undefined;
@@ -72,6 +73,17 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           ? kommuneCache[distributionKey.key]
           : kommuneData[distributionKey.key];
 
+  const highlightData = yearData && highlightedKommune ? yearData.byKommune[highlightedKommune] : undefined;
+  const highlightCache = yearCache && highlightedKommune ? yearCache.byKommune[highlightedKommune] : undefined;
+  const highlightValue = 
+    !highlightData || !highlightCache
+      ? undefined
+      : distributionKey.type === "risk"
+        ? highlightCache.totalRisk
+        : distributionKey.type === "element"
+          ? highlightCache[distributionKey.key]
+          : highlightData[distributionKey.key];
+
   return (
     <ResponsiveContainer width="100%" height={250}>
       <DistributionSelect />
@@ -90,6 +102,13 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           <ReferenceLine
             x={kommuneValue}
             stroke="red"
+            strokeWidth={2}
+          />
+        )}
+        {highlightValue !== null && (
+          <ReferenceLine
+            x={highlightValue}
+            stroke="black"
             strokeWidth={2}
           />
         )}

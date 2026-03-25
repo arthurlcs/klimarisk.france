@@ -22,8 +22,8 @@ function StatList() {
   return (
     <div className="stat-list">
       <h2>Kommune Statistics</h2>
-      <DistributionStats />
       <DistributionChart distributionKey={selectedDistribuion} />
+      <DistributionStats />
       {dataModel && currentKommune && currentKommuneCache ? 
       (
         <ul>
