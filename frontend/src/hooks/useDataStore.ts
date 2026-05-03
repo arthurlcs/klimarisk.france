@@ -57,8 +57,8 @@ type Cache = {
       }
       byElement: { // Access values for a specific metric across all kommune
         [elementKey: ElementKey]: number[];
-        totalRisk: number[];
       }
+      byTotalRisk: number[];
     }
   }
   minRisk: number;
@@ -154,9 +154,8 @@ const useDataStore = create<DataStore>((set, get) => ({
     for (const year of Object.keys(data.years)) {
       cache.years[year as Year] = {
         byKommune: {},
-        byElement: {
-          totalRisk: []
-        },
+        byElement: {},
+        byTotalRisk: [],
       };
       // Kommuner {}
       for (const komNr of Object.keys(data.years[year as Year].byKommune)) {
@@ -183,7 +182,7 @@ const useDataStore = create<DataStore>((set, get) => ({
           .map(kommune => kommune[element.key])
           .sort((a, b) => a - b);
       }
-      cache.years[year as Year].byElement.totalRisk = // Total risk
+      cache.years[year as Year].byTotalRisk = // Total risk
         Object.values(cache.years[year as Year].byKommune)
         .map(kommune => kommune.totalRisk)
         .sort((a, b) => a - b);
@@ -220,16 +219,12 @@ const useDataStore = create<DataStore>((set, get) => ({
           .map(k => k.totalRisk)
           .sort((a, b) => a - b);
 
-        const newByElement = {
-          ...byElement,
-          totalRisk: newTotalRiskDistribution,
-        }
-
         return [
           year,
           {
             byKommune: newByKommune,
-            byElement: newByElement,
+            byElement: byElement,
+            byTotalRisk: newTotalRiskDistribution,
           }
         ]
       })
@@ -269,7 +264,6 @@ const useDataStore = create<DataStore>((set, get) => ({
         const newByElement = {
           ...byElement,
           [elementKey]: newElementDistribution,
-          totalRisk: newTotalRiskDistribution,
         }
         
         return [
@@ -277,6 +271,7 @@ const useDataStore = create<DataStore>((set, get) => ({
           {
             byKommune: newByKommune,
             byElement: newByElement,
+            byTotalRisk: newTotalRiskDistribution,
           }
         ]
       })
