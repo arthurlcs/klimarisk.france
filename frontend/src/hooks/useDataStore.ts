@@ -61,8 +61,6 @@ type Cache = {
       byTotalRisk: number[];
     }
   }
-  minRisk: number;
-  maxRisk: number;
 }
 
 export type DistributionKey = 
@@ -100,6 +98,8 @@ interface DataStore {
 
   selectedDistribuion: DistributionKey; //TODO allow null as value? or keep "risk" as default
   setSelectedDistribution: (key: DistributionKey) => void;
+
+  getDistributionDomain: (distributionKey: DistributionKey) => [number, number] | undefined;
 }
 
 const useDataStore = create<DataStore>((set, get) => ({
@@ -147,8 +147,6 @@ const useDataStore = create<DataStore>((set, get) => ({
 
     const cache: Cache = {
       years: {},
-      minRisk: Infinity,
-      maxRisk: -Infinity,
     } as Cache;
 
     for (const year of Object.keys(data.years)) {
@@ -170,8 +168,6 @@ const useDataStore = create<DataStore>((set, get) => ({
           }
         }
         kommuneCache.totalRisk = totalRisk;
-        if (totalRisk < cache.minRisk) cache.minRisk = totalRisk;
-        if (totalRisk > cache.maxRisk) cache.maxRisk = totalRisk;
 
         cache.years[year as Year].byKommune[komNr as KommuneNr] = kommuneCache;
       }
@@ -194,9 +190,6 @@ const useDataStore = create<DataStore>((set, get) => ({
     const { dataModel, cache } = get();
     if (!dataModel || !cache) return;
 
-    let minRisk = Infinity;
-    let maxRisk = -Infinity;
-
     const newYears = Object.fromEntries(
       Object.entries(cache.years).map(([year, yearCache]) => {
         const { byKommune, byElement } = yearCache;
@@ -208,9 +201,7 @@ const useDataStore = create<DataStore>((set, get) => ({
               const elementValue = cache.years[year as Year].byKommune[komNr as KommuneNr][element.key];
               return acc + (element.disabled ? 0 : (element.invert === true ? 100 - elementValue : elementValue));
             }, 0);
-
-            if (totalRisk < minRisk) minRisk = totalRisk;
-            if (totalRisk > maxRisk) maxRisk = totalRisk;
+            
             return [komNr, { ...kommuneCache, totalRisk }];
           })
         );
@@ -230,7 +221,7 @@ const useDataStore = create<DataStore>((set, get) => ({
       })
     );
 
-    set({ cache: { ...cache, years: newYears, minRisk, maxRisk } });
+    set({ cache: { ...cache, years: newYears } });
   },
 
   refreshCacheElement: (elementKey) => {
@@ -305,10 +296,10 @@ const useDataStore = create<DataStore>((set, get) => ({
 
 
   getRiskColor: (komNr, colors = ['green', 'yellow', 'orange', 'red']) => {
-    const { cache, selectedYear } = get();
+    const { cache, selectedYear, getDistributionDomain } = get();
     if (!cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear]) return 'gray';
     const risk = cache.years[selectedYear].byKommune[komNr].totalRisk;
-    const { minRisk, maxRisk } = cache;
+    const [minRisk, maxRisk] = getDistributionDomain({ type: "risk" }) ?? [0, 0];
     if (minRisk === maxRisk) return 'gray'; // Avoid division by zero and invalid risk values
     const colorIndex = Math.floor((risk - minRisk) / (maxRisk - minRisk) * colors.length);
     return colors[Math.min(colorIndex, colors.length - 1)];
@@ -334,7 +325,34 @@ const useDataStore = create<DataStore>((set, get) => ({
 
   selectedDistribuion: { type: "risk" } as DistributionKey,
 
-  setSelectedDistribution: (key) => set({ selectedDistribuion: key})
+  setSelectedDistribution: (key) => set({ selectedDistribuion: key}),
+
+  getDistributionDomain: (distributionKey) => {
+    let min = Infinity;
+    let max = -Infinity;
+
+    if (distributionKey.type === "metric") {
+      const { data } = get();
+      if (!data) return undefined;
+
+      for (const year of Object.values(data.years)) {
+        const dist = year.byMetric[distributionKey.key]
+        min = Math.min(min, dist[0]);
+        max = Math.max(max, dist[dist.length - 1]);
+      }
+
+    } else {
+      const { cache } = get();
+      if (!cache) return undefined;
+
+      for (const year of Object.values(cache.years)) {
+        const dist = distributionKey.type === "risk" ? year.byTotalRisk : year.byElement[distributionKey.key];
+        min = Math.min(min, dist[0]);
+        max = Math.max(max, dist[dist.length - 1]);
+      }
+    }
+    return [min, max];
+  },
 
 }));
 
