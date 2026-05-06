@@ -36,15 +36,11 @@ function buildHistogram(values: number[], bins: number): ChartPoint[] {
   }));
 }
 
-function getTicks(dist?: number[]): number[] {
-  if (!dist || dist.length === 0) return [0, 100];
-  const min = dist[0];
-  const max = dist[dist.length - 1];
-
-  const min10 = Math.floor(min / 10) * 10;
-  const max10 = Math.ceil(max / 10) * 10;
-
-  return [min10, (max10+min10)/2, max10]
+function getTicks(domain?: [number, number]): number[] {
+  if (!domain) return [0, 1000];
+  const min10 = Math.floor(domain[0] / 10) * 10;
+  const max10 = Math.ceil(domain[1] / 10) * 10;
+  return [min10, (max10+min10)/2, max10];
 }
 
 
@@ -57,6 +53,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     selectedYear, 
     selectedKommune, 
     highlightedKommune, 
+    getDistributionDomain, 
   } = useDataStore();
 
   const yearData = data && data.years && selectedYear ? data!.years[selectedYear] : undefined;
@@ -99,8 +96,9 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           : highlightData[distributionKey.key];
 
   const ticks = useMemo(() => {
-    return getTicks(distribution);
-  }, [distribution]);
+    if (!distribution) return [0, 100];
+    return getTicks(getDistributionDomain(distributionKey));
+  }, [distribution, distributionKey, getDistributionDomain]);
   
   return (
     <ResponsiveContainer width="100%" height={250}>
