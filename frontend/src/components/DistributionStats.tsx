@@ -35,7 +35,7 @@ function DistributionStats() {
       { yearCache && selectedKommune &&
         (
           <li>
-            <strong>Total Risk:</strong> Dårligere enn {percentile(yearCache.byElement.totalRisk, yearCache.byKommune[selectedKommune].totalRisk).toFixed()}% av kommuner.
+            <strong>Total Risk:</strong> Dårligere enn {percentile(yearCache.byTotalRisk, yearCache.byKommune[selectedKommune].totalRisk).toFixed()}% av kommuner.
           </li>
         )
       }

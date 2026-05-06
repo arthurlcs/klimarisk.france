@@ -78,7 +78,6 @@ interface DataStore {
   fetchData: () => Promise<void>;
 
   cache: Cache | null;
-  refreshCache: (elementKey?: ElementKey | "risk") => void;
   refreshCacheDeep: () => void;
   refreshCacheRisk: () => void;
   refreshCacheElement: (elementKey: ElementKey) => void;
@@ -127,19 +126,6 @@ const useDataStore = create<DataStore>((set, get) => ({
   },
 
   cache: null,
-
-  refreshCache: (elementKey) => {
-    if (elementKey === undefined) { // Recalculate entire cache
-      get().refreshCacheDeep();
-
-    } else if (elementKey === "risk") { // Only recalculate total risk for all kommunes (used when toggling element on/off to update total risk without recalculating all element values)
-      get().refreshCacheRisk();
-
-    } else { // Recalculate only specified element for all kommunes (used when toggling metric on/off to update element value without recalculating total risk)
-      get().refreshCacheElement(elementKey);
-
-    }
-  },
 
   refreshCacheDeep: () => {
     const { dataModel, data, calculateElementValue } = get();
@@ -230,7 +216,7 @@ const useDataStore = create<DataStore>((set, get) => ({
 
     const newYears = Object.fromEntries(
       Object.entries(cache.years).map(([year, yearCache]) => {
-        const { byKommune, byElement } = yearCache;
+        const { byKommune, byElement, byTotalRisk } = yearCache;
 
         const newByKommune = Object.fromEntries(
           Object.entries(byKommune).map(([komNr, kommuneCache]) => {
@@ -248,10 +234,6 @@ const useDataStore = create<DataStore>((set, get) => ({
           .map(k => k[elementKey])
           .sort((a, b) => a - b);
 
-        const newTotalRiskDistribution = Object.values(newByKommune)
-          .map(k => k.totalRisk)
-          .sort((a, b) => a - b);
-
         const newByElement = {
           ...byElement,
           [elementKey]: newElementDistribution,
@@ -262,7 +244,7 @@ const useDataStore = create<DataStore>((set, get) => ({
           {
             byKommune: newByKommune,
             byElement: newByElement,
-            byTotalRisk: newTotalRiskDistribution,
+            byTotalRisk: byTotalRisk, // Total risk distribution will be updated in refreshCacheRisk
           }
         ]
       })

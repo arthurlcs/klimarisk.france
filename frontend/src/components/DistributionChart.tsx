@@ -36,6 +36,20 @@ function buildHistogram(values: number[], bins: number): ChartPoint[] {
   }));
 }
 
+function getTicks(dist?: number[]): number[] {
+  if (!dist || dist.length === 0) return [0, 100];
+  const min = dist[0];
+  const max = dist[dist.length - 1];
+
+  const min10 = Math.floor(min / 10) * 10;
+  const max10 = Math.ceil(max / 10) * 10;
+
+  return [min10, (max10+min10)/2, max10]
+}
+
+
+
+
 function DistributionChart({ distributionKey, bins = 25 }: Props) {
   const { 
     data,
@@ -52,7 +66,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     !yearData || !yearCache
       ? undefined 
       : distributionKey.type === "risk"
-        ? yearCache.byElement.totalRisk
+        ? yearCache.byTotalRisk
         : distributionKey.type === "element" 
           ? yearCache.byElement[distributionKey.key]
           : yearData.byMetric[distributionKey.key];
@@ -84,11 +98,22 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           ? highlightCache[distributionKey.key]
           : highlightData[distributionKey.key];
 
+  const ticks = useMemo(() => {
+    return getTicks(distribution);
+  }, [distribution]);
+  
   return (
     <ResponsiveContainer width="100%" height={250}>
       <DistributionSelect />
       <AreaChart data={chartData}>
-        <XAxis dataKey="value" type="number" />
+        <XAxis 
+          dataKey="value" 
+          type="number" 
+          ticks={ticks}
+          interval={0}
+          allowDataOverflow
+          tick={<CustomTick />}
+        />
         {/* <YAxis /> */}
         <Tooltip />
         <Area
@@ -124,3 +149,51 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
 }
 
 export default DistributionChart;
+
+
+
+
+
+
+
+
+
+const CustomTick = (props: unknown) => {
+  if (typeof props !== "object" || props === null) return null;
+  if (!("x" in props) || !("y" in props) || !("payload" in props) || !("index" in props)) {
+    return null;
+  }
+  const { x, y, payload, index } = props as {
+    x: number;
+    y: number;
+    payload: { value: number };
+    index: number;
+  };
+  if (
+    typeof x !== "number" ||
+    typeof y !== "number" ||
+    typeof payload !== "object" ||
+    payload === null ||
+    typeof payload.value !== "number" ||
+    typeof index !== "number"
+  ) {
+    return null;
+  }
+
+  let textAnchor: "start" | "middle" | "end" = "middle";
+
+  if (index === 0) textAnchor = "start";           // first tick → left-aligned
+  else if (index === 2) textAnchor = "end"; // last → right-aligned
+
+  return (
+    <text
+      x={x}
+      y={y + 12}
+      textAnchor={textAnchor}
+      fill="#666"
+      fontSize={16}
+    >
+      {payload.value}
+    </text>
+  );
+};
