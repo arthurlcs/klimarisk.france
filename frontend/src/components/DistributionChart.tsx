@@ -1,5 +1,5 @@
-import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer } from "recharts";
-import useDataStore, { type DistributionKey } from "../hooks/useDataStore";
+import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer, Line } from "recharts";
+import useDataStore, { type DistributionKey, type KommuneNr } from "../hooks/useDataStore";
 import { useMemo } from "react";
 import DistributionSelect from "./DistributionSelect";
 
@@ -11,9 +11,10 @@ type Props = {
 type ChartPoint = {
   value: number;
   count: number;
+  countCounty?: number;
 };
 
-function buildHistogram(values: number[], bins: number): ChartPoint[] {
+function buildHistogram(values: number[], bins: number, fylkeValues: number[]): ChartPoint[] {
   if (values.length === 0) return [];
 
   const min = values[0];
@@ -21,6 +22,7 @@ function buildHistogram(values: number[], bins: number): ChartPoint[] {
   const step = (max - min) / bins;
 
   const counts = Array(bins).fill(0);
+  const fylkeCounts = Array(bins).fill(0);
 
   for (const v of values) {
     const index = Math.min(
@@ -29,10 +31,18 @@ function buildHistogram(values: number[], bins: number): ChartPoint[] {
     );
     counts[index]++;
   }
+  for (const v of fylkeValues) {
+    const index = Math.min(
+      Math.floor((v - min) / step),
+      bins - 1
+    );
+    fylkeCounts[index]++;
+  }
 
   return counts.map((count, i) => ({
     value: min + i * step + step / 2,
-    count
+    count,
+    countCounty: fylkeCounts[i]
   }));
 }
 
@@ -69,9 +79,26 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           : yearData.byMetric[distributionKey.key];
 
   const chartData = useMemo(() => {
-    if (!distribution) return []
-    return buildHistogram(distribution, bins);
-  }, [distribution, bins])
+    if (!distribution || !yearData || !yearCache) return []
+
+    // Find number of kommuner in the same fylke as the selected kommune
+    const byKommune = 
+      distributionKey.type === "risk"
+        ? yearCache?.byKommune
+        : distributionKey.type === "element"
+          ? yearCache?.byKommune
+          : yearData?.byKommune;
+    const fylkeValues = byKommune && selectedKommune ? Object.keys(byKommune).filter(k => k.slice(0, 2) === selectedKommune.slice(0,2)).map(k => {
+      const kommuneData = yearData.byKommune[k as KommuneNr];
+      const kommuneCache = yearCache.byKommune[k as KommuneNr];
+      return distributionKey.type === "risk"
+        ? kommuneCache.totalRisk
+        : distributionKey.type === "element"
+          ? kommuneCache[distributionKey.key]
+          : kommuneData[distributionKey.key];
+    }) : [];
+    return buildHistogram(distribution, bins, fylkeValues.sort((a, b) => a - b));
+  }, [distribution, bins, selectedKommune, yearData, yearCache, distributionKey]);
 
   const kommuneData = yearData && selectedKommune ? yearData.byKommune[selectedKommune] : undefined;
   const kommuneCache = yearCache && selectedKommune ? yearCache.byKommune[selectedKommune] : undefined;
@@ -113,12 +140,26 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           tick={<CustomTick />}
         />
         {/* <YAxis /> */}
-        <Tooltip />
+        <Tooltip 
+          formatter={(value, name) => {
+            if (name === "count") return [`${value} kommuner`, "Norge"];
+            if (name === "countCounty") return [`${value} kommuner`, "Fylke"];
+            return [value, name];
+          }}
+          labelFormatter={(label) => `Verdi: ${Number(label).toFixed(1)}`}
+        />
         <Area
           type="monotone"
           dataKey="count"
           stroke="#3b82f6"
           fill="#93c5fd"
+        />
+        <Line
+          type="monotone"
+          dataKey="countCounty"
+          stroke="#3b82f6"
+          fill="#93c5fd"
+          dot={false}
         />
 
         {kommuneValue !== null && (
@@ -135,12 +176,6 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
             strokeWidth={2}
           />
         )}
-        {/* <ReferenceLine 
-          x={distribution[0]}
-        />
-        <ReferenceLine
-          x={distribution[distribution.length-1]}
-        /> */}
       </AreaChart>
     </ResponsiveContainer>
   );
