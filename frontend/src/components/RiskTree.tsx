@@ -5,20 +5,13 @@ function RiskTree() {
 
   const { 
     dataModel,
-    data,
-    cache,
     refreshCacheRisk,
     refreshCacheElement,
-    selectedYear,
-    selectedKommune,
   } = useDataStore();
 
-  const currentKommune = data && selectedYear && selectedKommune ? data.years[selectedYear].byKommune[selectedKommune] : null
-  const currentKommuneCache = cache && selectedYear && selectedKommune ? cache.years[selectedYear].byKommune[selectedKommune] : null
-
-  if (!dataModel || !currentKommune || !currentKommuneCache) {
+  if (!dataModel) {
     return (
-      <p>Click on a kommune to see details.</p>
+      <p>Loading...</p>
     )
   }        
 

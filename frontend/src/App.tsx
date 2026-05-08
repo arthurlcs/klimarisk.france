@@ -5,6 +5,7 @@ import Map from './components/Map'
 import DistributionChart from './components/DistributionChart';
 import DistributionStats from './components/DistributionStats';
 import RiskTree from './components/RiskTree';
+import RiskTable from './components/RiskTable';
 
 function App() {
 
@@ -12,6 +13,8 @@ function App() {
     fetchData,
     highlightedKommune,
     data,
+    // cache,
+    // dataModel,
     selectedYear,
     selectedDistribuion, 
   } = useDataStore();
@@ -20,6 +23,12 @@ function App() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  // if (!dataModel || !data || !cache) {
+  //   return (
+  //     <p>Loading...</p>
+  //   )
+  // }
 
   return (
     <>
@@ -41,6 +50,7 @@ function App() {
         </div>
         <div className="col">
           <DistributionChart distributionKey={selectedDistribuion} />
+          <RiskTable />
         </div>
         <div className="col">
           <DistributionStats />
