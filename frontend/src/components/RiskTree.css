@@ -1,0 +1,7 @@
+.risk-tree > ul {
+  margin: 0;
+}
+
+.risk-tree label {
+  user-select: none;
+}
