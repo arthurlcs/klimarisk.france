@@ -46,7 +46,7 @@ function DistributionSelect() {
               key={metric.key} 
               value={encodeDistributionKey({type: "metric", key: metric.key})}
             >
-              {"->" + metric.name}
+              {"— " + metric.name}
             </option>
           ))}
           

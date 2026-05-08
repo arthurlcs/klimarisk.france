@@ -14,3 +14,10 @@ header h1 {
   flex-direction: row;
   height: var(--dashboard-height);
 }
+
+.dashboard .col {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-grow: 1;
+}

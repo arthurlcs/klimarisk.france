@@ -2,7 +2,9 @@ import './App.css'
 import { useEffect } from 'react';
 import useDataStore from './hooks/useDataStore'
 import Map from './components/Map'
-import StatList from './components/StatList';
+import DistributionChart from './components/DistributionChart';
+import DistributionStats from './components/DistributionStats';
+import RiskTree from './components/RiskTree';
 
 function App() {
 
@@ -11,6 +13,7 @@ function App() {
     highlightedKommune,
     data,
     selectedYear,
+    selectedDistribuion, 
   } = useDataStore();
 
   // Fetch data on mount, only once
@@ -30,8 +33,18 @@ function App() {
         </h1>
       </header>
       <div className="dashboard">
-        <Map />
-        <StatList />
+        <div className="col">
+          <RiskTree />
+        </div>
+        <div className="col">
+          <Map />
+        </div>
+        <div className="col">
+          <DistributionChart distributionKey={selectedDistribuion} />
+        </div>
+        <div className="col">
+          <DistributionStats />
+        </div>
       </div>
     </>
   )
