@@ -1,0 +1,10 @@
+.chartContainer {
+  user-select: none;
+}
+
+svg:focus,
+path:focus,
+g:focus {
+  outline: none;
+}
+

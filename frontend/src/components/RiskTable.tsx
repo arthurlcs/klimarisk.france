@@ -14,22 +14,39 @@ function RiskTable() {
     setSelectedKommune,
     highlightedKommune,
     setHighlightedKommune,
+    layout,
   } = useDataStore();
 
   const [sortKey, setSortKey] = useState<string>("totalRisk");
   const [sortAscending, setSortAscending] = useState<boolean>(false);
 
   const handleSort = (key: string) => {
-    if (sortKey === key) {
+    // Special case for kommune name: Ascending -> Descending -> default
+    if (key === "name") {
+      if (sortKey !== key) { // First click on this column
+        setSortKey(key);
+        setSortAscending(true);
+      } else {
+        if (sortAscending) {
+          setSortAscending(false);
+        } else {
+          setSortKey("totalRisk"); // default
+          setSortAscending(false);
+        }
+      }
+      return;
+    }
+    // Normal case: Descending -> Ascending -> default
+    if (sortKey !== key) { // First click on this column
+      setSortKey(key);
+      setSortAscending(false);
+    } else {
       if (!sortAscending) {
         setSortAscending(true);
       } else {
-        setSortKey("totalRisk");
+        setSortKey("totalRisk"); // default
         setSortAscending(false);
       }
-    } else {
-      setSortKey(key);
-      setSortAscending(false);
     }
   };
 
@@ -43,7 +60,7 @@ function RiskTable() {
         komNr: k,
         totalRisk: kommuneCache.totalRisk as number,
         ...Object.fromEntries(dataModel.elements.map(e => [e.name, kommuneCache[e.key]])),
-        ...Object.fromEntries(dataModel.elements.flatMap(e => e.metrics.map(m => [m.name, kommuneData[m.key]]))),
+        ...layout === "second" ? Object.fromEntries(dataModel.elements.flatMap(e => e.metrics.map(m => [m.name, kommuneData[m.key]]))) : {},
       }
     });
     return tmp as {
@@ -52,7 +69,7 @@ function RiskTable() {
       totalRisk: number;
       [key: string]: string | number;
     }[];
-  }, [data, cache, dataModel, selectedYear]);
+  }, [data, cache, dataModel, selectedYear, layout]);
   
   
   const rowsSorted = useMemo(() => {
@@ -71,7 +88,7 @@ function RiskTable() {
   
 
   const headers = [
-    ...dataModel?.elements.flatMap(e => [e.name, ...e.metrics.map(m => m.name)]) || []
+    ...dataModel?.elements.flatMap(e => [e.name, ...layout === "second" ? e.metrics.map(m => m.name) : []]) || []
   ]
 
   // Scroll selected row into view when selectedKommune changes
@@ -80,7 +97,7 @@ function RiskTable() {
     if (selectedRowRef.current !== null) {
       selectedRowRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  }, [selectedKommune, rows]); // Should scroll when table rows change
+  }, [selectedKommune, rowsSorted]); // Should scroll when table rows change
 
   if (!data || !cache) {
     return (
@@ -96,7 +113,14 @@ function RiskTable() {
               #
             </th>
             <th>
-              Kommune
+              <button type="button" onClick={() => handleSort("name")}>
+                Kommune
+                <div className="sortIcon">
+                  {sortKey === "name" && (
+                    sortAscending ? "↑" : "↓"
+                  )}
+                </div>
+              </button>
             </th>
             <th>
               <button type="button" onClick={() => handleSort("totalRisk")}>

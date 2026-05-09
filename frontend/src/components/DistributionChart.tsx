@@ -2,6 +2,7 @@ import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer, Li
 import useDataStore, { type DistributionKey, type KommuneNr } from "../hooks/useDataStore";
 import { useMemo } from "react";
 import DistributionSelect from "./DistributionSelect";
+import "./DistributionChart.css";
 
 type Props = {
   distributionKey: DistributionKey; 
@@ -128,56 +129,58 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
   }, [distribution, distributionKey, getDistributionDomain]);
   
   return (
-    <ResponsiveContainer width="100%" height={250}>
+    <div className="chartContainer">
       <DistributionSelect />
-      <AreaChart data={chartData}>
-        <XAxis 
-          dataKey="value" 
-          type="number" 
-          ticks={ticks}
-          interval={0}
-          allowDataOverflow
-          tick={<CustomTick />}
-        />
-        {/* <YAxis /> */}
-        <Tooltip 
-          formatter={(value, name) => {
-            if (name === "count") return [`${value} kommuner`, "Norge"];
-            if (name === "countCounty") return [`${value} kommuner`, "Fylke"];
-            return [value, name];
-          }}
-          labelFormatter={(label) => `Verdi: ${Number(label).toFixed(1)}`}
-        />
-        <Area
-          type="monotone"
-          dataKey="count"
-          stroke="#3b82f6"
-          fill="#93c5fd"
-        />
-        <Line
-          type="monotone"
-          dataKey="countCounty"
-          stroke="#3b82f6"
-          fill="#93c5fd"
-          dot={false}
-        />
+      <ResponsiveContainer width="100%" height={250}>
+        <AreaChart data={chartData}>
+          <XAxis 
+            dataKey="value" 
+            type="number" 
+            ticks={ticks}
+            interval={0}
+            allowDataOverflow
+            tick={<CustomTick />}
+          />
+          {/* <YAxis /> */}
+          <Tooltip 
+            formatter={(value, name) => {
+              if (name === "count") return [`${value} kommuner`, "Norge"];
+              if (name === "countCounty") return [`${value} kommuner`, "Fylke"];
+              return [value, name];
+            }}
+            labelFormatter={(label) => `Verdi: ${Number(label).toFixed(1)}`}
+          />
+          <Area
+            type="monotone"
+            dataKey="count"
+            stroke="#3b82f6"
+            fill="#93c5fd"
+          />
+          <Line
+            type="monotone"
+            dataKey="countCounty"
+            stroke="#3b82f6"
+            fill="#93c5fd"
+            dot={false}
+          />
 
-        {kommuneValue !== null && (
-          <ReferenceLine
-            x={kommuneValue}
-            stroke="red"
-            strokeWidth={2}
-          />
-        )}
-        {highlightValue !== null && (
-          <ReferenceLine
-            x={highlightValue}
-            stroke="black"
-            strokeWidth={2}
-          />
-        )}
-      </AreaChart>
-    </ResponsiveContainer>
+          {kommuneValue !== null && (
+            <ReferenceLine
+              x={kommuneValue}
+              stroke="red"
+              strokeWidth={2}
+            />
+          )}
+          {highlightValue !== null && (
+            <ReferenceLine
+              x={highlightValue}
+              stroke="black"
+              strokeWidth={2}
+            />
+          )}
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
 
