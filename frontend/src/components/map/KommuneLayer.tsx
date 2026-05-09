@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { GeoJSON } from 'react-leaflet';
-import useDataStore, { type KommuneNr } from '../hooks/useDataStore';
+import useDataStore, { type KommuneNr } from '../../hooks/useDataStore';
 
 import type { FeatureCollection, Feature, Polygon, MultiPolygon, Geometry } from 'geojson';
 import type { Polygon as LeafletPolygon } from 'leaflet';
-import { getDataFileJSON } from '../hooks/getPublicUrl';
+import { getDataFileJSON } from '../../hooks/getPublicUrl';
 
 type KommuneProperties = { 
   kommunenummer: KommuneNr; 

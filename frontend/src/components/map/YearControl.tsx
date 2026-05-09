@@ -1,6 +1,6 @@
 import "./YearControl.css"
 import { useMemo } from "react";
-import useDataStore, { type Year } from "../hooks/useDataStore";
+import useDataStore, { type Year } from "../../hooks/useDataStore";
 
 function Yearcontrol() {
 

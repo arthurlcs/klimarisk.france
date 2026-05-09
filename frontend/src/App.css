@@ -23,8 +23,8 @@ header h1 {
   grid-template-areas: 
     "tree map chart stats"
     "tree map table stats";
-  grid-template-columns: 1fr 2fr 2fr 0fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 2fr 3fr 2fr 0fr;
+  grid-template-rows: auto 1fr;
 }
 
 .gridLayout2 {

@@ -1,10 +1,10 @@
 import './Map.css';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import KommuneLayer from './KommuneLayer';
-import Yearcontrol from './YearControl';
+import KommuneLayer from "./KommuneLayer";
+import YearControl from "./YearControl";
 import FlyToSelectedKommune from './FlyToSelectedKommune';
-import InvalidateMapSize from './InvalidateMapSize';
+import InvalidateMapSize from "./InvalidateMapSize";
 
 
 function Map() {
@@ -27,7 +27,7 @@ function Map() {
       />
       <KommuneLayer />
 
-      <Yearcontrol />
+      <YearControl />
       <FlyToSelectedKommune />
       <InvalidateMapSize />
     </MapContainer>

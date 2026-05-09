@@ -1,7 +1,7 @@
 import './App.css'
 import { useEffect } from 'react';
 import useDataStore from './hooks/useDataStore'
-import Map from './components/Map'
+import Map from './components/map/Map'
 import DistributionChart from './components/DistributionChart';
 import DistributionStats from './components/DistributionStats';
 import RiskTree from './components/RiskTree';

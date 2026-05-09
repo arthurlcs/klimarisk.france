@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
-import useDataStore from "../hooks/useDataStore";
+import useDataStore from "../../hooks/useDataStore";
 
 function InvalidateMapSize() {
   const map = useMap();

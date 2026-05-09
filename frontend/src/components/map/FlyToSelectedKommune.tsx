@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
-import useDataStore from "../hooks/useDataStore";
-import { getDataFileJSON } from '../hooks/getPublicUrl';
+import useDataStore from "../../hooks/useDataStore";
+import { getDataFileJSON } from '../../hooks/getPublicUrl';
 import type { KommuneGeoJSON } from "./KommuneLayer";
 
 function FlyToSelectedKommune() {
