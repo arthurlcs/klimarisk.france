@@ -88,9 +88,7 @@ function RiskTable() {
     )
   }
   return (
-    <div>
-      <h2>Risk Table</h2>
-      <p>This is a placeholder for the risk table component.</p>
+    <div className="riskTableContainer">
       <table>
         <thead>
           <tr>

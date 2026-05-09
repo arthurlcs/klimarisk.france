@@ -1,12 +1,50 @@
-tr {
+.riskTableContainer {
+  padding: 0;
+  margin-top: 1em;
+  background-color: #fff;
+
+  overflow: auto;
+  flex: 1;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  background-color: #f9f9f9;
+  z-index: 1;
+}
+
+thead button {
+  padding: 0;
+  background: none;
+  text-wrap: nowrap;
+  display: flex;
+  flex-direction: row;
+  outline: none;
+}
+
+tbody {
+  height: 200px;
+  overflow-y: auto;
+}
+
+tbody tr {
   user-select: none;
   cursor: pointer;
 }
 
-tr.selected {
+tbody tr.selected {
   background-color: #d0e7ff;
 }
 
-tr.highlighted {
+tbody tr.highlighted {
   background-color: #f0f0f0;
+}
+
+tr td:first-child {
+  padding: 0 0.5em;
 }

@@ -99,6 +99,9 @@ interface DataStore {
   setSelectedDistribution: (key: DistributionKey) => void;
 
   getDistributionDomain: (distributionKey: DistributionKey) => [number, number] | undefined;
+
+  layout: "first" | "second";
+  setLayout: (layout: "first" | "second") => void;
 }
 
 const useDataStore = create<DataStore>((set, get) => ({
@@ -335,6 +338,10 @@ const useDataStore = create<DataStore>((set, get) => ({
     }
     return [min, max];
   },
+
+  layout: "first",
+
+  setLayout: (layout) => set({ layout }),
 
 }));
 

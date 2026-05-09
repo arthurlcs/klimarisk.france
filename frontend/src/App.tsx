@@ -17,6 +17,8 @@ function App() {
     // dataModel,
     selectedYear,
     selectedDistribuion, 
+    layout,
+    setLayout,
   } = useDataStore();
 
   // Fetch data on mount, only once
@@ -40,19 +42,26 @@ function App() {
               : "Klimarisk"
           }
         </h1>
+        <button 
+          onClick={() => layout === "first" ? setLayout("second") : setLayout("first")}
+        >
+          {layout === "first" ? " (first view)" : " (second view)"}
+        </button>
       </header>
-      <div className="dashboard">
-        <div className="col">
+      <div className={`dashboard ${layout === "first" ? "gridLayout1" : "gridLayout2"}`}>
+        <div className="panel tree">
           <RiskTree />
         </div>
-        <div className="col">
+        <div className="panel map">
           <Map />
         </div>
-        <div className="col">
+        <div className="panel chart">
           <DistributionChart distributionKey={selectedDistribuion} />
+        </div>
+        <div className="panel table">
           <RiskTable />
         </div>
-        <div className="col">
+        <div className="panel stats">
           <DistributionStats />
         </div>
       </div>

@@ -1,5 +1,9 @@
 header {
   height: var(--header-height);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 header h1 {
@@ -10,14 +14,46 @@ header h1 {
 }
 
 .dashboard {
-  display: flex;
-  flex-direction: row;
   height: var(--dashboard-height);
+  display: grid;
+  transition: grid-template-areas 0.5s, grid-template-columns 0.5s, grid-template-rows 0.5s;
 }
 
-.dashboard .col {
-  flex: 1;
+.gridLayout1 {
+  grid-template-areas: 
+    "tree map chart stats"
+    "tree map table stats";
+  grid-template-columns: 1fr 2fr 2fr 0fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.gridLayout2 {
+  grid-template-areas: 
+    "tree map chart stats"
+    "tree table table stats";
+  grid-template-columns: 0fr 2fr 2fr 3fr;
+  grid-template-rows: 3fr 2fr;
+}
+
+.panel {
   overflow-y: auto;
   overflow-x: hidden;
-  flex-grow: 1;
+}
+
+.panel.tree {
+  grid-area: tree;
+}
+.panel.map {
+  grid-area: map;
+}
+.panel.chart {
+  grid-area: chart;
+}
+.panel.table {
+  grid-area: table;
+  display: flex;
+  overflow: hidden;
+}
+.panel.stats {
+  grid-area: stats;
 }

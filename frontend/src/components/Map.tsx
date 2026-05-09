@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import KommuneLayer from './KommuneLayer';
 import Yearcontrol from './YearControl';
 import FlyToSelectedKommune from './FlyToSelectedKommune';
+import InvalidateMapSize from './InvalidateMapSize';
 
 
 function Map() {
@@ -28,6 +29,7 @@ function Map() {
 
       <Yearcontrol />
       <FlyToSelectedKommune />
+      <InvalidateMapSize />
     </MapContainer>
   )
 }
