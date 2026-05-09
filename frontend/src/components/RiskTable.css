@@ -1,0 +1,12 @@
+tr {
+  user-select: none;
+  cursor: pointer;
+}
+
+tr.selected {
+  background-color: #d0e7ff;
+}
+
+tr.highlighted {
+  background-color: #f0f0f0;
+}

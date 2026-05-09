@@ -11,7 +11,7 @@ type KommuneProperties = {
 };
 type KommuneFeature = Feature<Polygon | MultiPolygon, KommuneProperties>;
 type KommuneGeometryFeature = Feature<Geometry, KommuneProperties>;
-type KommuneGeoJSON = FeatureCollection<Polygon | MultiPolygon, KommuneProperties>;
+export type KommuneGeoJSON = FeatureCollection<Polygon | MultiPolygon, KommuneProperties>;
 
 
 function KommuneLayer() {

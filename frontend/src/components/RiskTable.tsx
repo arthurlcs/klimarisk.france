@@ -1,5 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import useDataStore, { type KommuneNr } from "../hooks/useDataStore";
+import "./RiskTable.css";
 
 
 function RiskTable() {
@@ -10,6 +11,9 @@ function RiskTable() {
     cache,
     selectedYear,
     selectedKommune,
+    setSelectedKommune,
+    highlightedKommune,
+    setHighlightedKommune,
   } = useDataStore();
 
   const [sortKey, setSortKey] = useState<string>("totalRisk");
@@ -44,7 +48,7 @@ function RiskTable() {
     });
     return tmp as {
       name: string;
-      komNr: string;
+      komNr: KommuneNr;
       totalRisk: number;
       [key: string]: string | number;
     }[];
@@ -69,6 +73,14 @@ function RiskTable() {
   const headers = [
     ...dataModel?.elements.flatMap(e => [e.name, ...e.metrics.map(m => m.name)]) || []
   ]
+
+  // Scroll selected row into view when selectedKommune changes
+  const selectedRowRef = useRef<HTMLTableRowElement>(null);
+  useEffect(() => {
+    if (selectedRowRef.current !== null) {
+      selectedRowRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [selectedKommune]);
 
   if (!data || !cache) {
     return (
@@ -114,7 +126,14 @@ function RiskTable() {
         </thead>
         <tbody>
           {rowsSorted.map((row, index) => (
-            <tr key={index} className={row.komNr === selectedKommune ? 'selected' : ''}>
+            <tr 
+              key={index} 
+              className={`${row.komNr === selectedKommune ? 'selected' : ''} ${row.komNr === highlightedKommune ? 'highlighted' : ''}`}
+              onMouseEnter={() => setHighlightedKommune(row.komNr)}
+              onMouseLeave={() => setHighlightedKommune(null)}
+              ref={row.komNr === selectedKommune ? selectedRowRef : null}
+              onClick={() => setSelectedKommune(row.komNr)}
+            >
               <td>
                 {index + 1}
               </td>

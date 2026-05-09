@@ -3,6 +3,7 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import KommuneLayer from './KommuneLayer';
 import Yearcontrol from './YearControl';
+import FlyToSelectedKommune from './FlyToSelectedKommune';
 
 
 function Map() {
@@ -26,6 +27,7 @@ function Map() {
       <KommuneLayer />
 
       <Yearcontrol />
+      <FlyToSelectedKommune />
     </MapContainer>
   )
 }
