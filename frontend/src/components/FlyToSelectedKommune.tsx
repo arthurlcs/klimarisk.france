@@ -6,14 +6,17 @@ import { getDataFileJSON } from '../hooks/getPublicUrl';
 import type { KommuneGeoJSON } from "./KommuneLayer";
 
 function FlyToSelectedKommune() {
-  const map = useMap();
-  const selectedKommune = useDataStore(s => s.selectedKommune);
-
   const [komGeoJSON, setKomGeoJSON] = useState<KommuneGeoJSON | null>(null);
   
   useEffect(() => {
     getDataFileJSON('kommune.geojson').then(geojson => setKomGeoJSON(geojson));
   }, []);
+
+  const map = useMap();
+
+  const {
+    selectedKommune,
+  } = useDataStore();
 
   useEffect(() => {
     if (!selectedKommune) return;

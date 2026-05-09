@@ -80,7 +80,7 @@ function RiskTable() {
     if (selectedRowRef.current !== null) {
       selectedRowRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  }, [selectedKommune]);
+  }, [selectedKommune, rows]); // Should scroll when table rows change
 
   if (!data || !cache) {
     return (
