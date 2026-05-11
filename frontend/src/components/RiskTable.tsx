@@ -59,8 +59,8 @@ function RiskTable() {
         name: kommuneData.name as string,
         komNr: k,
         totalRisk: kommuneCache.totalRisk as number,
-        ...Object.fromEntries(dataModel.elements.map(e => [e.name, kommuneCache[e.key]])),
-        ...layout === "second" ? Object.fromEntries(dataModel.elements.flatMap(e => e.metrics.map(m => [m.name, kommuneData[m.key]]))) : {},
+        ...Object.fromEntries(dataModel.elements.map(e => [e.key, kommuneCache[e.key]])),
+        ...layout === "second" ? Object.fromEntries(dataModel.elements.flatMap(e => e.metrics.map(m => [m.key, kommuneData[m.key]]))) : {},
       }
     });
     return tmp as {
@@ -88,7 +88,14 @@ function RiskTable() {
   
 
   const headers = [
-    ...dataModel?.elements.flatMap(e => [e.name, ...layout === "second" ? e.metrics.map(m => m.name) : []]) || []
+    ...dataModel?.elements.filter(e => !e.disabled).map(e => ({
+      key: e.key,
+      name: e.name,
+    })) || [],
+    ...layout === "second" ? dataModel?.elements.filter(e => !e.disabled).flatMap(e => e.metrics.filter(m => !m.disabled).map(m => ({
+      key: m.key,
+      name: m.name,
+    }))) || [] : [],
   ]
 
   // Scroll selected row into view when selectedKommune changes
@@ -134,10 +141,10 @@ function RiskTable() {
             </th>
             {headers.map((header, index) => (
               <th key={index}>
-                <button type="button" onClick={() => handleSort(header)}>
-                  {header}
+                <button type="button" onClick={() => handleSort(header.key)}>
+                  {header.name}
                   <div className="sortIcon">
-                    {sortKey === header && (
+                    {sortKey === header.key && (
                       sortAscending ? "↑" : "↓"
                     )}
                   </div>
@@ -166,8 +173,8 @@ function RiskTable() {
                 {row.totalRisk !== null && row.totalRisk !== undefined ? row.totalRisk.toFixed(0) : ''}
               </td>
               {headers.map((header, headerIndex) => (
-                <td key={headerIndex}>
-                  {row[header] !== null && row[header] !== undefined ? (row[header] as number).toFixed(0) : ''}
+                <td key={`${index}-${headerIndex}`}>
+                  {row[header.key] !== null && row[header.key] !== undefined ? (row[header.key] as number).toFixed(0) : ''}
                 </td>
               ))}
             </tr>

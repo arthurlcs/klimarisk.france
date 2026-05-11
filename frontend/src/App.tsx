@@ -6,6 +6,7 @@ import DistributionChart from './components/DistributionChart';
 import DistributionStats from './components/DistributionStats';
 import RiskTree from './components/RiskTree';
 import RiskTable from './components/RiskTable';
+import DetailedStats from './components/DetailedStats';
 
 function App() {
 
@@ -68,6 +69,10 @@ function App() {
         <div className="panel stats">
           <h2>Selected Kommune Details View</h2>
           <DistributionStats />
+        </div>
+        <div className="panel details">
+          <h2>Details</h2>
+          <DetailedStats />
         </div>
       </div>
     </>

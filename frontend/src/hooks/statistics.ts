@@ -26,3 +26,31 @@ export function percentile(sorted: number[], value: number): number {
 
   return ((countLess + 0.5 * countEqual) / n) * 100;
 }
+
+/*
+* Returns number of values higher than the given value, in a sorted ascending array.
+*
+* @param arr Sorted ascending numeric array
+* @param value Value to find and rank
+* @returns Number of stricktly worse items in arr
+*/
+export function getDescendingRank(arr: number[], value: number): number {
+
+  let left = 0;
+  let right = arr.length;
+
+  // find first value > target
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (arr[mid] <= value) {
+      left = mid + 1;
+    } else {
+      right = mid;
+    }
+  }
+
+  const strictlyWorse = arr.length - left;
+
+  return strictlyWorse + 1;
+}
