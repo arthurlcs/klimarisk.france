@@ -155,7 +155,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
             dataKey="count"
             stroke="#3b82f6"
             fill="#93c5fd"
-            isAnimationActive={false}
+            // isAnimationActive={false}
           />
           <Line
             type="monotone"
@@ -163,7 +163,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
             stroke="#3b82f6"
             fill="#93c5fd"
             dot={false}
-            isAnimationActive={false}
+            // isAnimationActive={false}
           />
 
           {kommuneValue !== null && (

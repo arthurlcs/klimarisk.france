@@ -1,4 +1,4 @@
-import useDataStore, { type DistributionKey, type ElementKey} from "../hooks/useDataStore";
+import useDataStore, { type DistributionKey } from "../hooks/useDataStore";
 import { getDescendingRank } from "../hooks/statistics";
 import { useMemo } from "react";
 
@@ -12,8 +12,6 @@ function DetailedStats() {
     selectedKommune,
     setHighlightedDistribution,
     setSelectedDistribution,
-    refreshCacheElement,
-    refreshCacheRisk,
   } = useDataStore();
 
   const yearData = data && selectedYear ? data.years[selectedYear] : null
@@ -40,58 +38,6 @@ function DetailedStats() {
 
   function handleInspectDistribution(key: DistributionKey) {
     setSelectedDistribution(key);
-    
-    if (!dataModel) return;
-    switch (key.type) {
-      case "risk": { 
-        const toggledElements: Record<ElementKey, number> = {};
-        dataModel.elements.forEach(e => {
-          e.disabled = false;
-          e.metrics.forEach(m => {
-            if (m.disabled) toggledElements[e.key] = 1;
-            m.disabled = false;
-          })
-        })
-        const keys = Object.keys(toggledElements);
-        if (keys.length === 0) {
-          refreshCacheRisk();
-        } else {
-          keys.forEach(e => refreshCacheElement(e as ElementKey));
-        }
-        break;
-      }
-      case "element": {
-        dataModel.elements.forEach(e => {
-          if (key.key === e.key) {
-            e.disabled = false;
-            e.metrics.forEach(m => {
-              m.disabled = false;
-            })
-          } else {
-            e.disabled = true;
-          }
-        })
-        refreshCacheElement(key.key);
-        break;
-      }  
-      case "metric": {
-        let el;
-        dataModel.elements.forEach(e => {
-          e.disabled = true;
-          e.metrics.forEach(m => {
-            if (key.key === m.key) {
-              e.disabled = false;
-              m.disabled = false;
-              el = e.key;
-            } else {
-              m.disabled = true;
-            }
-          })
-        })
-        refreshCacheElement(el!);
-        break;
-      }
-    }
   }
 
   if (!yearData || !yearCache || !dataModel) {

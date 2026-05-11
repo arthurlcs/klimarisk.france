@@ -16,6 +16,7 @@ function RiskTable() {
     setHighlightedKommune,
     layout,
     highlightedDistribution,
+    selectedDistribuion,
   } = useDataStore();
 
   const [sortKey, setSortKey] = useState<string>("totalRisk");
@@ -107,6 +108,14 @@ function RiskTable() {
     }
   }, [selectedKommune, rowsSorted]); // Should scroll when table rows change
 
+  // Scroll selected distribution column into view
+  const selectedColRef = useRef<HTMLTableCellElement>(null)
+  useEffect(() => {
+    if (selectedColRef.current !== null) {
+      selectedColRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+    }
+  }, [selectedDistribuion]); // Scroll only when selectedDistribution changes
+
   if (!data || !cache) {
     return (
       <p>Loading...</p>
@@ -131,7 +140,8 @@ function RiskTable() {
               </button>
             </th>
             <th
-              className={`${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""}`}
+              className={`${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""} ${selectedDistribuion.type === "risk" ? "selectedCol" : ""}`}
+              ref={selectedDistribuion.type === "risk" ? selectedColRef : null}
             >
               <button type="button" onClick={() => handleSort("totalRisk")}>
                 Risk
@@ -145,7 +155,8 @@ function RiskTable() {
             {headers.map((header, index) => (
               <th 
                 key={index}
-                className={`${highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key ? "highlightedCol" : ""}`}
+                className={`${highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key ? "highlightedCol" : ""} ${selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? "selectedCol" : ""}`}
+                ref={selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? selectedColRef : null}
               >
                 <button type="button" onClick={() => handleSort(header.key)}>
                   {header.name}
@@ -176,14 +187,14 @@ function RiskTable() {
                 {row.name}
               </td>
               <td
-                className={`${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""}`}
+                className={`${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""} ${selectedDistribuion.type === "risk" ? "selectedCol" : ""}`}
               >
                 {row.totalRisk !== null && row.totalRisk !== undefined ? row.totalRisk.toFixed(0) : ''}
               </td>
               {headers.map((header, headerIndex) => (
                 <td 
                   key={`${index}-${headerIndex}`}
-                  className={`${(highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key)  ? "highlightedCol" : ""}`}
+                  className={`${(highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key)  ? "highlightedCol" : ""} ${selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? "selectedCol" : ""}`}
                 >
                   {row[header.key] !== null && row[header.key] !== undefined ? (row[header.key] as number).toFixed(0) : ''}
                 </td>

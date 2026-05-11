@@ -284,10 +284,14 @@ const useDataStore = create<DataStore>((set, get) => ({
 
 
   getRiskColor: (komNr, colors = ['green', 'yellow', 'orange', 'red']) => {
-    const { cache, selectedYear, getDistributionDomain } = get();
-    if (!cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear]) return 'gray';
-    const risk = cache.years[selectedYear].byKommune[komNr].totalRisk;
-    const [minRisk, maxRisk] = getDistributionDomain({ type: "risk" }) ?? [0, 0];
+    const { data, cache, selectedYear, getDistributionDomain, selectedDistribuion } = get();
+    if (!data || !cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear]) return 'gray';
+    const risk = selectedDistribuion.type === "risk" 
+      ? cache.years[selectedYear].byKommune[komNr].totalRisk
+      : selectedDistribuion.type === "element"
+        ? cache.years[selectedYear].byKommune[komNr][selectedDistribuion.key]
+        : data.years[selectedYear].byKommune[komNr][selectedDistribuion.key];
+    const [minRisk, maxRisk] = getDistributionDomain(selectedDistribuion) ?? [0, 0];
     if (minRisk === maxRisk) return 'gray'; // Avoid division by zero and invalid risk values
     const colorIndex = Math.floor((risk - minRisk) / (maxRisk - minRisk) * colors.length);
     return colors[Math.min(colorIndex, colors.length - 1)];

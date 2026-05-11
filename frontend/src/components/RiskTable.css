@@ -49,11 +49,12 @@ tr td:first-child {
 }
 
 
-.highlightedCol {
+.highlightedCol, .selectedCol {
   background-color: #f0f0f0;
 }
 
-tr.selected .highlightedCol {
+tr.selected .highlightedCol,
+tr.selected .selectedCol {
   background-color: #d0e7ff;
   font-weight: bold;
 }
