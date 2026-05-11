@@ -111,7 +111,7 @@ function KommuneLayer() {
 
     return {
       fillColor: getColor(komNr || null),
-      weight: komNr === highlightedKommune || komNr === selectedKommune ? 3 : 0.5,
+      weight: komNr === highlightedKommune ? 3 : komNr === selectedKommune ? 2 : 0.3,
       opacity: 1,
       color: 'black',
       fillOpacity: 0.8,

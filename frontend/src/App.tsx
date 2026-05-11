@@ -50,18 +50,23 @@ function App() {
       </header>
       <div className={`dashboard ${layout === "first" ? "gridLayout1" : "gridLayout2"}`}>
         <div className="panel tree">
+          <h2>Risk Customization Tree</h2>
           <RiskTree />
         </div>
         <div className="panel map">
+          <h2>Map View</h2>
           <Map />
         </div>
         <div className="panel chart">
+          <h2>Kommune Distribution Chart</h2>
           <DistributionChart distributionKey={selectedDistribuion} />
         </div>
         <div className="panel table">
+          <h2>Data Table</h2>
           <RiskTable />
         </div>
         <div className="panel stats">
+          <h2>Selected Kommune Details View</h2>
           <DistributionStats />
         </div>
       </div>
