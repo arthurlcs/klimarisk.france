@@ -102,6 +102,9 @@ interface DataStore {
 
   layout: "first" | "second";
   setLayout: (layout: "first" | "second") => void;
+
+  highlightedDistribution: DistributionKey | null;
+  setHighlightedDistribution: (key: DistributionKey | null) => void;
 }
 
 const useDataStore = create<DataStore>((set, get) => ({
@@ -342,6 +345,10 @@ const useDataStore = create<DataStore>((set, get) => ({
   layout: "first",
 
   setLayout: (layout) => set({ layout }),
+
+  highlightedDistribution: null,
+
+  setHighlightedDistribution: (key) => set({ highlightedDistribution: key }),
 
 }));
 

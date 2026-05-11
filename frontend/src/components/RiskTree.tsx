@@ -7,6 +7,7 @@ function RiskTree() {
     dataModel,
     refreshCacheRisk,
     refreshCacheElement,
+    setHighlightedDistribution,
   } = useDataStore();
 
   if (!dataModel) {
@@ -20,7 +21,11 @@ function RiskTree() {
       <strong>Total Risk</strong>
       <ul>
         {dataModel.elements.map(element => (
-          <li key={element.key}>
+          <li 
+            key={element.key}
+            onMouseEnter={() => setHighlightedDistribution({type: "element", key: element.key})}
+            onMouseLeave={() => setHighlightedDistribution(null)}
+          >
             <input 
               type="checkbox" 
               checked={!element.disabled} 

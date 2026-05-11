@@ -15,6 +15,7 @@ function RiskTable() {
     highlightedKommune,
     setHighlightedKommune,
     layout,
+    highlightedDistribution,
   } = useDataStore();
 
   const [sortKey, setSortKey] = useState<string>("totalRisk");
@@ -129,7 +130,9 @@ function RiskTable() {
                 </div>
               </button>
             </th>
-            <th>
+            <th
+              className={`${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""}`}
+            >
               <button type="button" onClick={() => handleSort("totalRisk")}>
                 Risk
                 <div className="sortIcon">
@@ -140,7 +143,10 @@ function RiskTable() {
               </button>
             </th>
             {headers.map((header, index) => (
-              <th key={index}>
+              <th 
+                key={index}
+                className={`${highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key ? "highlightedCol" : ""}`}
+              >
                 <button type="button" onClick={() => handleSort(header.key)}>
                   {header.name}
                   <div className="sortIcon">
@@ -169,11 +175,16 @@ function RiskTable() {
               <td>
                 {row.name}
               </td>
-              <td>
+              <td
+                className={`${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""}`}
+              >
                 {row.totalRisk !== null && row.totalRisk !== undefined ? row.totalRisk.toFixed(0) : ''}
               </td>
               {headers.map((header, headerIndex) => (
-                <td key={`${index}-${headerIndex}`}>
+                <td 
+                  key={`${index}-${headerIndex}`}
+                  className={`${(highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key)  ? "highlightedCol" : ""}`}
+                >
                   {row[header.key] !== null && row[header.key] !== undefined ? (row[header.key] as number).toFixed(0) : ''}
                 </td>
               ))}

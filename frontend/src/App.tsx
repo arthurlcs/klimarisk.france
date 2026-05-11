@@ -14,8 +14,6 @@ function App() {
     fetchData,
     highlightedKommune,
     data,
-    // cache,
-    // dataModel,
     selectedYear,
     selectedDistribuion, 
     layout,
@@ -26,12 +24,6 @@ function App() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  // if (!dataModel || !data || !cache) {
-  //   return (
-  //     <p>Loading...</p>
-  //   )
-  // }
 
   return (
     <>

@@ -47,3 +47,13 @@ tbody tr.highlighted {
 tr td:first-child {
   padding: 0 0.5em;
 }
+
+
+.highlightedCol {
+  background-color: #f0f0f0;
+}
+
+tr.selected .highlightedCol {
+  background-color: #d0e7ff;
+  font-weight: bold;
+}
