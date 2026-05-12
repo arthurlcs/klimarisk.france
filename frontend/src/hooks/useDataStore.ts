@@ -220,41 +220,71 @@ const useDataStore = create<DataStore>((set, get) => ({
     const { cache, calculateElementValue, refreshCacheRisk, dataModel } = get();
     if (!cache || !dataModel) return;
 
-    const newYears = Object.fromEntries(
-      Object.entries(cache.years).map(([year, yearCache]) => {
-        const { byKommune, byElement, byTotalRisk } = yearCache;
-
-        const newByKommune = Object.fromEntries(
-          Object.entries(byKommune).map(([komNr, kommuneCache]) => {
-            const elementValue = calculateElementValue(elementKey, komNr as KommuneNr, year as Year);
-            if (elementValue === null) return [komNr, kommuneCache]; // No change if element value is null (e.g. all metrics disabled)
-            return [
+    let newYears: Cache["years"];
+    // If all metrics are disabled, fill with 0s
+    if (dataModel.elements.find(e => e.key === elementKey)!.metrics.every(m => m.disabled)) {
+      newYears = Object.fromEntries(
+        Object.entries(cache.years).map(([year, yearCache]) => {
+          const newByKommune = Object.fromEntries(
+            Object.entries(yearCache.byKommune).map(([komNr, kommuneCache]) => [
               komNr,
-              { ...kommuneCache, [elementKey]: elementValue }
-            ];
-          })
-        )
-        
-        // rebuild distribution for this element
-        const newElementDistribution = Object.values(newByKommune)
-          .map(k => k[elementKey])
-          .sort((a, b) => a - b);
+              {
+                ...kommuneCache,
+                [elementKey]: 0,
+              }
+            ])
+          );
+          const newByElement = {
+            ...yearCache.byElement,
+            [elementKey]: Array(Object.keys(newByKommune).length).fill(0),
+          };
+          return [
+            year,
+            {
+              byKommune: newByKommune,
+              byElement: newByElement,
+              byTotalRisk: yearCache.byTotalRisk,
+            }
+          ];
+        })
+      ) as Cache["years"]
+    } else { // If some metrics are enabled, recalculate element
+      newYears = Object.fromEntries(
+        Object.entries(cache.years).map(([year, yearCache]) => {
+          const { byKommune, byElement, byTotalRisk } = yearCache;
 
-        const newByElement = {
-          ...byElement,
-          [elementKey]: newElementDistribution,
-        }
-        
-        return [
-          year,
-          {
-            byKommune: newByKommune,
-            byElement: newByElement,
-            byTotalRisk: byTotalRisk, // Total risk distribution will be updated in refreshCacheRisk
+          const newByKommune = Object.fromEntries(
+            Object.entries(byKommune).map(([komNr, kommuneCache]) => {
+              const elementValue = calculateElementValue(elementKey, komNr as KommuneNr, year as Year);
+              if (elementValue === null) return [komNr, kommuneCache]; // No change if element value is null (e.g. all metrics disabled)
+              return [
+                komNr,
+                { ...kommuneCache, [elementKey]: elementValue }
+              ];
+            })
+          )
+          
+          // rebuild distribution for this element
+          const newElementDistribution = Object.values(newByKommune)
+            .map(k => k[elementKey])
+            .sort((a, b) => a - b);
+
+          const newByElement = {
+            ...byElement,
+            [elementKey]: newElementDistribution,
           }
-        ]
-      })
-    );
+          
+          return [
+            year,
+            {
+              byKommune: newByKommune,
+              byElement: newByElement,
+              byTotalRisk: byTotalRisk, // Total risk distribution will be updated in refreshCacheRisk
+            }
+          ]
+        })
+      );
+    }
 
     set({ cache: { ...cache, years: newYears } });
     refreshCacheRisk(); // Update total risk after element value change
