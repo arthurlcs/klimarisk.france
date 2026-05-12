@@ -113,6 +113,8 @@ interface DataStore {
 
   highlightedDistribution: DistributionKey | null;
   setHighlightedDistribution: (key: DistributionKey | null) => void;
+
+  getFylkeDistribution: (komNr: KommuneNr, distKey: DistributionKey, year: Year) => number[] | null;
 }
 
 const useDataStore = create<DataStore>((set, get) => ({
@@ -391,6 +393,22 @@ const useDataStore = create<DataStore>((set, get) => ({
   highlightedDistribution: null,
 
   setHighlightedDistribution: (key) => set({ highlightedDistribution: key }),
+
+  getFylkeDistribution(komNr, distKey, year) {
+    const { data, cache } = get()
+
+    if (!data || !cache || !year) return null;
+
+    const fylkeNr = komNr.slice(0, 2);
+
+    if (distKey.type === "risk") {
+      return Object.entries(cache.years[year].byKommune).filter(([k]) => k.startsWith(fylkeNr)).map(([,k]) => (k as KommuneCache).totalRisk).sort((a, b) => a - b);
+    } else if (distKey.type === "element") {
+      return Object.entries(cache.years[year].byKommune).filter(([k]) => k.startsWith(fylkeNr)).map(([,k]) => (k as KommuneCache)[distKey.key]).sort((a, b) => a - b);
+    } else {
+      return Object.entries(data.years[year].byKommune).filter(([k]) => k.startsWith(fylkeNr)).map(([,k]) => (k as KommuneData)[distKey.key]).sort((a, b) => a - b);
+    }
+  },
 
 }));
 
