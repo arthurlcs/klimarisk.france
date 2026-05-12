@@ -59,7 +59,7 @@ function KommuneLayer() {
       fillColor: getColor(komNr || null),
       weight: komNr === highlightedKommune ? 3 : komNr === selectedKommune ? 2 : 0.3,
       opacity: 1,
-      color: 'black',
+      color: "var(--c-map-border)",
       fillOpacity: 0.8,
       // TODO: fix zindex issue, border goes under neighbour polygons
     };

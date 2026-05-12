@@ -28,6 +28,7 @@ function App() {
   return (
     <>
       <header>
+        <div></div>
         <h1>
           {
             highlightedKommune && data && selectedYear

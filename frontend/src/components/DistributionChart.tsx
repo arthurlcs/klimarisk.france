@@ -165,15 +165,14 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           <Area
             type="monotone"
             dataKey="count"
-            stroke="#000000"
+            stroke="var(--c-accent2)"
             fill="url(#riskGradient)"
             isAnimationActive={false}
           />
           <Line
             type="monotone"
             dataKey="countCounty"
-            stroke="#000000"
-            fill="#93c5fd"
+            stroke="var(--c-fylke)"
             dot={false}
             isAnimationActive={false}
           />
@@ -181,14 +180,14 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           {kommuneValue !== null && (
             <ReferenceLine
               x={kommuneValue}
-              stroke="#4adbfb"
+              stroke="var(--c-selected)"
               strokeWidth={2}
             />
           )}
           {highlightValue !== null && (
             <ReferenceLine
               x={highlightValue}
-              stroke="black"
+              stroke="var(--c-accent2)"
               strokeWidth={2}
             />
           )}
@@ -240,7 +239,7 @@ const CustomTick = (props: unknown) => {
       x={x}
       y={y + 12}
       textAnchor={textAnchor}
-      fill="#666"
+      fill="var(--c-accent2)"
       fontSize={16}
     >
       {payload.value}

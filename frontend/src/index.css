@@ -2,15 +2,24 @@
   --header-height: 2rem;
   --dashboard-height: calc(100vh - var(--header-height));
   font-size: 14px;
+
+  --c-bg1: #fff;
+  --c-bg2: #eee;
+  --c-bg3: #ddd;
+  --c-bg4: #777;
+  --c-text: #213547;
+  --c-accent: #000;
+  --c-accent2: #444;
+  --c-highlighted: #f0f0f0;
+  --c-selected: #4adbfb;
+  --c-fylke: #396500;
+  --c-map-border: var(--c-accent);
 }
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color: #213547;
-  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,6 +29,8 @@
 
 body {
   margin: 0;
+  background-color: var(--c-bg2);
+  color: var(--c-t);
 }
 
 button {
