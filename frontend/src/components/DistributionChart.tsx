@@ -180,8 +180,8 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           {kommuneValue !== null && (
             <ReferenceLine
               x={kommuneValue}
-              stroke="var(--c-selected)"
-              strokeWidth={2}
+              stroke="var(--c-selected2)"
+              strokeWidth={3}
             />
           )}
           {highlightValue !== null && (
