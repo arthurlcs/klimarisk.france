@@ -72,6 +72,14 @@ const sumInvertibleValues = (metrics: Metric[], kommune: KommuneData): number =>
   return metrics.reduce((acc, metric) => acc + (metric.disabled ? 0 : (metric.invert === true ? 100-kommune[metric.key] : kommune[metric.key])), 0)
 }
 
+export const riskColors = [
+  '#fff5f0',
+  '#fcbba1',
+  '#fb6a4a',
+  '#cb181d',
+  '#67000d'
+]
+
 interface DataStore {
   dataModel: DataModel | null;
   data: Data | null;
@@ -313,7 +321,7 @@ const useDataStore = create<DataStore>((set, get) => ({
   },
 
 
-  getRiskColor: (komNr, colors = ['green', 'yellow', 'orange', 'red']) => {
+  getRiskColor: (komNr, colors = riskColors) => {
     const { data, cache, selectedYear, getDistributionDomain, selectedDistribuion } = get();
     if (!data || !cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear]) return 'gray';
     const risk = selectedDistribuion.type === "risk" 

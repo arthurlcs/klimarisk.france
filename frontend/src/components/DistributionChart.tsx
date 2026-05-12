@@ -1,8 +1,9 @@
 import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer, Line } from "recharts";
-import useDataStore, { type DistributionKey, type KommuneNr } from "../hooks/useDataStore";
+import useDataStore, { type DistributionKey, type KommuneNr, riskColors } from "../hooks/useDataStore";
 import { useMemo } from "react";
 import DistributionSelect from "./DistributionSelect";
 import "./DistributionChart.css";
+import SteppedDomainGradient from "./SteppedDomainGradient";
 
 type Props = {
   distributionKey: DistributionKey; 
@@ -123,16 +124,27 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           ? highlightCache[distributionKey.key]
           : highlightData[distributionKey.key];
 
+  const domain = useMemo(() => {
+    if (!distribution) return undefined;
+    return getDistributionDomain(distributionKey);
+  }, [getDistributionDomain, distributionKey, distribution])
+
   const ticks = useMemo(() => {
     if (!distribution) return [0, 100];
-    return getTicks(getDistributionDomain(distributionKey));
-  }, [distribution, distributionKey, getDistributionDomain]);
+    return getTicks(domain);
+  }, [distribution, domain]);
   
   return (
     <div className="chartContainer">
       <DistributionSelect />
       <ResponsiveContainer width="100%" height={250}>
         <AreaChart data={chartData}>
+          <SteppedDomainGradient 
+            colors={riskColors} 
+            domain={domain ?? [0, 1000]} 
+            ticks={ticks} 
+          />
+
           <XAxis 
             dataKey="value" 
             type="number" 
@@ -153,23 +165,23 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           <Area
             type="monotone"
             dataKey="count"
-            stroke="#3b82f6"
-            fill="#93c5fd"
-            // isAnimationActive={false}
+            stroke="#000000"
+            fill="url(#riskGradient)"
+            isAnimationActive={false}
           />
           <Line
             type="monotone"
             dataKey="countCounty"
-            stroke="#3b82f6"
+            stroke="#000000"
             fill="#93c5fd"
             dot={false}
-            // isAnimationActive={false}
+            isAnimationActive={false}
           />
 
           {kommuneValue !== null && (
             <ReferenceLine
               x={kommuneValue}
-              stroke="red"
+              stroke="#4adbfb"
               strokeWidth={2}
             />
           )}

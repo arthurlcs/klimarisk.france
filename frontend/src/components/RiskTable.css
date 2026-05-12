@@ -17,6 +17,18 @@ thead {
   z-index: 1;
 }
 
+thead::after { /* Table sticky header border-bottom */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: .1em;
+  bottom: -.1em;
+  pointer-events: none;
+  background-color: black;
+  /* background: linear-gradient(180deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0)); */
+}
+
 thead button {
   padding: 0;
   background: none;
@@ -36,16 +48,57 @@ tbody tr {
   cursor: pointer;
 }
 
-tbody tr.selected {
-  background-color: #d0e7ff;
+tbody tr.selected,
+tr.selected .indexCol,
+tr.selected .kommuneCol {
+  /* background-color: #d0e7ff; */
+  /* background-color: #18cbc6; */
+  background-color: #4adbfb;
 }
 
-tbody tr.highlighted {
+tbody tr.highlighted,
+tr.highlighted .indexCol,
+tr.highlighted .kommuneCol {
   background-color: #f0f0f0;
 }
 
-tr td:first-child {
+.indexCol {
+  position: sticky;
+  left: 0;
+  background-color: white;
+  /* border-bottom: 2px solid var(--risk-color); */
+}
+.kommuneCol {
+  position: sticky;
+  left: 2.7em;
+  background-color: white;
+}
+.kommuneCol::after { /* Shadow of frozen columns */
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -.3em;
+  width: .3em;
+  bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0));
+}
+
+td.indexCol {
   padding: 0 0.5em;
+  box-sizing: border-box;
+  min-width: 2.7em;
+  text-align: right;
+}
+td.indexCol::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: .2em;
+  bottom: .2em;
+  left: 0;
+  background-color: var(--risk-color);
+  width: .4em;
 }
 
 
@@ -55,6 +108,6 @@ tr td:first-child {
 
 tr.selected .highlightedCol,
 tr.selected .selectedCol {
-  background-color: #d0e7ff;
+  background-color: #4adbfb;
   font-weight: bold;
 }

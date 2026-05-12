@@ -17,6 +17,7 @@ function RiskTable() {
     layout,
     highlightedDistribution,
     selectedDistribuion,
+    getRiskColor,
   } = useDataStore();
 
   const [sortKey, setSortKey] = useState<string>("totalRisk");
@@ -112,7 +113,7 @@ function RiskTable() {
   const selectedColRef = useRef<HTMLTableCellElement>(null)
   useEffect(() => {
     if (selectedColRef.current !== null) {
-      selectedColRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+      selectedColRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "end" });
     }
   }, [selectedDistribuion]); // Scroll only when selectedDistribution changes
 
@@ -126,10 +127,10 @@ function RiskTable() {
       <table>
         <thead>
           <tr>
-            <th>
+            <th className="indexCol">
               #
             </th>
-            <th>
+            <th className="kommuneCol">
               <button type="button" onClick={() => handleSort("name")}>
                 Kommune
                 <div className="sortIcon">
@@ -180,10 +181,13 @@ function RiskTable() {
               ref={row.komNr === selectedKommune ? selectedRowRef : null}
               onClick={() => setSelectedKommune(row.komNr)}
             >
-              <td>
+              <td 
+                className="indexCol"
+                style={{ "--risk-color": getRiskColor(row.komNr) } as React.CSSProperties}
+              >
                 {index + 1}
               </td>
-              <td>
+              <td className="kommuneCol">
                 {row.name}
               </td>
               <td
