@@ -16,6 +16,8 @@ function DetailsRisk({ r }: Props) {
     getRiskColor,
     cache,
     selectedYear,
+    selectedDistribuion,
+    highlightedDistribution,
   } = useDataStore();
 
   function handleInspectDistribution(key: DistributionKey) {
@@ -28,18 +30,29 @@ function DetailsRisk({ r }: Props) {
 
 
   return (
-    <div>
-      <div
-        className="colorBox"
-        style={{ "--risk-color": selectedKommune ? getRiskColor(selectedKommune, { type: "risk" }) : null } as React.CSSProperties}
-      ></div>
-      <span
+    <div 
+      className={`detailsRisk ${selectedDistribuion.type === "risk" ? "selected" : ""}`}
+    >
+      <div 
         onMouseEnter={() => setHighlightedDistribution({type: "risk"})}
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "risk"})}
+        className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlighted" : ""}`}
       >
-        {r.name}: {r.rank} <span className="fylke">{r.rankFylke}</span>
-      </span>
+        <div
+          className="colorBox"
+          style={{ "--risk-color": selectedKommune ? getRiskColor(selectedKommune, { type: "risk" }) : null } as React.CSSProperties}
+        ></div>
+        <div className="detailsName">
+          {r.name}:
+        </div>
+        <div className="detailsRank">
+          {r.rank}
+        </div>
+        <div className="detailsRankFylke">
+          {r.rankFylke}
+        </div>
+      </div>
       <ul>
         {sortedElements.map((e, eIndex) => (
           <DetailsElement key={eIndex} e={e} />

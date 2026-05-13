@@ -12,23 +12,39 @@ function DetailsMetric({ m }: Props) {
     setSelectedDistribution,
     selectedKommune,
     getRiskColor,
+    selectedDistribuion,
+    highlightedDistribution,
   } = useDataStore();
 
   function handleInspectDistribution(key: DistributionKey) {
+    if (selectedDistribuion.type === "metric" && key.type === "metric" && selectedDistribuion.key === key.key) return setSelectedDistribution({ type: "risk" });
     setSelectedDistribution(key);
   }
 
   return (
     <li 
-      onMouseEnter={() => setHighlightedDistribution({type: "metric", key: m.key})}
-      onMouseLeave={() => setHighlightedDistribution(null)}
-      onClick={() => handleInspectDistribution({type: "metric", key: m.key})}
+      className={`detailsMetric ${selectedDistribuion.type === "metric" && selectedDistribuion.key === m.key ? "selected" : ""}`}
     >
-      <div
-        className="colorBox"
-        style={{ "--risk-color": selectedKommune ? getRiskColor(selectedKommune, { type: "metric", key: m.key }) : null } as React.CSSProperties}
-      ></div>
-      {m.name}: {m.rank} <span className="fylke">{m.rankFylke}</span>
+      <div 
+        onMouseEnter={() => setHighlightedDistribution({type: "metric", key: m.key})}
+        onMouseLeave={() => setHighlightedDistribution(null)}
+        onClick={() => handleInspectDistribution({type: "metric", key: m.key})}
+        className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "metric" && highlightedDistribution.key === m.key ? "highlighted" : ""}`}
+      >
+        <div
+          className="colorBox"
+          style={{ "--risk-color": selectedKommune ? getRiskColor(selectedKommune, { type: "metric", key: m.key }) : null } as React.CSSProperties}
+        ></div>
+        <div className="detailsName">
+          {m.name}:
+        </div>
+        <div className="detailsRank">
+          {m.rank}
+        </div>
+        <div className="detailsRankFylke">
+          {m.rankFylke}
+        </div>
+      </div>
     </li>
   )
 }

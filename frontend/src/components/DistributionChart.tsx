@@ -165,7 +165,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           <Area
             type="monotone"
             dataKey="count"
-            stroke="var(--c-accent2)"
+            stroke="var(--c-norge)"
             fill="url(#riskGradient)"
             isAnimationActive={false}
           />

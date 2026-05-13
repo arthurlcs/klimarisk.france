@@ -7,13 +7,15 @@
   --c-bg2: #eee;
   --c-bg3: #ddd;
   --c-bg4: #777;
-  --c-text: #213547;
+  /* --c-text: #213547; */
+  --c-text: #000;
   --c-accent: #000;
   --c-accent2: #444;
-  --c-highlighted: #f0f0f0;
+  --c-highlighted: #eee;
   --c-selected: #4adbfb;
   --c-selected2: #05c1eb;
   --c-fylke: #396500;
+  --c-norge: #2c0065;
   --c-map-border: var(--c-accent);
 }
 
@@ -31,7 +33,7 @@
 body {
   margin: 0;
   background-color: var(--c-bg2);
-  color: var(--c-t);
+  color: var(--c-text);
 }
 
 button {

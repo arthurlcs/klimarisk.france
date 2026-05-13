@@ -65,6 +65,8 @@ tr.highlighted .kommuneCol {
   left: 0;
   background-color: var(--c-bg1);
   /* border-bottom: 2px solid var(--risk-color); */
+  color: var(--c-norge);
+  /* font-weight: bold; */
 }
 .kommuneCol {
   position: sticky;
@@ -100,8 +102,11 @@ td.indexCol::before {
 }
 
 
-.highlightedCol, .selectedCol {
+.highlightedCol {
   background-color: var(--c-highlighted);
+}
+.selectedCol {
+  background-color: var(--c-bg3);
 }
 
 tr.selected .highlightedCol,

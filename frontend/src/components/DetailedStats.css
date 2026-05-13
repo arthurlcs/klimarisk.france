@@ -1,6 +1,18 @@
 
-.fylke {
-  color: var(--c-fylke);
+.detailsList {
+  padding: 0;
+}
+
+.detailsHandle {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  padding-right: 2rem;
+  line-height: 1em;
+  padding-left: var(--detail-padding);
+  padding-block: var(--detail-padding);
 }
 
 .colorBox {
@@ -8,4 +20,53 @@
   width: 1em;
   height: 1em;
   display: inline-block;
+}
+
+.detailsName {
+  color: var(--c-text);
+  flex: 1;
+  padding-left: var(--detail-padding);
+}
+
+.detailsRank {
+  color: var(--c-norge);
+  width: 3rem;
+  text-align: right;
+
+}
+
+.detailsRankFylke {
+  color: var(--c-fylke);
+  width: 3rem;
+  text-align: right;
+}
+
+.detailsList ul {
+  list-style: none;
+  padding-left: 2rem;
+  margin: 0;
+}
+
+.detailsRisk > .detailsHandle {
+  font-size: 1.6rem;
+  --detail-padding: .5em;
+}
+
+.detailsElement > .detailsHandle {
+  font-size: 1.2rem;
+  --detail-padding: .5em;
+}
+
+.detailsMetric > .detailsHandle {
+  font-size: 1rem;
+  --detail-padding: .4em;
+}
+
+.detailsList .highlighted,
+.detailsHandle:hover {
+  background-color: var(--c-highlighted);
+}
+
+.detailsList .selected {
+  background-color: var(--c-bg3);
 }

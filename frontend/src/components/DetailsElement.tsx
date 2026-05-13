@@ -1,7 +1,6 @@
 import useDataStore, { type DistributionKey } from "../hooks/useDataStore";
 import type { RankElement } from "./DetailedStats";
 import DetailsMetric from "./DetailsMetric";
-import { useState } from "react";
 
 interface Props {
   e: RankElement;
@@ -16,44 +15,49 @@ function DetailsElement({ e }: Props) {
     selectedKommune,
     data,
     selectedYear,
+    selectedDistribuion,
+    highlightedDistribution,
   } = useDataStore();
 
   function handleInspectDistribution(key: DistributionKey) {
+    if (selectedDistribuion.type === "element" && key.type === "element" && selectedDistribuion.key === key.key) return setSelectedDistribution({ type: "risk" });
     setSelectedDistribution(key);
   }
-
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   const kommuneData = data && selectedYear && selectedKommune ? data.years[selectedYear].byKommune[selectedKommune] : null
   
   const sortedMetrics = kommuneData ? [...e.metrics].sort((a, b) => -(kommuneData[a.key] - kommuneData[b.key])) : e.metrics;
 
   return (
-    <li>
-      <div
-        className="colorBox"
-        style={{ "--risk-color": selectedKommune ? getRiskColor(selectedKommune, { type: "element", key: e.key }) : null } as React.CSSProperties}
-      ></div>
-      <span
+    <li className={`detailsElement ${selectedDistribuion.type === "element" && selectedDistribuion.key === e.key ? "selected" : ""}`}>
+      <div 
         onMouseEnter={() => setHighlightedDistribution({type: "element", key: e.key})}
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "element", key: e.key})}
+        className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "element" && highlightedDistribution.key === e.key ? "highlighted" : ""}`}
       >
-        {e.name}: {e.rank} <span className="fylke">{e.rankFylke}</span>
-      </span>
-      <button
-        onClick={() => setDrawerOpen(!drawerOpen)}
-      >
-        {drawerOpen ? "Hide details" : "View details"}
-      </button>
-      {drawerOpen && (<ul>
+        <div
+          className="colorBox"
+          style={{ "--risk-color": selectedKommune ? getRiskColor(selectedKommune, { type: "element", key: e.key }) : null } as React.CSSProperties}
+        ></div>
+        <div className="detailsName">
+          {e.name}:
+        </div>
+        <div className="detailsRank">
+          {e.rank}
+        </div>
+        <div className="detailsRankFylke">
+          {e.rankFylke}
+        </div>
+      </div>
+      <ul>
         {sortedMetrics.map((m, mIndex) => (
           <DetailsMetric 
             key={`${e.key}-${mIndex}`} 
             m={m} 
           />
         ))}
-      </ul>)}
+      </ul>
     </li>
   )
 }

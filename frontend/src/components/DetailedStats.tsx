@@ -69,7 +69,7 @@ function DetailedStats() {
   }
 
   return (
-    <div>
+    <div className="detailsList">
       {!selectedKommune || !ranks ? (
         <div>
           Select a kommune.
