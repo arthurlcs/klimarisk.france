@@ -1,7 +1,28 @@
-import useDataStore, { type DistributionKey } from "../hooks/useDataStore";
+import useDataStore, { type ElementKey, type MetricKey } from "../hooks/useDataStore";
 import { getDescendingRank } from "../hooks/statistics";
 import { useMemo } from "react";
 import "./DetailedStats.css";
+import DetailsRisk from "./DetailsRisk";
+
+export type RankMetric = {
+  name: string;
+  key: MetricKey;
+  rank: number;
+  rankFylke: number;
+}
+export type RankElement = {
+  name: string;
+  key: ElementKey;
+  rank: number;
+  rankFylke: number;
+  metrics: RankMetric[];
+}
+export type RankRisk = {
+  name: string;
+  rank: number;
+  rankFylke: number;
+  elements: RankElement[];
+}
 
 function DetailedStats() {
 
@@ -11,8 +32,6 @@ function DetailedStats() {
     cache,
     selectedYear,
     selectedKommune,
-    setHighlightedDistribution,
-    setSelectedDistribution,
     getFylkeDistribution,
   } = useDataStore();
 
@@ -21,7 +40,7 @@ function DetailedStats() {
 
   const ranks = useMemo(() => {
     if (!yearData || !yearCache || !dataModel || !selectedKommune || !selectedYear) return null;
-    const tmp = {
+    const tmp: RankRisk = {
       name: "Total Risk",
       rank: getDescendingRank(yearCache.byTotalRisk, yearCache.byKommune[selectedKommune].totalRisk),
       rankFylke: getDescendingRank(getFylkeDistribution(selectedKommune, { type: "risk" }, selectedYear)!, yearCache.byKommune[selectedKommune].totalRisk),
@@ -41,9 +60,7 @@ function DetailedStats() {
     return tmp
   }, [yearData, yearCache, dataModel, selectedKommune, getFylkeDistribution, selectedYear]);
 
-  function handleInspectDistribution(key: DistributionKey) {
-    setSelectedDistribution(key);
-  }
+  
 
   if (!yearData || !yearCache || !dataModel) {
     return (
@@ -58,40 +75,7 @@ function DetailedStats() {
           Select a kommune.
         </div>
       ) : (
-        <div>
-          <span
-            onMouseEnter={() => setHighlightedDistribution({type: "risk"})}
-            onMouseLeave={() => setHighlightedDistribution(null)}
-            onClick={() => handleInspectDistribution({type: "risk"})}
-          >
-            {ranks.name}: {ranks.rank} <span className="fylke">{ranks.rankFylke}</span>
-          </span>
-          <ul>
-            {ranks.elements.map((e, eIndex) => (
-              <li key={eIndex}>
-                <span
-                  onMouseEnter={() => setHighlightedDistribution({type: "element", key: e.key})}
-                  onMouseLeave={() => setHighlightedDistribution(null)}
-                  onClick={() => handleInspectDistribution({type: "element", key: e.key})}
-                >
-                  {e.name}: {e.rank} <span className="fylke">{e.rankFylke}</span>
-                </span>
-                <ul>
-                  {e.metrics.map((m, mIndex) => (
-                    <li 
-                      key={`${eIndex}-${mIndex}`}
-                      onMouseEnter={() => setHighlightedDistribution({type: "metric", key: m.key})}
-                      onMouseLeave={() => setHighlightedDistribution(null)}
-                      onClick={() => handleInspectDistribution({type: "metric", key: m.key})}
-                    >
-                      {m.name}: {m.rank} <span className="fylke">{m.rankFylke}</span>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <DetailsRisk r={ranks} />
       )}
     </div>
   )

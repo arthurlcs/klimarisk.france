@@ -91,7 +91,7 @@ interface DataStore {
   refreshCacheElement: (elementKey: ElementKey) => void;
   calculateElementValue: (elementKey: ElementKey, komNr: KommuneNr, year: Year) => number | null; // takes index of the element (hazard, vulnr, expo or resp) in the elements list
 
-  getRiskColor: (komNr: KommuneNr, colors?: string[]) => string;
+  getRiskColor: (komNr: KommuneNr, distKey?: DistributionKey) => string;
 
 
   selectedYear: Year | null;
@@ -323,18 +323,19 @@ const useDataStore = create<DataStore>((set, get) => ({
   },
 
 
-  getRiskColor: (komNr, colors = riskColors) => {
+  getRiskColor: (komNr, distKey?) => {
     const { data, cache, selectedYear, getDistributionDomain, selectedDistribuion } = get();
-    if (!data || !cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear]) return 'gray';
-    const risk = selectedDistribuion.type === "risk" 
+    const dist = distKey ?? selectedDistribuion;
+    if (!data || !cache || !selectedYear || riskColors.length === 0 || !cache.years[selectedYear]) return 'gray';
+    const risk = dist.type === "risk" 
       ? cache.years[selectedYear].byKommune[komNr].totalRisk
-      : selectedDistribuion.type === "element"
-        ? cache.years[selectedYear].byKommune[komNr][selectedDistribuion.key]
-        : data.years[selectedYear].byKommune[komNr][selectedDistribuion.key];
-    const [minRisk, maxRisk] = getDistributionDomain(selectedDistribuion) ?? [0, 0];
+      : dist.type === "element"
+        ? cache.years[selectedYear].byKommune[komNr][dist.key]
+        : data.years[selectedYear].byKommune[komNr][dist.key];
+    const [minRisk, maxRisk] = getDistributionDomain(dist) ?? [0, 0];
     if (minRisk === maxRisk) return 'gray'; // Avoid division by zero and invalid risk values
-    const colorIndex = Math.floor((risk - minRisk) / (maxRisk - minRisk) * colors.length);
-    return colors[Math.min(colorIndex, colors.length - 1)];
+    const colorIndex = Math.floor((risk - minRisk) / (maxRisk - minRisk) * riskColors.length);
+    return riskColors[Math.min(colorIndex, riskColors.length - 1)];
   },
 
 

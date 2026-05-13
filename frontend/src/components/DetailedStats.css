@@ -2,3 +2,10 @@
 .fylke {
   color: var(--c-fylke);
 }
+
+.colorBox {
+  background-color: var(--risk-color);
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+}
