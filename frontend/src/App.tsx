@@ -59,10 +59,10 @@ function App() {
           <h2>Data Table</h2>
           <RiskTable />
         </div>
-        <div className="panel stats">
+        {/* <div className="panel stats">
           <h2>Selected Kommune Details View</h2>
           <DistributionStats />
-        </div>
+        </div> */}
         <div className="panel details">
           <h2>Details</h2>
           <DetailedStats />

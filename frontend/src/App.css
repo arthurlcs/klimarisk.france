@@ -31,7 +31,7 @@ header h1 {
 .gridLayout1 {
   grid-template-areas: 
     "tree map chart details"
-    "tree map table stats";
+    "tree map table details";
   grid-template-columns: 2fr 3fr 2fr 0fr;
   grid-template-rows: auto minmax(40%, 2fr);
   padding-left: var(--grid-gap);
@@ -40,7 +40,7 @@ header h1 {
 .gridLayout2 {
   grid-template-areas: 
     "tree map chart details"
-    "tree table table stats";
+    "tree table table details";
   grid-template-columns: 0fr 2fr 2fr 3fr;
   grid-template-rows: 3fr 2fr;
   padding-right: var(--grid-gap);
