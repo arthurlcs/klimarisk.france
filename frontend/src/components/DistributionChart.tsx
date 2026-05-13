@@ -1,7 +1,7 @@
 import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer, Line } from "recharts";
 import useDataStore, { type DistributionKey, type KommuneNr, riskColors } from "../hooks/useDataStore";
 import { useMemo } from "react";
-import DistributionSelect from "./DistributionSelect";
+// import DistributionSelect from "./DistributionSelect";
 import "./DistributionChart.css";
 import SteppedDomainGradient from "./SteppedDomainGradient";
 
@@ -66,6 +66,8 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     selectedKommune, 
     highlightedKommune, 
     getDistributionDomain, 
+    selectedDistribuion, 
+    dataModel, 
   } = useDataStore();
 
   const yearData = data && data.years && selectedYear ? data!.years[selectedYear] : undefined;
@@ -133,14 +135,23 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     if (!distribution) return [0, 100];
     return getTicks(domain);
   }, [distribution, domain]);
+
+  const colors = useMemo(() => {
+    if (!dataModel) return riskColors
+    if ((selectedDistribuion.type === "element" && dataModel.elements.find(e => selectedDistribuion.key === e.key)!.invert === true) 
+    || (selectedDistribuion.type === "metric" && dataModel.elements.flatMap(e => e.metrics).find(m => selectedDistribuion.key === m.key)!.invert === true)) {
+      return [...riskColors].reverse();
+    } 
+    return riskColors;
+  }, [dataModel, selectedDistribuion]);
   
   return (
     <div className="chartContainer">
-      <DistributionSelect />
+      {/* <DistributionSelect /> */}
       <ResponsiveContainer width="100%" height={250}>
         <AreaChart data={chartData}>
           <SteppedDomainGradient 
-            colors={riskColors} 
+            colors={colors} 
             domain={domain ?? [0, 1000]} 
             ticks={ticks} 
           />

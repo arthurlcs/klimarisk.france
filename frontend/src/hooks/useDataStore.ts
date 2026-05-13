@@ -324,8 +324,8 @@ const useDataStore = create<DataStore>((set, get) => ({
 
 
   getRiskColor: (komNr, colors = riskColors) => {
-    const { data, cache, selectedYear, getDistributionDomain, selectedDistribuion } = get();
-    if (!data || !cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear]) return 'gray';
+    const { data, cache, selectedYear, getDistributionDomain, selectedDistribuion, dataModel } = get();
+    if (!data || !cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear] || !dataModel) return 'gray';
     const risk = selectedDistribuion.type === "risk" 
       ? cache.years[selectedYear].byKommune[komNr].totalRisk
       : selectedDistribuion.type === "element"
@@ -334,6 +334,10 @@ const useDataStore = create<DataStore>((set, get) => ({
     const [minRisk, maxRisk] = getDistributionDomain(selectedDistribuion) ?? [0, 0];
     if (minRisk === maxRisk) return 'gray'; // Avoid division by zero and invalid risk values
     const colorIndex = Math.floor((risk - minRisk) / (maxRisk - minRisk) * colors.length);
+    if ((selectedDistribuion.type === "element" && dataModel.elements.find(e => selectedDistribuion.key === e.key)!.invert === true) 
+    || (selectedDistribuion.type === "metric" && dataModel.elements.flatMap(e => e.metrics).find(m => selectedDistribuion.key === m.key)!.invert === true)) {
+      return [...colors].reverse()[Math.min(colorIndex, colors.length - 1)];
+    }
     return colors[Math.min(colorIndex, colors.length - 1)];
   },
 
