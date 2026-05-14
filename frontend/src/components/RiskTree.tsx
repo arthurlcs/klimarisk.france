@@ -1,5 +1,6 @@
 import useDataStore from "../hooks/useDataStore";
 import "./RiskTree.css";
+import useLanguageStore, { t } from "../hooks/useLanguageStore";
 
 function RiskTree() {
 
@@ -10,9 +11,11 @@ function RiskTree() {
     setHighlightedDistribution,
   } = useDataStore();
 
+  const { l } = useLanguageStore();
+
   if (!dataModel) {
     return (
-      <p>Loading...</p>
+      <p>{l(t.common.loading)}</p>
     )
   }        
 

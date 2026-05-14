@@ -3,6 +3,7 @@ import { getDescendingRank } from "../hooks/statistics";
 import { useMemo } from "react";
 import "./DetailedStats.css";
 import DetailsRisk from "./DetailsRisk";
+import useLanguageStore, { t } from "../hooks/useLanguageStore";
 
 export type RankMetric = {
   name: string;
@@ -60,11 +61,12 @@ function DetailedStats() {
     return tmp
   }, [yearData, yearCache, dataModel, selectedKommune, getFylkeDistribution, selectedYear]);
 
+  const { l } = useLanguageStore();
   
 
   if (!yearData || !yearCache || !dataModel) {
     return (
-      <div>Loading...</div>
+      <div>{l(t.common.loading)}</div>
     )
   }
 
@@ -72,7 +74,7 @@ function DetailedStats() {
     <div className="detailsList">
       {!selectedKommune || !ranks ? (
         <div>
-          Select a kommune.
+          {l(t.details.selectSomething)}
         </div>
       ) : (
         <DetailsRisk r={ranks} />

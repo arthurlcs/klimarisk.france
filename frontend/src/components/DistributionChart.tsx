@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import DistributionSelect from "./DistributionSelect";
 import "./DistributionChart.css";
 import SteppedDomainGradient from "./SteppedDomainGradient";
+import useLanguageStore, { t } from "../hooks/useLanguageStore";
 
 type Props = {
   distributionKey: DistributionKey; 
@@ -133,6 +134,8 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     if (!distribution) return [0, 100];
     return getTicks(domain);
   }, [distribution, domain]);
+
+  const { l } = useLanguageStore();
   
   return (
     <div className="chartContainer">
@@ -156,11 +159,11 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           {/* <YAxis /> */}
           <Tooltip 
             formatter={(value, name) => {
-              if (name === "count") return [`${value} kommuner`, "Norge"];
-              if (name === "countCounty") return [`${value} kommuner`, "Fylke"];
+              if (name === "count") return [`${value} ${l(t.chart.tooltip.kommuner)}`, l(t.chart.tooltip.norway)];
+              if (name === "countCounty") return [`${value} ${l(t.chart.tooltip.kommuner)}`, l(t.chart.tooltip.county)];
               return [value, name];
             }}
-            labelFormatter={(label) => `Verdi: ${Number(label).toFixed(1)}`}
+            labelFormatter={(label) => `${l(t.chart.tooltip.value)}: ${Number(label).toFixed(1)}`}
           />
           <Area
             type="monotone"

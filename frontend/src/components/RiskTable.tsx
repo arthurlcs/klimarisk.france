@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import useDataStore, { type KommuneNr } from "../hooks/useDataStore";
 import "./RiskTable.css";
+import useLanguageStore, { t } from "../hooks/useLanguageStore";
 
 
 function RiskTable() {
@@ -117,9 +118,11 @@ function RiskTable() {
     }
   }, [selectedDistribuion]); // Scroll only when selectedDistribution changes
 
+  const { l } = useLanguageStore();
+
   if (!data || !cache) {
     return (
-      <p>Loading...</p>
+      <p>{l(t.common.loading)}</p>
     )
   }
   return (
@@ -132,7 +135,7 @@ function RiskTable() {
             </th>
             <th className="kommuneCol">
               <button type="button" onClick={() => handleSort("name")}>
-                Kommune
+                {l(t.table.kommune)}
                 <div className="sortIcon">
                   {sortKey === "name" && (
                     sortAscending ? "↑" : "↓"
@@ -145,7 +148,7 @@ function RiskTable() {
               ref={selectedDistribuion.type === "risk" ? selectedColRef : null}
             >
               <button type="button" onClick={() => handleSort("totalRisk")}>
-                Risk
+                {l(t.table.risk)}
                 <div className="sortIcon">
                   {sortKey === "totalRisk" && (
                     sortAscending ? "↑" : "↓"

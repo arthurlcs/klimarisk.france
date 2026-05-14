@@ -6,6 +6,7 @@ import DistributionChart from './components/DistributionChart';
 import RiskTree from './components/RiskTree';
 import RiskTable from './components/RiskTable';
 import DetailedStats from './components/DetailedStats';
+import useLanguageStore, { t } from './hooks/useLanguageStore';
 
 function App() {
 
@@ -24,6 +25,12 @@ function App() {
     fetchData();
   }, [fetchData]);
 
+  const {
+    language,
+    setLanguage,
+    l,
+  } = useLanguageStore();
+
   return (
     <>
       <header>
@@ -35,27 +42,34 @@ function App() {
               : "Klimarisk"
           }
         </h1>
-        <button 
-          onClick={() => layout === "first" ? setLayout("second") : setLayout("first")}
-        >
-          {layout === "first" ? " (first view)" : " (second view)"}
-        </button>
+        <div>
+          <button
+            onClick={() => language === "en" ? setLanguage("no") : setLanguage("en")}
+          >
+            {language === "en" ? "English" : "Norsk"}
+          </button>
+          <button 
+            onClick={() => layout === "first" ? setLayout("second") : setLayout("first")}
+          >
+            {layout === "first" ? l(t.header.layout) : l(t.header.layout)}
+          </button>
+        </div>
       </header>
       <div className={`dashboard ${layout === "first" ? "gridLayout1" : "gridLayout2"}`}>
         <div className="panel tree">
-          <h2>Risk Customization Tree</h2>
+          <h2>{l(t.panels.tree)}</h2>
           <RiskTree />
         </div>
         <div className="panel map">
-          <h2>Map View</h2>
+          <h2>{l(t.panels.map)}</h2>
           <Map />
         </div>
         <div className="panel chart">
-          <h2>Kommune Distribution Chart</h2>
+          <h2>{l(t.panels.chart)}</h2>
           <DistributionChart distributionKey={selectedDistribuion} />
         </div>
         <div className="panel table">
-          <h2>Data Table</h2>
+          <h2>{l(t.panels.table)}</h2>
           <RiskTable />
         </div>
         {/* <div className="panel stats">
@@ -63,7 +77,7 @@ function App() {
           <DistributionStats />
         </div> */}
         <div className="panel details">
-          <h2>Details</h2>
+          <h2>{l(t.panels.details)}</h2>
           <DetailedStats />
         </div>
       </div>
