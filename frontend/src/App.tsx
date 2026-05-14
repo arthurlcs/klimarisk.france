@@ -72,10 +72,6 @@ function App() {
           <h2>{l(t.panels.table)}</h2>
           <RiskTable />
         </div>
-        {/* <div className="panel stats">
-          <h2>Selected Kommune Details View</h2>
-          <DistributionStats />
-        </div> */}
         <div className="panel details">
           <h2>{l(t.panels.details)}</h2>
           <DetailedStats />
