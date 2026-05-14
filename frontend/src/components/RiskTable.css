@@ -30,12 +30,17 @@ thead::after { /* Table sticky header border-bottom */
 }
 
 thead button {
-  padding: 0;
+  padding: 0 .2em;
   background: none;
   text-wrap: nowrap;
   display: flex;
   flex-direction: row;
   outline: none;
+  min-width: 4em;
+}
+
+.sortIcon {
+  padding: 0 0 0 .2em;
 }
 
 tbody {
