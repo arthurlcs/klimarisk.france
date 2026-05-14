@@ -1,5 +1,6 @@
 import useDataStore, { type DistributionKey } from "../hooks/useDataStore";
 import type { RankMetric } from "./DetailedStats";
+import useLanguageStore from "../hooks/useLanguageStore";
 
 interface Props {
   m: RankMetric;
@@ -15,6 +16,7 @@ function DetailsMetric({ m }: Props) {
     selectedDistribuion,
     highlightedDistribution,
   } = useDataStore();
+  const { l } = useLanguageStore();
 
   function handleInspectDistribution(key: DistributionKey) {
     if (selectedDistribuion.type === "metric" && key.type === "metric" && selectedDistribuion.key === key.key) return setSelectedDistribution({ type: "risk" });
@@ -36,7 +38,7 @@ function DetailsMetric({ m }: Props) {
           style={{ "--risk-color": selectedKommune ? getRiskColor(selectedKommune, { type: "metric", key: m.key }) : null } as React.CSSProperties}
         ></div>
         <div className="detailsName">
-          {m.name}:
+          {l(m.name)}:
         </div>
         <div className="detailsRank">
           {m.rank}

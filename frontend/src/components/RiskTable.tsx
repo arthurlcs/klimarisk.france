@@ -20,6 +20,7 @@ function RiskTable() {
     selectedDistribuion,
     getRiskColor,
   } = useDataStore();
+  const { l } = useLanguageStore();
 
   const [sortKey, setSortKey] = useState<string>("totalRisk");
   const [sortAscending, setSortAscending] = useState<boolean>(false);
@@ -118,7 +119,6 @@ function RiskTable() {
     }
   }, [selectedDistribuion]); // Scroll only when selectedDistribution changes
 
-  const { l } = useLanguageStore();
 
   if (!data || !cache) {
     return (
@@ -148,7 +148,7 @@ function RiskTable() {
               ref={selectedDistribuion.type === "risk" ? selectedColRef : null}
             >
               <button type="button" onClick={() => handleSort("totalRisk")}>
-                {l(t.table.risk)}
+                {l(t.common.totalRisk)}
                 <div className="sortIcon">
                   {sortKey === "totalRisk" && (
                     sortAscending ? "↑" : "↓"
@@ -163,7 +163,7 @@ function RiskTable() {
                 ref={selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? selectedColRef : null}
               >
                 <button type="button" onClick={() => handleSort(header.key)}>
-                  {header.name}
+                  {l(header.name)}
                   <div className="sortIcon">
                     {sortKey === header.key && (
                       sortAscending ? "↑" : "↓"

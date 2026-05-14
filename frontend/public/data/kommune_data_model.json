@@ -1,94 +1,157 @@
 {
   "elements": [
     {
-      "name": "Hazard",
+      "name": {
+        "en": "Hazard",
+        "no": "Fare"
+      },
       "key": "f",
       "metrics": [
         {
-          "name": "Råtefare",
+          "name": {
+            "no": "Råtefare",
+            "en": "Rot risk"
+          },
           "key": "fRatefare"
         },
         {
-          "name": "Snødypde 30 cm eller mer",
+          "name": {
+            "no": "Snødekke",
+            "en": "Snow Cover"
+          },
           "key": "fSD30p"
         },
         {
-          "name": "Stormflofare",
+          "name": {
+            "no": "Stormflofare",
+            "en": "Storm surge"
+          },
           "key": "fStormflo"
         },
         {
-          "name": "Flomfare",
+          "name": {
+            "no": "Flomfare",
+            "en": "Flood hazard"
+          },
           "key": "fFlom"
         }
       ]
     },
     {
-      "name": "Vulnerability",
+      "name": {
+        "en": "Vulnerability",
+        "no": "Sårbarhet"
+      },
       "key": "s",
       "metrics": [
         {
-          "name": "Befolkningstetthet",
+          "name": {
+            "no": "Befolkningstetthet",
+            "en": "Population density"
+          },
           "key": "sBefTett"
         },
         {
-          "name": "Andel yrkesaktive i primærnæringene",
+          "name": {
+            "no": "Primærnæring",
+            "en": "Primary industry"
+          },
           "key": "sPrim"
         },
         {
-          "name": "Mobilitetssårbarhet",
+          "name": {
+            "no": "Mobilitet",
+            "en": "Mobility"
+          },
           "key": "sMob"
         },
         {
-          "name": "Andel sårbare befolkningsgrupper",
+          "name": {
+            "no": "Sårbar befolkning",
+            "en": "Vulnerable population"
+          },
           "key": "sVulPop"
         }
       ]
     },
     {
-      "name": "Exposure",
+      "name": {
+        "en": "Exposure",
+        "no": "Eksponering"
+      },
       "key": "e",
       "metrics": [
         {
-          "name": "Skade på hus grunnet storm",
+          "name": {
+            "no": "Stormskade",
+            "en": "Storm exp."
+          },
           "key": "eStorm"
         },
         {
-          "name": "Skade på hus grunnet stormflo",
+          "name": {
+            "no": "Stormfloskade",
+            "en": "Storm surge exp."
+          },
           "key": "eStormflo"
         },
         {
-          "name": "Skade på hus grunnet flom",
+          "name": {
+            "no": "Flomskade",
+            "en": "Flood exp."
+          },
           "key": "eFlom"
         },
         {
-          "name": "Skade på hus grunnet skred",
+          "name": {
+            "no": "Skredskade",
+            "en": "Landslide exp."
+          },
           "key": "eSkred"
         },
         {
-          "name": "Skade på hus grunnet overvann",
+          "name": {
+            "no": "Overvannsskade",
+            "en": "Water exp."
+          },
           "key": "eOvervann"
         }
       ]
     },
     {
-      "name": "Respons",
+      "name": {
+        "en": "Response",
+        "no": "Respons"
+      },
       "key": "r",
       "invert": true,
       "metrics": [
         {
-          "name": "Lokale tiltak med statlig støtte",
+          "name": {
+            "no": "Tilskudd",
+            "en": "Grants"
+          },
           "key": "rMaxTilskudd"
         },
         {
-          "name": "Vurdering av klimarisiko i kommunal planlegging",
+          "name": {
+            "no": "Planlegging",
+            "en": "Planning"
+          },
           "key": "rDSB"
         },
         {
-          "name": "Egne tiltak for klimatilpasning",
+          "name": {
+            "no": "Tiltak",
+            "en": "Measures"
+          },
           "key": "rTiltak"
         },
         {
-          "name": "Bærekraftsinnretning av arbeidet med klimatilpasning",
+          "name": {
+            "no": "Bærekraft",
+            "en": "Sustainability"
+          },
           "key": "rBerekraft"
         }
       ]

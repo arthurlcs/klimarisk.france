@@ -68,6 +68,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     highlightedKommune, 
     getDistributionDomain, 
   } = useDataStore();
+  const { l } = useLanguageStore();
 
   const yearData = data && data.years && selectedYear ? data!.years[selectedYear] : undefined;
   const yearCache = cache && cache.years && selectedYear ? cache!.years[selectedYear] : undefined;
@@ -134,8 +135,6 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     if (!distribution) return [0, 100];
     return getTicks(domain);
   }, [distribution, domain]);
-
-  const { l } = useLanguageStore();
   
   return (
     <div className="chartContainer">

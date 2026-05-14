@@ -10,7 +10,6 @@ function RiskTree() {
     refreshCacheElement,
     setHighlightedDistribution,
   } = useDataStore();
-
   const { l } = useLanguageStore();
 
   if (!dataModel) {
@@ -21,7 +20,7 @@ function RiskTree() {
 
   return (
     <div className="risk-tree">
-      <strong>Total Risk</strong>
+      <strong>{l(t.common.totalRisk)}</strong>
       <ul>
         {dataModel.elements.map(element => (
           <li 
@@ -39,7 +38,7 @@ function RiskTree() {
               id={`risktree-${element.key}`}
             />
             <label htmlFor={`risktree-${element.key}`}>
-              <strong>{element.name}</strong>
+              <strong>{l(element.name)}</strong>
             </label>
             
             <ul>
@@ -55,7 +54,7 @@ function RiskTree() {
                     id={`risktree-${element.key}-${metric.key}`}
                   />
                   <label htmlFor={`risktree-${element.key}-${metric.key}`}>
-                    {metric.name}
+                    {l(metric.name)}
                   </label>
                 </li>
               ))}

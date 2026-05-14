@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import text from "../assets/text";
 
-type Language = "en" | "no";
+export type Language = "en" | "no";
 
 interface LanguageStore {
   language: Language;

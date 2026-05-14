@@ -1,5 +1,6 @@
 import useDataStore, { type ElementKey, type MetricKey, type DistributionKey } from "../hooks/useDataStore";
 import { Fragment } from "react";
+import useLanguageStore from "../hooks/useLanguageStore";
 
 function encodeDistributionKey(key: DistributionKey): string {
   if (key.type === "risk") return "risk";
@@ -22,7 +23,7 @@ function DistributionSelect() {
     selectedDistribuion, 
     setSelectedDistribution, 
   } = useDataStore();
-
+  const { l } = useLanguageStore();
 
   return (
     <select
@@ -38,7 +39,7 @@ function DistributionSelect() {
           <option 
             value={encodeDistributionKey({type: "element", key: element.key})}
           >
-            {element.name}
+            {l(element.name)}
           </option>
 
           {element.metrics.map(metric => (
@@ -46,7 +47,7 @@ function DistributionSelect() {
               key={metric.key} 
               value={encodeDistributionKey({type: "metric", key: metric.key})}
             >
-              {"— " + metric.name}
+              {"— " + l(metric.name)}
             </option>
           ))}
           

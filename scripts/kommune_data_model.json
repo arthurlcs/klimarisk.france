@@ -15,110 +15,173 @@
   ],
   "elements": [
     {
-      "name": "Hazard",
+      "name": {
+        "en": "Hazard",
+        "no": "Fare"
+      },
       "key": "f",
       "metrics": [
         {
-          "name": "Råtefare",
+          "name": {
+            "no": "Råtefare",
+            "en": "Rot risk"
+          },
           "col_name": "fRåtefare2000_0_100",
           "key": "fRatefare"
         },
         {
-          "name": "Snødypde 30 cm eller mer",
+          "name": {
+            "no": "Snødekke",
+            "en": "Snow Cover"
+          },
           "col_name": "fSD30p2000_0_100",
           "key": "fSD30p"
         },
         {
-          "name": "Stormflofare",
+          "name": {
+            "no": "Stormflofare",
+            "en": "Storm surge"
+          },
           "col_name": "fStormflo2000_0_100",
           "key": "fStormflo"
         },
         {
-          "name": "Flomfare",
+          "name": {
+            "no": "Flomfare",
+            "en": "Flood hazard"
+          },
           "col_name": "fFlom2000_0_100",
           "key": "fFlom"
         }
       ]
     },
     {
-      "name": "Vulnerability",
+      "name": {
+        "en": "Vulnerability",
+        "no": "Sårbarhet"
+      },
       "key": "s",
       "metrics": [
         {
-          "name": "Befolkningstetthet",
+          "name": {
+            "no": "Befolkningstetthet",
+            "en": "Population density"
+          },
           "col_name": "sBefTett2000_0_100",
           "key": "sBefTett"
         },
         {
-          "name": "Andel yrkesaktive i primærnæringene",
+          "name": {
+            "no": "Primærnæring",
+            "en": "Primary industry"
+          },
           "col_name": "sPrim2000_0_100",
           "key": "sPrim"
         },
         {
-          "name": "Mobilitetssårbarhet",
+          "name": {
+            "no": "Mobilitet",
+            "en": "Mobility"
+          },
           "col_name": "sMob_2000_0_100",
           "key": "sMob"
         },
         {
-          "name": "Andel sårbare befolkningsgrupper",
+          "name": {
+            "no": "Sårbar befolkning",
+            "en": "Vulnerable population"
+          },
           "col_name": "sVulPop2000_0_100",
           "key": "sVulPop"
         }
       ]
     },
     {
-      "name": "Exposure",
+      "name": {
+        "en": "Exposure",
+        "no": "Eksponering"
+      },
       "key": "e",
       "metrics": [
         {
-          "name": "Skade på hus grunnet storm",
+          "name": {
+            "no": "Stormskade",
+            "en": "Storm exp."
+          },
           "col_name": "eStorm2000_0_100",
           "key": "eStorm"
         },
         {
-          "name": "Skade på hus grunnet stormflo",
+          "name": {
+            "no": "Stormfloskade",
+            "en": "Storm surge exp."
+          },
           "col_name": "eStormflo2000_0_100",
           "key": "eStormflo"
         },
         {
-          "name": "Skade på hus grunnet flom",
+          "name": {
+            "no": "Flomskade",
+            "en": "Flood exp."
+          },
           "col_name": "eFlom2000_0_100",
           "key": "eFlom"
         },
         {
-          "name": "Skade på hus grunnet skred",
+          "name": {
+            "no": "Skredskade",
+            "en": "Landslide exp."
+          },
           "col_name": "eSkred2000_0_100",
           "key": "eSkred"
         },
         {
-          "name": "Skade på hus grunnet overvann",
+          "name": {
+            "no": "Overvannsskade",
+            "en": "Water exp."
+          },
           "col_name": "eOvervann2000_0_100",
           "key": "eOvervann"
         }
       ]
     },
     {
-      "name": "Respons",
+      "name": {
+        "en": "Response",
+        "no": "Respons"
+      },
       "key": "r",
       "invert": true,
       "metrics": [
         {
-          "name": "Lokale tiltak med statlig støtte",
+          "name": {
+            "no": "Tilskudd",
+            "en": "Grants"
+          },
           "col_name": "rMaxTilskudd_0_100",
           "key": "rMaxTilskudd"
         },
         {
-          "name": "Vurdering av klimarisiko i kommunal planlegging",
+          "name": {
+            "no": "Planlegging",
+            "en": "Planning"
+          },
           "col_name": "rDSB_0_100",
           "key": "rDSB"
         },
         {
-          "name": "Egne tiltak for klimatilpasning",
+          "name": {
+            "no": "Tiltak",
+            "en": "Measures"
+          },
           "col_name": "rTiltak_0_100",
           "key": "rTiltak"
         },
         {
-          "name": "Bærekraftsinnretning av arbeidet med klimatilpasning",
+          "name": {
+            "no": "Bærekraft",
+            "en": "Sustainability"
+          },
           "col_name": "rBerekraft_0_100",
           "key": "rBerekraft"
         }

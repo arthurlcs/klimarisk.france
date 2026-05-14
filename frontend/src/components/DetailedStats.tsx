@@ -3,23 +3,23 @@ import { getDescendingRank } from "../hooks/statistics";
 import { useMemo } from "react";
 import "./DetailedStats.css";
 import DetailsRisk from "./DetailsRisk";
-import useLanguageStore, { t } from "../hooks/useLanguageStore";
+import useLanguageStore, { t, type Language } from "../hooks/useLanguageStore";
 
 export type RankMetric = {
-  name: string;
+  name: Record<Language, string>;
   key: MetricKey;
   rank: number;
   rankFylke: number;
 }
 export type RankElement = {
-  name: string;
+  name: Record<Language, string>;
   key: ElementKey;
   rank: number;
   rankFylke: number;
   metrics: RankMetric[];
 }
 export type RankRisk = {
-  name: string;
+  name: Record<Language, string>;
   rank: number;
   rankFylke: number;
   elements: RankElement[];
@@ -35,6 +35,7 @@ function DetailedStats() {
     selectedKommune,
     getFylkeDistribution,
   } = useDataStore();
+  const { l } = useLanguageStore();
 
   const yearData = data && selectedYear ? data.years[selectedYear] : null
   const yearCache = cache && selectedYear ? cache.years[selectedYear] : null
@@ -42,7 +43,7 @@ function DetailedStats() {
   const ranks = useMemo(() => {
     if (!yearData || !yearCache || !dataModel || !selectedKommune || !selectedYear) return null;
     const tmp: RankRisk = {
-      name: "Total Risk",
+      name: t.common.totalRisk,
       rank: getDescendingRank(yearCache.byTotalRisk, yearCache.byKommune[selectedKommune].totalRisk),
       rankFylke: getDescendingRank(getFylkeDistribution(selectedKommune, { type: "risk" }, selectedYear)!, yearCache.byKommune[selectedKommune].totalRisk),
       elements: dataModel.elements.filter(e => !e.disabled).map(e => ({
@@ -60,8 +61,6 @@ function DetailedStats() {
     };
     return tmp
   }, [yearData, yearCache, dataModel, selectedKommune, getFylkeDistribution, selectedYear]);
-
-  const { l } = useLanguageStore();
   
 
   if (!yearData || !yearCache || !dataModel) {

@@ -1,18 +1,19 @@
 import { create } from 'zustand';
 import { getDataFileJSON } from './getPublicUrl';
+import { type Language } from './useLanguageStore';
 
 export type MetricKey = string & { readonly __brand: unique symbol};
 export type ElementKey = string & { readonly __brand: unique symbol};
 
 type Metric = {
-  name: string; 
+  name: Record<Language, string>; 
   key: MetricKey;
   invert?: boolean;
   disabled: boolean;
 }
 
 type Element = {
-  name: string;
+  name: Record<Language, string>;
   key: ElementKey;
   invert?: boolean;
   disabled: boolean;

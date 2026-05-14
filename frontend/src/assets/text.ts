@@ -4,6 +4,10 @@ const text = {
       en: "Loading...",
       no: "Laster...",
     },
+    totalRisk: {
+      en: "Total Risk",
+      no: "Total Risk",
+    },
   },
   header: {
     layout: {
