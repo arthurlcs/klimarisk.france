@@ -1,6 +1,6 @@
-import useDataStore, { type ElementKey, type MetricKey, type DistributionKey } from "../hooks/useDataStore";
+import useDataStore, { type ElementKey, type MetricKey, type DistributionKey } from "../../hooks/useDataStore";
 import { Fragment } from "react";
-import useLanguageStore from "../hooks/useLanguageStore";
+import useLanguageStore from "../../hooks/useLanguageStore";
 
 function encodeDistributionKey(key: DistributionKey): string {
   if (key.type === "risk") return "risk";

@@ -1,7 +1,7 @@
-import useDataStore, { type DistributionKey } from "../hooks/useDataStore";
+import useDataStore, { type DistributionKey } from "../../hooks/useDataStore";
 import type { RankElement } from "./DetailedStats";
 import DetailsMetric from "./DetailsMetric";
-import useLanguageStore from "../hooks/useLanguageStore";
+import useLanguageStore from "../../hooks/useLanguageStore";
 
 interface Props {
   e: RankElement;

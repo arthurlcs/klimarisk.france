@@ -1,10 +1,10 @@
 import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer, Line } from "recharts";
-import useDataStore, { type DistributionKey, type KommuneNr, riskColors } from "../hooks/useDataStore";
+import useDataStore, { type DistributionKey, type KommuneNr, riskColors } from "../../hooks/useDataStore";
 import { useMemo } from "react";
 import DistributionSelect from "./DistributionSelect";
 import "./DistributionChart.css";
 import SteppedDomainGradient from "./SteppedDomainGradient";
-import useLanguageStore, { t } from "../hooks/useLanguageStore";
+import useLanguageStore, { t } from "../../hooks/useLanguageStore";
 
 type Props = {
   distributionKey: DistributionKey; 

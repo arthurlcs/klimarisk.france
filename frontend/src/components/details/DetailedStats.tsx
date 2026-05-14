@@ -1,9 +1,9 @@
-import useDataStore, { type ElementKey, type MetricKey } from "../hooks/useDataStore";
-import { getDescendingRank } from "../hooks/statistics";
+import useDataStore, { type ElementKey, type MetricKey } from "../../hooks/useDataStore";
+import { getDescendingRank } from "../../hooks/statistics";
 import { useMemo } from "react";
 import "./DetailedStats.css";
 import DetailsRisk from "./DetailsRisk";
-import useLanguageStore, { t, type Language } from "../hooks/useLanguageStore";
+import useLanguageStore, { t, type Language } from "../../hooks/useLanguageStore";
 
 export type RankMetric = {
   name: Record<Language, string>;

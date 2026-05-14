@@ -2,10 +2,10 @@ import './App.css'
 import { useEffect } from 'react';
 import useDataStore from './hooks/useDataStore'
 import Map from './components/map/Map'
-import DistributionChart from './components/DistributionChart';
+import DistributionChart from './components/chart/DistributionChart';
 import RiskTree from './components/RiskTree';
 import RiskTable from './components/RiskTable';
-import DetailedStats from './components/DetailedStats';
+import DetailedStats from './components/details/DetailedStats';
 import useLanguageStore, { t } from './hooks/useLanguageStore';
 
 function App() {
