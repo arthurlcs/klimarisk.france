@@ -1,7 +1,59 @@
-.risk-tree > ul {
+.riskTree {
+  background-color: var(--c-bg3);
+  color: var(--c-text);
+}
+
+.treeHandle {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  padding-right: 2rem;
+  line-height: 1em;
+  padding-left: var(--detail-padding);
+  padding-block: var(--detail-padding);
+  user-select: none;
+}
+
+.treeBox {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  font-size: inherit;
   margin: 0;
 }
 
-.risk-tree label {
-  user-select: none;
+.treeName {
+  color: var(--c-text);
+  flex: 1;
+  padding-left: var(--detail-padding);
+  display: flex;
+}
+
+.riskTree ul {
+  list-style: none;
+  padding-left: 2rem;
+  margin: 0;
+}
+.riskTree > ul {
+  padding: 0;
+}
+
+.treeElement > .treeHandle {
+  font-size: 1.2rem;
+  --detail-padding: .5em;
+}
+.treeMetric > .treeHandle {
+  font-size: 1rem;
+  --detail-padding: .4em;
+}
+
+.riskTree .highlighted,
+.treeHandle:hover {
+  background-color: var(--c-highlighted);
+}
+
+.riskTree .disabled {
+  background-color: var(--c-bg1);
 }
