@@ -2,6 +2,7 @@
   user-select: none;
   background-color: var(--c-bg3);
   height: 100%;
+  overflow: hidden;
 }
 
 svg:focus,

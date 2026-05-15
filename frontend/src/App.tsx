@@ -58,7 +58,9 @@ function App() {
       <div className={`dashboard ${layout === "first" ? "gridLayout1" : "gridLayout2"}`}>
         <div className="panel tree">
           <h2>{l(t.panels.tree)}</h2>
-          <RiskTree />
+          <div className="panelScroll">
+            <RiskTree />
+          </div>
         </div>
         <div className="panel map">
           <h2>{l(t.panels.map)}</h2>
@@ -74,7 +76,9 @@ function App() {
         </div>
         <div className="panel details">
           <h2>{l(t.panels.details)}</h2>
-          <DetailedStats />
+          <div className="panelScroll">
+            <DetailedStats />
+          </div>
         </div>
       </div>
     </>

@@ -61,6 +61,13 @@ header h1 {
   background-color: var(--c-bg4);
 }
 
+.panelScroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .panel.tree {
   grid-area: tree;
 }
@@ -69,11 +76,9 @@ header h1 {
 }
 .panel.chart {
   grid-area: chart;
-  overflow: hidden;
 }
 .panel.table {
   grid-area: table;
-  overflow: hidden;
 }
 .panel.stats {
   grid-area: stats;
