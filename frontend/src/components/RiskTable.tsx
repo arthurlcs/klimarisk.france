@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import useDataStore, { type KommuneNr } from "../hooks/useDataStore";
 import "./RiskTable.css";
 import useLanguageStore, { t } from "../hooks/useLanguageStore";
+import Tooltip from "./Tooltip";
 
 
 function RiskTable() {
@@ -96,10 +97,12 @@ function RiskTable() {
     ...dataModel?.elements.filter(e => !e.disabled).map(e => ({
       key: e.key,
       name: e.name,
+      description: e.description,
     })) || [],
     ...layout === "second" ? dataModel?.elements.filter(e => !e.disabled).flatMap(e => e.metrics.filter(m => !m.disabled).map(m => ({
       key: m.key,
       name: m.name,
+      description: m.description,
     }))) || [] : [],
   ]
 
@@ -162,14 +165,18 @@ function RiskTable() {
                 className={`${highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key ? "highlightedCol" : ""} ${selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? "selectedCol" : ""}`}
                 ref={selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? selectedColRef : null}
               >
+                <Tooltip text={l(header.description)}>
                 <button type="button" onClick={() => handleSort(header.key)}>
-                  {l(header.name)}
+                  
+                    {l(header.name)}
+                  
                   <div className="sortIcon">
                     {sortKey === header.key && (
                       sortAscending ? "↑" : "↓"
                     )}
                   </div>
                 </button>
+                </Tooltip>
               </th>
             ))}
           </tr>

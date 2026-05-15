@@ -7,12 +7,14 @@ import useLanguageStore, { t, type Language } from "../../hooks/useLanguageStore
 
 export type RankMetric = {
   name: Record<Language, string>;
+  description?: Record<Language, string>;
   key: MetricKey;
   rank: number;
   rankFylke: number;
 }
 export type RankElement = {
   name: Record<Language, string>;
+  description?: Record<Language, string>;
   key: ElementKey;
   rank: number;
   rankFylke: number;
@@ -48,11 +50,13 @@ function DetailedStats() {
       rankFylke: getDescendingRank(getFylkeDistribution(selectedKommune, { type: "risk" }, selectedYear)!, yearCache.byKommune[selectedKommune].totalRisk),
       elements: dataModel.elements.filter(e => !e.disabled).map(e => ({
         name: e.name,
+        description: e.description,
         key: e.key,
         rank: getDescendingRank(yearCache.byElement[e.key], yearCache.byKommune[selectedKommune][e.key]),
         rankFylke: getDescendingRank(getFylkeDistribution(selectedKommune, { type: "element", key: e.key }, selectedYear)!, yearCache.byKommune[selectedKommune][e.key]),
         metrics: e.metrics.filter(m => !m.disabled).map(m => ({
           name: m.name,
+          description: m.description,
           key: m.key,
           rank: getDescendingRank(yearData.byMetric[m.key], yearData.byKommune[selectedKommune][m.key]),
           rankFylke: getDescendingRank(getFylkeDistribution(selectedKommune, { type: "metric", key: m.key }, selectedYear)!, yearData.byKommune[selectedKommune][m.key])

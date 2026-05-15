@@ -2,6 +2,7 @@ import useDataStore, { type DistributionKey } from "../../hooks/useDataStore";
 import type { RankElement } from "./DetailedStats";
 import DetailsMetric from "./DetailsMetric";
 import useLanguageStore from "../../hooks/useLanguageStore";
+import Tooltip from "../Tooltip";
 
 interface Props {
   e: RankElement;
@@ -43,7 +44,9 @@ function DetailsElement({ e }: Props) {
           style={{ "--risk-color": selectedKommune ? getRiskColor(selectedKommune, { type: "element", key: e.key }) : null } as React.CSSProperties}
         ></div>
         <div className="detailsName">
-          {l(e.name)}:
+          <Tooltip text={l(e.description)}>
+            {l(e.name)}:
+          </Tooltip>
         </div>
         <div className="detailsRank">
           {e.rank}

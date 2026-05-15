@@ -26,6 +26,7 @@
   color: var(--c-text);
   flex: 1;
   padding-left: var(--detail-padding);
+  display: flex;
 }
 
 .detailsRank {
