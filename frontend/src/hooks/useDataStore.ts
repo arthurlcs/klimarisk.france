@@ -118,6 +118,8 @@ interface DataStore {
   setHighlightedDistribution: (key: DistributionKey | null) => void;
 
   getFylkeDistribution: (komNr: KommuneNr, distKey: DistributionKey, year: Year) => number[] | null;
+
+  checkDistribution: () => void;
 }
 
 const useDataStore = create<DataStore>((set, get) => ({
@@ -411,6 +413,28 @@ const useDataStore = create<DataStore>((set, get) => ({
       return Object.entries(cache.years[year].byKommune).filter(([k]) => k.startsWith(fylkeNr)).map(([,k]) => (k as KommuneCache)[distKey.key]).sort((a, b) => a - b);
     } else {
       return Object.entries(data.years[year].byKommune).filter(([k]) => k.startsWith(fylkeNr)).map(([,k]) => (k as KommuneData)[distKey.key]).sort((a, b) => a - b);
+    }
+  },
+
+  checkDistribution() {
+    const { selectedDistribuion, dataModel, setSelectedDistribution } = get()
+    if (!dataModel) return;
+
+    if (selectedDistribuion.type === "element") {
+      if (dataModel.elements.find(e => e.key === selectedDistribuion.key)?.disabled) {
+        setSelectedDistribution({ type: "risk" });
+      }
+    } else if (selectedDistribuion.type === "metric") {
+      dataModel.elements.forEach(e => {
+        e.metrics.forEach(m => {
+          if (m.key === selectedDistribuion.key) {
+            if (e.disabled || m.disabled) {
+              setSelectedDistribution({ type: "risk" });
+            }
+            return;
+          }
+        })
+      });
     }
   },
 

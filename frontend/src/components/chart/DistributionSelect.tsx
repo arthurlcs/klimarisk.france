@@ -33,7 +33,7 @@ function DistributionSelect() {
       <option value="risk">
         Total Risk
       </option>
-      {dataModel && dataModel.elements.map(element => (
+      {dataModel && dataModel.elements.filter(e => !e.disabled).map(element => (
         <Fragment key={element.key}>
 
           <option 
@@ -42,7 +42,7 @@ function DistributionSelect() {
             {l(element.name)}
           </option>
 
-          {element.metrics.map(metric => (
+          {element.metrics.filter(m => !m.disabled).map(metric => (
             <option 
               key={metric.key} 
               value={encodeDistributionKey({type: "metric", key: metric.key})}

@@ -10,6 +10,7 @@ function RiskTree() {
     refreshCacheRisk,
     refreshCacheElement,
     setHighlightedDistribution,
+    checkDistribution,
   } = useDataStore();
   const { l } = useLanguageStore();
 
@@ -42,6 +43,7 @@ function RiskTree() {
                 onChange={(e) => {
                   element.disabled = !e.target.checked;
                   refreshCacheRisk(); //TODO: Check if a metric has changed while disabled
+                  checkDistribution();
                 }} 
                 id={`risktree-${element.key}`}
                 className="treeBox"
@@ -69,6 +71,7 @@ function RiskTree() {
                       onChange={(e) => {
                         metric.disabled = !e.target.checked;
                         refreshCacheElement(element.key); // Update only this element's value
+                        checkDistribution();
                       }}
                       id={`risktree-${element.key}-${metric.key}`}
                       className="treeBox"
