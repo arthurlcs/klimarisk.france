@@ -75,7 +75,7 @@ const sumInvertibleValues = (metrics: Metric[], kommune: KommuneData): number =>
   return metrics.reduce((acc, metric) => acc + (metric.disabled ? 0 : (metric.invert === true ? 100-kommune[metric.key] : kommune[metric.key])), 0)
 }
 
-export const riskColors = [
+const defaultRiskColors = [
   '#fff5f0',
   '#fcbba1',
   '#fb6a4a',
@@ -120,6 +120,9 @@ interface DataStore {
   getFylkeDistribution: (komNr: KommuneNr, distKey: DistributionKey, year: Year) => number[] | null;
 
   checkDistribution: () => void;
+
+  riskColors: string[];
+  getRiskColors: (distKey?: DistributionKey) => string[];
 }
 
 const useDataStore = create<DataStore>((set, get) => ({
@@ -329,9 +332,10 @@ const useDataStore = create<DataStore>((set, get) => ({
 
 
   getRiskColor: (komNr, distKey?) => {
-    const { data, cache, selectedYear, getDistributionDomain, selectedDistribuion } = get();
+    const { data, cache, selectedYear, getDistributionDomain, selectedDistribuion, getRiskColors, riskColors } = get();
     const dist = distKey ?? selectedDistribuion;
-    if (!data || !cache || !selectedYear || riskColors.length === 0 || !cache.years[selectedYear]) return 'gray';
+    const colors = distKey ? getRiskColors(dist) : riskColors;
+    if (!data || !cache || !selectedYear || colors.length === 0 || !cache.years[selectedYear]) return 'gray';
     const risk = dist.type === "risk" 
       ? cache.years[selectedYear].byKommune[komNr].totalRisk
       : dist.type === "element"
@@ -339,8 +343,8 @@ const useDataStore = create<DataStore>((set, get) => ({
         : data.years[selectedYear].byKommune[komNr][dist.key];
     const [minRisk, maxRisk] = getDistributionDomain(dist) ?? [0, 0];
     if (minRisk === maxRisk) return 'gray'; // Avoid division by zero and invalid risk values
-    const colorIndex = Math.floor((risk - minRisk) / (maxRisk - minRisk) * riskColors.length);
-    return riskColors[Math.min(colorIndex, riskColors.length - 1)];
+    const colorIndex = Math.floor((risk - minRisk) / (maxRisk - minRisk) * colors.length);
+    return colors[Math.min(colorIndex, colors.length - 1)];
   },
 
 
@@ -363,7 +367,10 @@ const useDataStore = create<DataStore>((set, get) => ({
 
   selectedDistribuion: { type: "risk" } as DistributionKey,
 
-  setSelectedDistribution: (key) => set({ selectedDistribuion: key}),
+  setSelectedDistribution: (key) => set({ 
+    selectedDistribuion: key, 
+    riskColors: get().getRiskColors(key),
+  }),
 
   getDistributionDomain: (distributionKey) => {
     let min = Infinity;
@@ -435,6 +442,24 @@ const useDataStore = create<DataStore>((set, get) => ({
           }
         })
       });
+    }
+  },
+
+  riskColors: defaultRiskColors,
+
+  getRiskColors: (key) => {
+    const { dataModel } = get();
+    if (!dataModel || !key) return defaultRiskColors;
+    if (key.type === "risk") {
+      return defaultRiskColors;
+    } else if (key.type === "element") {
+      return dataModel.elements.find(e => e.key === key.key)?.invert ? [...defaultRiskColors].reverse() : defaultRiskColors;
+    } else if (key.type === "metric") {
+      const e = dataModel.elements.find(e => e.metrics.some(m => m.key === key.key))!;
+      const m = e.metrics.find(m => m.key === key.key)!;
+      return !!e.invert !== !!m.invert ? [...defaultRiskColors].reverse() : defaultRiskColors;
+    } else {
+      return defaultRiskColors; // never
     }
   },
 

@@ -29,7 +29,11 @@ function DetailsElement({ e }: Props) {
 
   const kommuneData = data && selectedYear && selectedKommune ? data.years[selectedYear].byKommune[selectedKommune] : null
   
-  const sortedMetrics = kommuneData ? [...e.metrics].sort((a, b) => -(kommuneData[a.key] - kommuneData[b.key])) : e.metrics;
+  const sortedMetrics = kommuneData ? [...e.metrics].sort((a, b) => {
+    const aVal = a.invert ? 100 - kommuneData[a.key] : kommuneData[a.key];
+    const bVal = b.invert ? 100 - kommuneData[b.key] : kommuneData[b.key];
+    return -(aVal - bVal)
+  }) : e.metrics;
 
   return (
     <li className={`detailsElement ${selectedDistribuion.type === "element" && selectedDistribuion.key === e.key ? "selected" : ""}`}>

@@ -9,6 +9,7 @@ export type RankMetric = {
   name: Record<Language, string>;
   description?: Record<Language, string>;
   key: MetricKey;
+  invert?: boolean;
   rank: number;
   rankFylke: number;
 }
@@ -16,6 +17,7 @@ export type RankElement = {
   name: Record<Language, string>;
   description?: Record<Language, string>;
   key: ElementKey;
+  invert?: boolean;
   rank: number;
   rankFylke: number;
   metrics: RankMetric[];
@@ -52,12 +54,14 @@ function DetailedStats() {
         name: e.name,
         description: e.description,
         key: e.key,
+        ...(e.invert ? {invert: true} : {}),
         rank: getDescendingRank(yearCache.byElement[e.key], yearCache.byKommune[selectedKommune][e.key]),
         rankFylke: getDescendingRank(getFylkeDistribution(selectedKommune, { type: "element", key: e.key }, selectedYear)!, yearCache.byKommune[selectedKommune][e.key]),
         metrics: e.metrics.filter(m => !m.disabled).map(m => ({
           name: m.name,
           description: m.description,
           key: m.key,
+          ...(!!m.invert !== !!e.invert ? {invert: true} : {}), // TODO check if logic makes sense to XOR here
           rank: getDescendingRank(yearData.byMetric[m.key], yearData.byKommune[selectedKommune][m.key]),
           rankFylke: getDescendingRank(getFylkeDistribution(selectedKommune, { type: "metric", key: m.key }, selectedYear)!, yearData.byKommune[selectedKommune][m.key])
         })),

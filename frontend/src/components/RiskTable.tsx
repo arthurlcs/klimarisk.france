@@ -26,9 +26,9 @@ function RiskTable() {
   const [sortKey, setSortKey] = useState<string>("totalRisk");
   const [sortAscending, setSortAscending] = useState<boolean>(false);
 
-  const handleSort = (key: string) => {
-    // Special case for kommune name: Ascending -> Descending -> default
-    if (key === "name") {
+  const handleSort = (key: string, invert?: boolean) => {
+    // Special case for kommune name (and inverted): Ascending -> Descending -> default
+    if (key === "name" || invert) {
       if (sortKey !== key) { // First click on this column
         setSortKey(key);
         setSortAscending(true);
@@ -98,11 +98,13 @@ function RiskTable() {
       key: e.key,
       name: e.name,
       description: e.description,
+      ...(e.invert ? {invert: true} : {}),
     })) || [],
     ...layout === "second" ? dataModel?.elements.filter(e => !e.disabled).flatMap(e => e.metrics.filter(m => !m.disabled).map(m => ({
       key: m.key,
       name: m.name,
       description: m.description,
+      ...(!!m.invert !== !!e.invert ? {invert: true} : {}),
     }))) || [] : [],
   ]
 
@@ -166,7 +168,7 @@ function RiskTable() {
                 ref={selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? selectedColRef : null}
               >
                 <Tooltip text={l(header.description)}>
-                <button type="button" onClick={() => handleSort(header.key)}>
+                <button type="button" onClick={() => handleSort(header.key, header.invert)}>
                   
                     {l(header.name)}
                   

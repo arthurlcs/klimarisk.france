@@ -1,5 +1,5 @@
 import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer, Line } from "recharts";
-import useDataStore, { type DistributionKey, type KommuneNr, riskColors } from "../../hooks/useDataStore";
+import useDataStore, { type DistributionKey, type KommuneNr } from "../../hooks/useDataStore";
 import { useMemo } from "react";
 import DistributionSelect from "./DistributionSelect";
 import "./DistributionChart.css";
@@ -67,6 +67,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     selectedKommune, 
     highlightedKommune, 
     getDistributionDomain, 
+    riskColors,
   } = useDataStore();
   const { l } = useLanguageStore();
 

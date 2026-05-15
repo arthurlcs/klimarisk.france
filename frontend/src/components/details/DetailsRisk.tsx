@@ -28,7 +28,11 @@ function DetailsRisk({ r }: Props) {
 
   const kommuneCache = cache && selectedYear && selectedKommune ? cache.years[selectedYear].byKommune[selectedKommune] : null
   
-  const sortedElements = kommuneCache ? [...r.elements].sort((a, b) => -(kommuneCache[a.key] - kommuneCache[b.key])) : r.elements;
+  const sortedElements = kommuneCache ? [...r.elements].sort((a, b) => {
+    const aVal = a.invert ? 100 - kommuneCache[a.key] : kommuneCache[a.key];
+    const bVal = b.invert ? 100 - kommuneCache[b.key] : kommuneCache[b.key];
+    return -(aVal - bVal)
+  }) : r.elements;
 
 
   return (
