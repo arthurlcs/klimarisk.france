@@ -34,10 +34,26 @@ export function percentile(sorted: number[], value: number): number {
 * @param value Value to find and rank
 * @returns Number of stricktly worse items in arr
 */
-export function getDescendingRank(arr: number[], value: number): number {
+export function getDescendingRank(arr: number[], value: number, invert?: boolean): number {
 
   let left = 0;
   let right = arr.length;
+
+  if (invert) { // Lower value --> better rank
+
+    while (left < right) {
+      const mid = Math.floor((left + right) / 2);
+
+      if (arr[mid] < value) {
+        left = mid + 1;
+      } else {
+        right = mid;
+      }
+    }
+
+    const stricklyWorse = left;
+    return stricklyWorse + 1;
+  }
 
   // find first value > target
   while (left < right) {
