@@ -7,6 +7,7 @@ export type ElementKey = string & { readonly __brand: unique symbol};
 
 type Metric = {
   name: Record<Language, string>; 
+  description?: Record<Language, string>;
   key: MetricKey;
   invert?: boolean;
   disabled: boolean;
@@ -14,6 +15,7 @@ type Metric = {
 
 type Element = {
   name: Record<Language, string>;
+  description?: Record<Language, string>;
   key: ElementKey;
   invert?: boolean;
   disabled: boolean;

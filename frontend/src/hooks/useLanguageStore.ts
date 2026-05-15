@@ -8,7 +8,7 @@ interface LanguageStore {
   language: Language;
   setLanguage: (lang: Language) => void;
 
-  l: (entry: Record<Language, string>) => string,
+  l: (entry: Record<Language, string> | undefined) => string | undefined,
 }
 
 const useLanguageStore = create<LanguageStore>()(
@@ -19,7 +19,7 @@ const useLanguageStore = create<LanguageStore>()(
 
       setLanguage: (lang) => set({ language: lang }),
 
-      l: (entry) => entry[get().language],
+      l: (entry) => entry ? entry[get().language] : undefined,
 
     }),
     {

@@ -34,6 +34,10 @@
             "no": "Snødekke",
             "en": "Snow Cover"
           },
+          "description": {
+            "no": "Denne indikatoren viser antall dager i året med snødybde på over 30 cm. Dette er snødybden som trengs for å lage skispor. Verdien er normalisert, slik at lave verdier er bra (mindre nedgang i dager med snø) og høye verdier er dårlig (større nedgang i dager med snø).",
+            "en": "This indicator is based on the number of days with at least 30 cm of snow depth. This is the necessary depth for going skiing. The value is normalized, meaning small values (good) indicate a lesser decline in days with snow, while greater values (bad) indicate larger decline in snow-days."
+          },
           "col_name": "fSD30p2000_0_100",
           "key": "fSD30p"
         },
@@ -149,6 +153,10 @@
       "name": {
         "en": "Response",
         "no": "Respons"
+      },
+      "description": {
+        "no": "Responsindeksen viser kommunens innsats for å kjempe klimaproblemer. Her er høye verdier positivt, og veier negativt på den totale risikoen.",
+        "en": "The Response index reflects the municipality's efforts in fighting climate issues. For this index greater values are good, and reduce the total risk."
       },
       "key": "r",
       "invert": true,

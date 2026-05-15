@@ -58,10 +58,12 @@ with open(out_path, 'w', encoding='utf-8') as f:
 kommune_data_model = {
     "elements": [{
         "name": element["name"],
+        **({"description": element["description"]} if "description" in element else {}),
         "key": element["key"],
         **({"invert": element["invert"]} if "invert" in element else {}),
         "metrics": [{
             "name": metric["name"],
+            **({"description": metric["description"]} if "description" in metric else {}),
             "key": metric["key"],
             **({"invert": metric["invert"]} if "invert" in metric else {}),
         } for metric in element["metrics"]],
