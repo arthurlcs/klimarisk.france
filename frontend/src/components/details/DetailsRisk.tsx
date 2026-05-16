@@ -2,6 +2,7 @@ import useDataStore, { type DistributionKey } from "../../hooks/useDataStore";
 import type { RankRisk } from "./DetailedStats";
 import DetailsElement from "./DetailsElement";
 import useLanguageStore, { t } from "../../hooks/useLanguageStore";
+import Tooltip from "../Tooltip";
 
 
 interface Props {
@@ -41,10 +42,14 @@ function DetailsRisk({ r }: Props) {
     >
       <div className="detailsHeader">
         <div style={{"--detailsHeaderColor": "var(--c-norge)"} as React.CSSProperties}>
-          {l(t.chart.tooltip.norway)}
+          <Tooltip text={l(t.details.tooltip.norge)}>
+            {l(t.chart.tooltip.norway)}
+          </Tooltip>
         </div>
         <div style={{"--detailsHeaderColor": "var(--c-fylke)"} as React.CSSProperties}>
-          {l(t.chart.tooltip.county)}
+          <Tooltip text={l(t.details.tooltip.fylke)}>
+            {l(t.chart.tooltip.county)}
+          </Tooltip>
         </div>
       </div>
       <div 

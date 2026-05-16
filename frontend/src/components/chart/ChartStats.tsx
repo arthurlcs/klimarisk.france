@@ -1,4 +1,5 @@
 import useLanguageStore, { t } from "../../hooks/useLanguageStore";
+import Tooltip from "../Tooltip";
 
 export type Region = "norge" | "fylke";
 export type Stat = "mean" | "median";
@@ -25,11 +26,15 @@ function ChartStats({ data, toggleStatVisible }: Props) {
       <div>
         <div className="chartStatHeader">
           <div className="norge">
-            {l(t.chart.tooltip.norway)}
+            <Tooltip text={l(t.chart.stats.tooltip.norge)}>
+              {l(t.chart.tooltip.norway)}
+            </Tooltip>
           </div>
           {(data.mean.fylke.value || data.median.fylke.value) && (
             <div className="fylke">
-              {l(t.chart.tooltip.county)}
+              <Tooltip text={l(t.chart.stats.tooltip.fylke)}>
+                {l(t.chart.tooltip.county)}
+              </Tooltip>
             </div>
           ) || null}
         </div>

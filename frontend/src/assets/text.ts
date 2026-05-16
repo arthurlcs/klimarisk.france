@@ -65,6 +65,16 @@ const text = {
         en: "Median",
         no: "Median",
       },
+      tooltip: {
+        norge: {
+          en: "This column shows the mean and median value of all municipalities in the nation.",
+          no: "Denne kolonnen viser gjennomsnitt og median for alle kommunene i landet.",
+        },
+        fylke: {
+          en: "This column shows the mean and median value of all municipalities in the selected municipality's county.",
+          no: "Denne kolonnen viser gjennomsnitt og median for alle kommunene i den valgte kommuens fylke.",
+        },
+      },
     },
   },
   table: {
@@ -82,6 +92,16 @@ const text = {
       en: "Select a municipality.",
       no: "Velg en kommune.",
     },
+    tooltip: {
+      norge: {
+        en: "The number represents the selected municipality's placement among all municipalities in the nation. Ranking number 1 means the selected municipality is the worst, with no other municipalities having a worse value.",
+        no: "Nummeret representerer den valgte kommunens plassering blant alle kommunene i landet. Å være rangert nummer 1 betyr at den valgte kommunen er verst, og at ingen andre kommuner har en verre verdi.",
+      },
+      fylke: {
+        en: "The number represents the selected municipality's placement among all municipalities in its own county. Ranking number 1 means the selected municipality is the worst in its county, with no other municipalities in the county having a worse value.",
+        no: "Nummeret representerer den valgte kommunens plassering blant alle kommunene i fylket sitt. Å være rangert nummer 1 betyr at den valgte kommunen er verst i fylket, og at ingen andre kommuner i fylket har en verre verdi.",
+      },
+    }
   },
 };
 
