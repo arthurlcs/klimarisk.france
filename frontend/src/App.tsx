@@ -7,6 +7,7 @@ import RiskTree from './components/RiskTree';
 import RiskTable from './components/RiskTable';
 import DetailedStats from './components/details/DetailedStats';
 import useLanguageStore, { t } from './hooks/useLanguageStore';
+import LanguageSelect from './components/header/LanguageSelect';
 
 function App() {
 
@@ -19,17 +20,13 @@ function App() {
     layout,
     setLayout,
   } = useDataStore();
+  const { l } = useLanguageStore();
 
   // Fetch data on mount, only once
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const {
-    language,
-    setLanguage,
-    l,
-  } = useLanguageStore();
+  
 
   return (
     <>
@@ -43,16 +40,12 @@ function App() {
           }
         </h1>
         <div>
-          <button
-            onClick={() => language === "en" ? setLanguage("no") : setLanguage("en")}
-          >
-            {language === "en" ? "English" : "Norsk"}
-          </button>
           <button 
             onClick={() => layout === "first" ? setLayout("second") : setLayout("first")}
           >
             {layout === "first" ? l(t.header.layout) : l(t.header.layout)}
           </button>
+          <LanguageSelect />
         </div>
       </header>
       <div className={`dashboard ${layout === "first" ? "gridLayout1" : "gridLayout2"}`}>

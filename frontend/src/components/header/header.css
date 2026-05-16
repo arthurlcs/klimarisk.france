@@ -1,0 +1,16 @@
+
+.languageSelect {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  font-size: 1rem;
+}
+.languageSelect > svg {
+  height: 1.4em;
+}
+
+.languageCode {
+  width: 2em;
+}
