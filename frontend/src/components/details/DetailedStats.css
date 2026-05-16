@@ -1,6 +1,10 @@
 
 .detailsList {
   padding: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .detailsHandle {
@@ -70,4 +74,8 @@
 
 .detailsList .selected {
   background-color: var(--c-bg3);
+}
+
+.detailsRisk {
+  flex-grow: 1;
 }
