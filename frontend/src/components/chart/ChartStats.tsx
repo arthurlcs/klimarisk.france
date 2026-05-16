@@ -27,9 +27,11 @@ function ChartStats({ data, toggleStatVisible }: Props) {
           <div className="norge">
             {l(t.chart.tooltip.norway)}
           </div>
-          <div className="fylke">
-            {l(t.chart.tooltip.county)}
-          </div>
+          {(data.mean.fylke.value || data.median.fylke.value) && (
+            <div className="fylke">
+              {l(t.chart.tooltip.county)}
+            </div>
+          ) || null}
         </div>
         {(Object.entries(data) as [Stat, StatData][]).map(([stat, x]) => (
           <div key={stat} className="chartStat">

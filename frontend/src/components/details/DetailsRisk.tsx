@@ -1,7 +1,7 @@
 import useDataStore, { type DistributionKey } from "../../hooks/useDataStore";
 import type { RankRisk } from "./DetailedStats";
 import DetailsElement from "./DetailsElement";
-import useLanguageStore from "../../hooks/useLanguageStore";
+import useLanguageStore, { t } from "../../hooks/useLanguageStore";
 
 
 interface Props {
@@ -39,6 +39,14 @@ function DetailsRisk({ r }: Props) {
     <div 
       className={`detailsRisk ${selectedDistribuion.type === "risk" ? "selected" : ""}`}
     >
+      <div className="detailsHeader">
+        <div style={{"--detailsHeaderColor": "var(--c-norge)"} as React.CSSProperties}>
+          {l(t.chart.tooltip.norway)}
+        </div>
+        <div style={{"--detailsHeaderColor": "var(--c-fylke)"} as React.CSSProperties}>
+          {l(t.chart.tooltip.county)}
+        </div>
+      </div>
       <div 
         onMouseEnter={() => setHighlightedDistribution({type: "risk"})}
         onMouseLeave={() => setHighlightedDistribution(null)}

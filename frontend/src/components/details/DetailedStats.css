@@ -7,6 +7,30 @@
   align-items: stretch;
 }
 
+.detailsHeader {
+  display: flex;
+  user-select: none;
+  flex-direction: row;
+  justify-content: end;
+  padding: 0 1.5rem;
+  position: sticky;
+  top: 0;
+  background-color: var(--c-bg1);
+}
+.detailsHeader > div {
+  width: 3.2em;
+  text-align: center;
+  color: var(--detailsHeaderColor);
+  border-bottom: 2px solid var(--detailsHeaderColor);
+}
+.detailsHeader > div:last-child {
+  width: 2.9em;
+  margin-left: .8em;
+}
+.detailsRisk.selected .detailsHeader {
+  background-color: var(--c-bg3);
+}
+
 .detailsHandle {
   cursor: pointer;
   display: flex;
@@ -42,7 +66,7 @@
 
 .detailsRankFylke {
   color: var(--c-fylke);
-  width: 3rem;
+  width: 3.5rem;
   text-align: right;
 }
 
