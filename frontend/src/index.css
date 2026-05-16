@@ -47,6 +47,7 @@ button {
   font-family: inherit;
 }
 
-button:hover {
+button:hover,
+button:focus {
   background: rgba(0, 0, 0, 0.3);
 }

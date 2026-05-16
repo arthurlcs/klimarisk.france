@@ -1,6 +1,6 @@
 import useDataStore, { type ElementKey, type MetricKey, type DistributionKey } from "../../hooks/useDataStore";
 import { Fragment } from "react";
-import useLanguageStore from "../../hooks/useLanguageStore";
+import useLanguageStore, { t } from "../../hooks/useLanguageStore";
 
 function encodeDistributionKey(key: DistributionKey): string {
   if (key.type === "risk") return "risk";
@@ -26,34 +26,36 @@ function DistributionSelect() {
   const { l } = useLanguageStore();
 
   return (
-    <select
-      onChange={e => setSelectedDistribution(decodeDistributionKey(e.target.value))}
-      value={encodeDistributionKey(selectedDistribuion)}
-    >
-      <option value="risk">
-        Total Risk
-      </option>
-      {dataModel && dataModel.elements.filter(e => !e.disabled).map(element => (
-        <Fragment key={element.key}>
+    <div className="distSelect">
+      <select
+        onChange={e => setSelectedDistribution(decodeDistributionKey(e.target.value))}
+        value={encodeDistributionKey(selectedDistribuion)}
+      >
+        <option value="risk">
+          {l(t.common.totalRisk)}
+        </option>
+        {dataModel && dataModel.elements.filter(e => !e.disabled).map(element => (
+          <Fragment key={element.key}>
 
-          <option 
-            value={encodeDistributionKey({type: "element", key: element.key})}
-          >
-            {l(element.name)}
-          </option>
-
-          {element.metrics.filter(m => !m.disabled).map(metric => (
             <option 
-              key={metric.key} 
-              value={encodeDistributionKey({type: "metric", key: metric.key})}
+              value={encodeDistributionKey({type: "element", key: element.key})}
             >
-              {"— " + l(metric.name)}
+              {l(element.name)}
             </option>
-          ))}
-          
-        </Fragment>
-      ))}
-    </select>
+
+            {element.metrics.filter(m => !m.disabled).map(metric => (
+              <option 
+                key={metric.key} 
+                value={encodeDistributionKey({type: "metric", key: metric.key})}
+              >
+                {"— " + l(metric.name)}
+              </option>
+            ))}
+            
+          </Fragment>
+        ))}
+      </select>
+    </div>
   )
 }
 
