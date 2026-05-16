@@ -1,10 +1,11 @@
 import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer, Line } from "recharts";
 import useDataStore, { type DistributionKey, type KommuneNr } from "../../hooks/useDataStore";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import DistributionSelect from "./DistributionSelect";
 import "./DistributionChart.css";
 import SteppedDomainGradient from "./SteppedDomainGradient";
 import useLanguageStore, { t } from "../../hooks/useLanguageStore";
+import ChartStats, { type ChartStatsData, type Region, type Stat } from "./ChartStats";
 
 type Props = {
   distributionKey: DistributionKey; 
@@ -56,6 +57,16 @@ function getTicks(domain?: [number, number]): number[] {
   return [min10, (max10+min10)/2, max10];
 }
 
+function mean(arr: number[]): number {
+  return arr.reduce((sum, v) => sum + v, 0) / arr.length
+}
+
+function median(sortedArr: number[]): number {
+  const mid = Math.floor(sortedArr.length / 2);
+  return sortedArr.length % 2 === 0
+    ? (sortedArr[mid - 1] + sortedArr[mid]) / 2
+    : sortedArr[mid];
+}
 
 
 
@@ -83,10 +94,8 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           ? yearCache.byElement[distributionKey.key]
           : yearData.byMetric[distributionKey.key];
 
-  const chartData = useMemo(() => {
+  const fylkeDistribution = useMemo(() => {
     if (!distribution || !yearData || !yearCache) return []
-
-    // Find number of kommuner in the same fylke as the selected kommune
     const byKommune = 
       distributionKey.type === "risk"
         ? yearCache?.byKommune
@@ -102,8 +111,13 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           ? kommuneCache[distributionKey.key]
           : kommuneData[distributionKey.key];
     }) : [];
-    return buildHistogram(distribution, bins, fylkeValues.sort((a, b) => a - b));
-  }, [distribution, bins, selectedKommune, yearData, yearCache, distributionKey]);
+    return fylkeValues.sort((a, b) => a - b)
+  }, [distribution, selectedKommune, yearData, yearCache, distributionKey]);
+
+  const chartData = useMemo(() => {
+    if (!distribution) return []
+    return buildHistogram(distribution, bins, fylkeDistribution);
+  }, [distribution, bins, fylkeDistribution]);
 
   const kommuneData = yearData && selectedKommune ? yearData.byKommune[selectedKommune] : undefined;
   const kommuneCache = yearCache && selectedKommune ? yearCache.byKommune[selectedKommune] : undefined;
@@ -136,11 +150,57 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     if (!distribution) return [0, 100];
     return getTicks(domain);
   }, [distribution, domain]);
+
+  const [visibleStats, setVisibleStats] = useState<Record<Region, Record<Stat, boolean>>>({
+    norge: {
+      mean: false,
+      median: false,
+    },
+    fylke: {
+      mean: false,
+      median: false,
+    },
+  });
+  
+  const chartStatsData = useMemo(() => (
+    {
+      norge: {
+        mean: {
+          visible: visibleStats.norge.mean,
+          value: distribution ? mean(distribution) : undefined,
+        },
+        median: {
+          visible: visibleStats.norge.median,
+          value: distribution ? median(distribution) : undefined,
+        },
+      },
+      fylke: {
+        mean: {
+          visible: visibleStats.fylke.mean,
+          value: fylkeDistribution ? mean(fylkeDistribution) : undefined,
+        },
+        median: {
+          visible: visibleStats.fylke.median,
+          value: fylkeDistribution ? mean(fylkeDistribution) : undefined,
+        },
+      },
+    } as ChartStatsData
+  ), [distribution, fylkeDistribution, visibleStats]);
+
+  function toggleStatVisible(region: Region, stat: Stat) {
+    setVisibleStats(prev => ({
+      ...prev,
+      [region]: {
+        ...prev[region],
+        [stat]: !prev[region][stat]
+      },
+    }));
+  }
   
   return (
     <div className="chartContainer">
       <DistributionSelect />
-      <ResponsiveContainer width="100%" height={250}>
+      <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={chartData}>
           <SteppedDomainGradient 
             colors={riskColors} 
@@ -194,8 +254,17 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
               strokeWidth={2}
             />
           )}
+          {Object.entries(chartStatsData).map(([region, x]) => Object.entries(x).map(([stat, v]) => v.visible && (
+            <ReferenceLine
+              x={v.value}
+              stroke={`var(--c-${region})`}
+              strokeWidth={2}
+              strokeDasharray={stat === "mean" ? "8 8" : "2 2"}
+            />
+          )))}
         </AreaChart>
       </ResponsiveContainer>
+      <ChartStats data={chartStatsData} toggleStatVisible={toggleStatVisible} />
     </div>
   );
 }

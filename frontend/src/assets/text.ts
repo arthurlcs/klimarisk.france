@@ -56,6 +56,16 @@ const text = {
         no: "kommuner",
       },
     },
+    stats: {
+      mean: {
+        en: "mean",
+        no: "gjennomsnitt",
+      },
+      median: {
+        en: "median",
+        no: "median",
+      },
+    },
   },
   table: {
     kommune: {
