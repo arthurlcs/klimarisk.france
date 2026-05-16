@@ -1,6 +1,7 @@
 .riskTree {
   background-color: var(--c-bg3);
   color: var(--c-text);
+  flex-grow: 1;
 }
 
 .treeHandle {
