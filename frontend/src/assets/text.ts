@@ -18,7 +18,7 @@ const text = {
   panels: {
     tree: {
       en: "Risk Customization Tree",
-      no: "Endre Risikoens oppbygning",
+      no: "Risikoens oppbygning",
     },
     map: {
       en: "Map View",
@@ -33,8 +33,8 @@ const text = {
       no: "Datatabell",
     },
     details: {
-      en: "Municipality details",
-      no: "Detaljer for kommunen",
+      en: "Municipality Rankings",
+      no: "Rangering av kommunen",
     },
   },
   chart: {

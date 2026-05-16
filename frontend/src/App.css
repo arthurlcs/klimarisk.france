@@ -60,6 +60,7 @@ header h1 {
   font-size: 1em;
   background-color: var(--c-bg4);
   text-wrap: nowrap;
+  padding-left: .5em;
 }
 
 .panelScroll {
