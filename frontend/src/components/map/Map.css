@@ -1,4 +1,17 @@
 .klimamap {
   height: 100%;
   outline: none;
+  position: relative;
+}
+
+.kommuneLabel {
+  position: absolute;
+  display: flex;
+  top: .2em;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--c-bg1);
+  z-index: 1000;
+  font-size: 1.4rem;
+  box-shadow: 0 0 .1em rgba(0, 0, 0, 0.3);
 }

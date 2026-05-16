@@ -5,6 +5,7 @@ import KommuneLayer from "./KommuneLayer";
 import YearControl from "./YearControl";
 import FlyToSelectedKommune from './FlyToSelectedKommune';
 import InvalidateMapSize from "./InvalidateMapSize";
+import KommuneLabel from './KommuneLabel';
 
 
 function Map() {
@@ -27,6 +28,7 @@ function Map() {
       />
       <KommuneLayer />
 
+      <KommuneLabel />
       <YearControl />
       <FlyToSelectedKommune />
       <InvalidateMapSize />

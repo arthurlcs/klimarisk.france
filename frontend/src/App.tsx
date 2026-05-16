@@ -8,6 +8,7 @@ import RiskTable from './components/RiskTable';
 import DetailedStats from './components/details/DetailedStats';
 import useLanguageStore, { t } from './hooks/useLanguageStore';
 import LanguageSelect from './components/header/LanguageSelect';
+import LayoutSelect from './components/header/LayoutSelect';
 
 function App() {
 
@@ -18,7 +19,6 @@ function App() {
     selectedYear,
     selectedDistribuion, 
     layout,
-    setLayout,
   } = useDataStore();
   const { l } = useLanguageStore();
 
@@ -26,25 +26,16 @@ function App() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-  
+
 
   return (
     <>
       <header>
-        <div></div>
         <h1>
-          {
-            highlightedKommune && data && selectedYear
-              ? `${highlightedKommune} ${data.years[selectedYear].byKommune[highlightedKommune].name}` 
-              : "Klimarisk"
-          }
+          Klimarisk
         </h1>
         <div>
-          <button 
-            onClick={() => layout === "first" ? setLayout("second") : setLayout("first")}
-          >
-            {layout === "first" ? l(t.header.layout) : l(t.header.layout)}
-          </button>
+          <LayoutSelect />
           <LanguageSelect />
         </div>
       </header>

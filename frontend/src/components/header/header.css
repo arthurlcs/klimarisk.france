@@ -1,3 +1,7 @@
+.layoutSelect {
+  display: inline-flex;
+}
+
 
 .languageSelect {
   display: inline-flex;

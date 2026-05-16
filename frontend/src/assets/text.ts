@@ -12,7 +12,15 @@ const text = {
   header: {
     layout: {
       en: "Switch Layout",
-      no: "Bytt Oppsett"
+      no: "Bytt Oppsett",
+      l1: {
+        en: "Spatial overview",
+        no: "",
+      },
+      l2: {
+        en: "Municipality analysis",
+        no: "",
+      },
     },
   },
   panels: {
