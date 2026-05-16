@@ -164,24 +164,24 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
   
   const chartStatsData = useMemo(() => (
     {
-      norge: {
-        mean: {
+      mean: {
+        norge: {
           visible: visibleStats.norge.mean,
           value: distribution ? mean(distribution) : undefined,
         },
-        median: {
-          visible: visibleStats.norge.median,
-          value: distribution ? median(distribution) : undefined,
-        },
-      },
-      fylke: {
-        mean: {
+        fylke: {
           visible: visibleStats.fylke.mean,
           value: fylkeDistribution ? mean(fylkeDistribution) : undefined,
         },
-        median: {
+      },
+      median: {
+        norge: {
+          visible: visibleStats.norge.median,
+          value: distribution ? median(distribution) : undefined,
+        },
+        fylke: {
           visible: visibleStats.fylke.median,
-          value: fylkeDistribution ? mean(fylkeDistribution) : undefined,
+          value: fylkeDistribution ? median(fylkeDistribution) : undefined,
         },
       },
     } as ChartStatsData
@@ -254,8 +254,9 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
               strokeWidth={2}
             />
           )}
-          {Object.entries(chartStatsData).map(([region, x]) => Object.entries(x).map(([stat, v]) => v.visible && (
+          {Object.entries(chartStatsData).map(([stat, x]) => Object.entries(x).map(([region, v]) => v.visible && (
             <ReferenceLine
+              key={`${region}-${stat}`}
               x={v.value}
               stroke={`var(--c-${region})`}
               strokeWidth={2}

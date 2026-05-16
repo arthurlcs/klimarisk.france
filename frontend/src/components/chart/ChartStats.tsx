@@ -3,14 +3,14 @@ import useLanguageStore, { t } from "../../hooks/useLanguageStore";
 export type Region = "norge" | "fylke";
 export type Stat = "mean" | "median";
 
-type StatData = {
+type RegionData = {
   visible: boolean,
   value: number | undefined,
 }
 
-type RegionData = Record<Stat, StatData>
+type StatData = Record<Region, RegionData>
 
-export type ChartStatsData = Record<Region, RegionData>
+export type ChartStatsData = Record<Stat, StatData>
 
 interface Props {
   data: ChartStatsData;
@@ -21,24 +21,33 @@ function ChartStats({ data, toggleStatVisible }: Props) {
   const { l } = useLanguageStore();
 
   return (
-    <div>
-      {(Object.entries(data) as [Region, RegionData][]).map(([region, x]) => (
-        <div>
-        {(Object.entries(x) as [Stat, StatData][]).map(([stat, val]) => (
-          <label htmlFor={`${region}-${stat}`}>
-            <input 
-              type="checkbox" 
-              id={`${region}-${stat}`}
-              checked={data[region][stat].visible}
-              onChange={() => toggleStatVisible(region, stat)}
-            />
-            <div>
-              {region === "norge" ? l(t.chart.tooltip.norway) : l(t.chart.tooltip.county)} {stat === "mean" ? l(t.chart.stats.mean) : l(t.chart.stats.median)}: {val.value?.toFixed()}
+    <div className="chartStatsContainer">
+      <div>
+        {(Object.entries(data) as [Stat, StatData][]).map(([stat, x]) => (
+          <div key={stat} className="chartStat">
+            <div className="chartStatName">
+              {stat === "mean" ? l(t.chart.stats.mean) : l(t.chart.stats.median)}:
             </div>
-          </label>
+            {(Object.entries(x) as [Region, RegionData][]).map(([region, val]) => val.value && (
+              <label 
+                htmlFor={`${region}-${stat}`} 
+                key={`${region}-${stat}`}
+                className={`chartStatVal ${region}`}
+              >
+                <input 
+                  type="checkbox" 
+                  id={`${region}-${stat}`}
+                  checked={data[stat][region].visible}
+                  onChange={() => toggleStatVisible(region, stat)}
+                />
+                <div>
+                  {val.value.toFixed()}
+                </div>
+              </label>
+            ) || null)}
+          </div>
         ))}
-        </div>
-      ))}
+      </div>
     </div>
   )
 }

@@ -58,12 +58,12 @@ const text = {
     },
     stats: {
       mean: {
-        en: "mean",
-        no: "gjennomsnitt",
+        en: "Mean",
+        no: "Gjennomsnitt",
       },
       median: {
-        en: "median",
-        no: "median",
+        en: "Median",
+        no: "Median",
       },
     },
   },

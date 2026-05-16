@@ -28,3 +28,50 @@ g:focus {
 .distSelect select:focus {
   box-shadow: 0 0 .3em rgba(0, 0, 0, 0.3);
 }
+
+
+.chartStatsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: .2em;
+}
+
+.chartStat {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.chartStatName {
+  flex-grow: 1;
+  margin-right: 1em;
+}
+
+.chartStatVal {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  padding: .1em .8em;
+  cursor: pointer;
+}
+
+.chartStatVal:hover {
+  background-color: var(--c-highlighted);
+}
+
+.chartStatVal input {
+  margin: 0;
+  margin-right: .2em;
+}
+
+.chartStatVal > div {
+  min-width: 1.8em;
+  text-align: right;
+}
+
+.chartStatVal.norge {
+  color: var(--c-norge);
+}
+.chartStatVal.fylke {
+  color: var(--c-fylke);
+}
