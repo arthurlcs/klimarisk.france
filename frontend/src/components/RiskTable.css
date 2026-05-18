@@ -14,7 +14,7 @@ thead {
   position: sticky;
   top: 0;
   background-color: var(--c-bg1);
-  z-index: 1;
+  z-index: 10;
 }
 
 thead::after { /* Table sticky header border-bottom */
@@ -86,11 +86,13 @@ tr.highlighted .kommuneCol {
   /* border-bottom: 2px solid var(--risk-color); */
   color: var(--c-norge);
   /* font-weight: bold; */
+  z-index: 9;
 }
 .kommuneCol {
   position: sticky;
   left: 2.7em;
   background-color: var(--c-bg1);
+  z-index: 9;
 }
 .kommuneCol::after { /* Shadow of frozen columns */
   content: "";

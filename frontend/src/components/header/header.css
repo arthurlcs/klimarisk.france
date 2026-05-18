@@ -49,6 +49,9 @@ header h1 a {
   width: 3.5em;
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .yearSelect .selected {

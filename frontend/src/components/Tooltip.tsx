@@ -71,6 +71,7 @@ function Tooltip({ children, text }: Props) {
         onMouseLeave={handleMouseLeave}
         onFocus={handleMouseEnter}
         onBlur={handleMouseLeave}
+        className={`tooltipReference ${text ? "hasText" : ""}`}
       >
         {children}
       </div>

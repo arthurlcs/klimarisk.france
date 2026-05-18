@@ -51,6 +51,9 @@ g:focus {
 .chartStatHeader > div {
   width: 5em;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .chartStatName {
