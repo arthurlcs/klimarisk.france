@@ -7,8 +7,7 @@ import RiskTree from './components/RiskTree';
 import RiskTable from './components/RiskTable';
 import DetailedStats from './components/details/DetailedStats';
 import useLanguageStore, { t } from './hooks/useLanguageStore';
-import LanguageSelect from './components/header/LanguageSelect';
-import LayoutSelect from './components/header/LayoutSelect';
+import Header from './components/header/Header';
 
 function App() {
 
@@ -27,15 +26,7 @@ function App() {
 
   return (
     <>
-      <header>
-        <h1>
-          Klimarisk
-        </h1>
-        <div className="headerControls">
-          <LayoutSelect />
-          <LanguageSelect />
-        </div>
-      </header>
+      <Header />
       <div className={`dashboard ${layout === "first" ? "gridLayout1" : "gridLayout2"}`}>
         <div className="panel tree">
           <h2>{l(t.panels.tree)}</h2>

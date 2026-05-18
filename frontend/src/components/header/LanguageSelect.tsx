@@ -1,6 +1,6 @@
 import useLanguageStore from "../../hooks/useLanguageStore";
 import { Globe } from "lucide-react";
-import "./header.css";
+
 
 function LanguageSelect() {
   const {

@@ -1,5 +1,45 @@
-.layoutSelect {
+header {
+  height: var(--header-height);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header h1 {
+  margin: 0;
+  padding: 0.2rem 1rem;
+  font-size: 1.5rem;
+  line-height: calc(var(--header-height) - 0.4rem);
+}
+
+.headerControls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  height: inherit;
+}
+
+.headerControls .label {
   display: inline-flex;
+}
+
+.yearSelect button {
+  box-sizing: border-box;
+  height: var(--header-height);
+}
+
+.yearSelect .selected {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+
+.layoutSelect > button {
+  border-bottom: 2px solid black;
+  box-sizing: border-box;
+  height: var(--header-height);
 }
 
 

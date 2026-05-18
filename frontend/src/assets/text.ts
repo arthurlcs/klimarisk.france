@@ -21,6 +21,28 @@ const text = {
         en: "Municipality analysis",
         no: "Kommuneanalyse",
       },
+      selected: {
+        en: "Analysis mode",
+        no: "Analysemodus",
+      }
+    },
+    year: {
+      2000: {
+        en: "Current time",
+        no: "Nåtid",
+      },
+      2050: {
+        en: "Near future",
+        no: "Nær fremtid",
+      },
+      2100: {
+        en: "Far future",
+        no: "Fjern fremtid",
+      },
+      selected: {
+        en: "Selected time",
+        no: "Valgt tidspunkt",
+      },
     },
   },
   panels: {

@@ -2,7 +2,6 @@ import './Map.css';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import KommuneLayer from "./KommuneLayer";
-import YearControl from "./YearControl";
 import FlyToSelectedKommune from './FlyToSelectedKommune';
 import InvalidateMapSize from "./InvalidateMapSize";
 import KommuneLabel from './KommuneLabel';
@@ -37,7 +36,6 @@ function Map() {
       <KommuneLayer />
 
       <KommuneLabel mouseOnMap={mouseOver} />
-      <YearControl />
       <FlyToSelectedKommune />
       <InvalidateMapSize />
     </MapContainer>

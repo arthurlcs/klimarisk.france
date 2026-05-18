@@ -1,6 +1,7 @@
 import useDataStore from "../../hooks/useDataStore";
 import useLanguageStore, { t } from "../../hooks/useLanguageStore";
 
+
 function LayoutSelect() {
   const {
     layout,
@@ -10,8 +11,8 @@ function LayoutSelect() {
 
   return (
     <div className="layoutSelect">
-      <div>
-        Analysis mode:
+      <div className="label">
+        {l(t.header.layout.selected)}:
       </div>
       <button 
         onClick={() => layout === "first" ? setLayout("second") : setLayout("first")}
