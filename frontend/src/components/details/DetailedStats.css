@@ -27,6 +27,10 @@
   width: 2.9em;
   margin-left: .8em;
 }
+.detailsRisk {
+  display: flex;
+  flex-direction: column;
+}
 .detailsRisk.selected .detailsHeader {
   background-color: var(--c-bg3);
 }
@@ -41,6 +45,7 @@
   line-height: 1em;
   padding-left: var(--detail-padding);
   padding-block: var(--detail-padding);
+  font-weight: 400;
 }
 
 .colorBox {
@@ -74,6 +79,10 @@
   list-style: none;
   padding-left: 2rem;
   margin: 0;
+}
+.detailsList li {
+  display: flex;
+  flex-direction: column;
 }
 
 .detailsRisk > .detailsHandle {

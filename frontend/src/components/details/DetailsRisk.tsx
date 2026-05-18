@@ -52,7 +52,7 @@ function DetailsRisk({ r }: Props) {
           </Tooltip>
         </div>
       </div>
-      <div 
+      <button 
         onMouseEnter={() => setHighlightedDistribution({type: "risk"})}
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "risk"})}
@@ -71,7 +71,7 @@ function DetailsRisk({ r }: Props) {
         <div className="detailsRankFylke">
           {r.rankFylke}
         </div>
-      </div>
+      </button>
       <ul>
         {sortedElements.map((e, eIndex) => (
           <DetailsElement key={eIndex} e={e} />

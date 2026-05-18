@@ -28,7 +28,7 @@ function DetailsMetric({ m }: Props) {
     <li 
       className={`detailsMetric ${selectedDistribuion.type === "metric" && selectedDistribuion.key === m.key ? "selected" : ""}`}
     >
-      <div 
+      <button 
         onMouseEnter={() => setHighlightedDistribution({type: "metric", key: m.key})}
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "metric", key: m.key})}
@@ -49,7 +49,7 @@ function DetailsMetric({ m }: Props) {
         <div className="detailsRankFylke">
           {m.rankFylke}
         </div>
-      </div>
+      </button>
     </li>
   )
 }

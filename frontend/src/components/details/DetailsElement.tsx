@@ -37,7 +37,7 @@ function DetailsElement({ e }: Props) {
 
   return (
     <li className={`detailsElement ${selectedDistribuion.type === "element" && selectedDistribuion.key === e.key ? "selected" : ""}`}>
-      <div 
+      <button 
         onMouseEnter={() => setHighlightedDistribution({type: "element", key: e.key})}
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "element", key: e.key})}
@@ -58,7 +58,7 @@ function DetailsElement({ e }: Props) {
         <div className="detailsRankFylke">
           {e.rankFylke}
         </div>
-      </div>
+      </button>
       <ul>
         {sortedMetrics.map((m, mIndex) => (
           <DetailsMetric 
