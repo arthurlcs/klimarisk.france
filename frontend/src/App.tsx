@@ -8,8 +8,7 @@ import RiskTable from './components/RiskTable';
 import DetailedStats from './components/details/DetailedStats';
 import useLanguageStore, { t } from './hooks/useLanguageStore';
 import Header from './components/header/Header';
-import { CircleQuestionMark } from 'lucide-react';
-import Tooltip from './components/Tooltip';
+import Panel from './components/Panel';
 
 function App() {
 
@@ -30,40 +29,41 @@ function App() {
     <>
       <Header />
       <div className={`dashboard ${layout === "first" ? "gridLayout1" : "gridLayout2"}`}>
-        <div className="panel tree">
-          <h2>
-            {l(t.panels.tree)}
-            <Tooltip text={l(t.panels.tree.tooltip)}>
-              <CircleQuestionMark />
-            </Tooltip>
-          </h2>
-          <div className="panelScroll">
-            <RiskTree />
-          </div>
-        </div>
-        <div className="panel map">
-          <h2>{l(t.panels.map)}</h2>
+        <Panel
+          title={l(t.panels.tree)}
+          tooltip={l(t.panels.tree.tooltip)}
+          className="tree"
+        >
+          <RiskTree />
+        </Panel>
+        <Panel
+          title={l(t.panels.map)}
+          tooltip={l(t.panels.map.tooltip)}
+          className="map"
+        >
           <Map />
-        </div>
-        <div className="panel chart">
-          <h2>
-            {l(t.panels.chart)}
-            <Tooltip text={l(t.panels.chart.tooltip)}>
-              <CircleQuestionMark />
-            </Tooltip>
-          </h2>
+        </Panel>
+        <Panel
+          title={l(t.panels.chart)}
+          tooltip={l(t.panels.chart.tooltip)}
+          className="chart"
+        >
           <DistributionChart distributionKey={selectedDistribuion} />
-        </div>
-        <div className="panel table">
-          <h2>{l(t.panels.table)}</h2>
+        </Panel>
+        <Panel
+          title={l(t.panels.table)}
+          tooltip={l(t.panels.table.tooltip)}
+          className="table"
+        >
           <RiskTable />
-        </div>
-        <div className="panel details">
-          <h2>{l(t.panels.details)}</h2>
-          <div className="panelScroll">
-            <DetailedStats />
-          </div>
-        </div>
+        </Panel>
+        <Panel
+          title={l(t.panels.details)}
+          tooltip={l(t.panels.details.tooltip)}
+          className="details"
+        >
+          <DetailedStats />
+        </Panel>
       </div>
     </>
   )
