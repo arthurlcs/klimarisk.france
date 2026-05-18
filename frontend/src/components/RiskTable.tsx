@@ -3,6 +3,7 @@ import useDataStore, { type KommuneNr } from "../hooks/useDataStore";
 import "./RiskTable.css";
 import useLanguageStore, { t } from "../hooks/useLanguageStore";
 import Tooltip from "./Tooltip";
+import { MoveDown as ArrowDown, MoveUp as ArrowUp } from "lucide-react";
 
 
 function RiskTable() {
@@ -143,7 +144,7 @@ function RiskTable() {
                 {l(t.table.kommune)}
                 <div className="sortIcon">
                   {sortKey === "name" && (
-                    sortAscending ? "↑" : "↓"
+                    sortAscending ? <ArrowUp /> : <ArrowDown />
                   )}
                 </div>
               </button>
@@ -156,7 +157,7 @@ function RiskTable() {
                 {l(t.common.totalRisk)}
                 <div className="sortIcon">
                   {sortKey === "totalRisk" && (
-                    sortAscending ? "↑" : "↓"
+                    sortAscending ? <ArrowUp /> : <ArrowDown />
                   )}
                 </div>
               </button>
@@ -174,7 +175,7 @@ function RiskTable() {
                   
                   <div className="sortIcon">
                     {sortKey === header.key && (
-                      sortAscending ? "↑" : "↓"
+                      sortAscending ? <ArrowUp /> : <ArrowDown />
                     )}
                   </div>
                 </button>

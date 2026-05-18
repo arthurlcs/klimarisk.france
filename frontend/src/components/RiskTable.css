@@ -37,10 +37,19 @@ thead button {
   flex-direction: row;
   outline: none;
   min-width: 4em;
+  align-items: center;
 }
 
 .sortIcon {
   padding: 0 0 0 .2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sortIcon svg {
+  height: 1em;
+  width: 1em;
 }
 
 tbody {
