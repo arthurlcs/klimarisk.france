@@ -29,43 +29,42 @@ header h1 a {
   gap: 3em;
 }
 
-.headerControls .label {
-  display: inline-flex;
-}
-
+.layoutSelect,
 .yearSelect {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   height: var(--header-height);
   padding: 0;
 }
 
-.yearSelect button {
+.headerControls .label {
+  color: var(--c-bg4);
+}
+
+.headerControls button {
   box-sizing: border-box;
   height: var(--header-height);
-  padding: 0;
-  width: 3.5em;
   border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
 }
-
-.yearSelect .selected {
+.headerControls .selected {
   font-weight: bold;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid var(--c-text);
 }
 
-
-.layoutSelect > button {
-  border-bottom: 2px solid black;
-  box-sizing: border-box;
-  height: var(--header-height);
+.layoutSelect button {
   padding: 0 .6em;
 }
+.yearSelect button {
+  padding: 0;
+  width: 3.5em;
+}
+
 
 
 .languageSelect {

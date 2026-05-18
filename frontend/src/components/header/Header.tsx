@@ -14,8 +14,8 @@ function Header() {
         </a>
       </h1>
       <div className="headerControls">
-        <YearSelect />
         <LayoutSelect />
+        <YearSelect />
       </div>
       <LanguageSelect />
     </header>

@@ -15,9 +15,16 @@ function LayoutSelect() {
         {l(t.header.layout.selected)}:
       </div>
       <button 
-        onClick={() => layout === "first" ? setLayout("second") : setLayout("first")}
+        onClick={() => setLayout("first")}
+        className={layout === "first" ? "selected" : ""}
       >
-        {layout === "first" ? l(t.header.layout.l1) : l(t.header.layout.l2)}
+        {l(t.header.layout.l1)}
+      </button>
+      <button
+        onClick={() => setLayout("second")}
+        className={layout === "second" ? "selected" : ""}
+      >
+        {l(t.header.layout.l2)}
       </button>
     </div>
   )
