@@ -8,6 +8,8 @@ import RiskTable from './components/RiskTable';
 import DetailedStats from './components/details/DetailedStats';
 import useLanguageStore, { t } from './hooks/useLanguageStore';
 import Header from './components/header/Header';
+import { CircleQuestionMark } from 'lucide-react';
+import Tooltip from './components/Tooltip';
 
 function App() {
 
@@ -29,7 +31,12 @@ function App() {
       <Header />
       <div className={`dashboard ${layout === "first" ? "gridLayout1" : "gridLayout2"}`}>
         <div className="panel tree">
-          <h2>{l(t.panels.tree)}</h2>
+          <h2>
+            {l(t.panels.tree)}
+            <Tooltip text={l(t.panels.tree.tooltip)}>
+              <CircleQuestionMark />
+            </Tooltip>
+          </h2>
           <div className="panelScroll">
             <RiskTree />
           </div>
@@ -39,7 +46,12 @@ function App() {
           <Map />
         </div>
         <div className="panel chart">
-          <h2>{l(t.panels.chart)}</h2>
+          <h2>
+            {l(t.panels.chart)}
+            <Tooltip text={l(t.panels.chart.tooltip)}>
+              <CircleQuestionMark />
+            </Tooltip>
+          </h2>
           <DistributionChart distributionKey={selectedDistribuion} />
         </div>
         <div className="panel table">

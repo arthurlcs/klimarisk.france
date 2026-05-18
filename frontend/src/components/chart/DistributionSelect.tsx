@@ -40,7 +40,7 @@ function DistributionSelect() {
             <option 
               value={encodeDistributionKey({type: "element", key: element.key})}
             >
-              {l(element.name)}
+              {"  " + l(element.name)}
             </option>
 
             {element.metrics.filter(m => !m.disabled).map(metric => (
@@ -48,7 +48,7 @@ function DistributionSelect() {
                 key={metric.key} 
                 value={encodeDistributionKey({type: "metric", key: metric.key})}
               >
-                {"— " + l(metric.name)}
+                {"    " + l(metric.name)}
               </option>
             ))}
             

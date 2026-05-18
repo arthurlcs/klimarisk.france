@@ -49,6 +49,10 @@ const text = {
     tree: {
       en: "Risk Customization Tree",
       no: "Risikoens oppbygning",
+      tooltip: {
+        en: "This tree shows how the overall risk is built up from the different determinants and their indicators. By default all indicators are included in the overall risk, but you can exclude specific indicators by clicking on them in the tree. The determinants and overall risk are calculated with only the included indicators. Each determinant is calculated as a sum of its indicators, normalized from 0 to 100. The overall risk is the sum of the determinants, with no normalization. Note that some determinants and indicators might be inverted, to make sure that a higher value always means a higher risk.",
+        no: "Dette treet viser hvordan den overordnede risikoen er bygget opp av de forskjellige determinantene og deres indikatorer. Som standard er alle indikatorer inkludert i den overordnede risikoen, men du kan ekskludere spesifikke indikatorer ved å klikke på dem i treet. Determinantene og den overordnede risikoen beregnes med kun de inkluderte indikatorene. Hver determinant beregnes som en sum av sine indikatorer, normalisert fra 0 til 100. Den overordnede risikoen er summen av determinantene, uten normalisering. Merk at noen determinanter og indikatorer kan være invertert, for å sikre at en høyere verdi alltid betyr en høyere risiko.",
+      },
     },
     map: {
       en: "Map View",
@@ -57,6 +61,10 @@ const text = {
     chart: {
       en: "Municipality Distribution Chart",
       no: "Kommune-fordeling",
+      tooltip: {
+        en: "This chart shows the distribution of the chosen metric accross all municipalities in the nation and in the selected municipality's county. The possible metrics are the overall risk, the determinants, and the indicators. The mean and median values for the nation and county can be toggled by clicking their values below the chart. By hovering over the chart, you can see the number of municipalities that have a value within the hovered bin. Above the chart, you can change the metric that is shown in the chart.",
+        no: "Dette diagrammet viser fordelingen av den valgte metrikken blant alle kommuner i landet og innenfor fylket til den valgte kommunen. Metrikkene som kan vises inkluderer samlet risiko, determinantene og indikatorene. Gjennomsnitts- og medianverdier for både landet og fylket kan vises eller skjules ved å klikke på verdiene under diagrammet. Ved å holde musepekeren over diagrammet kan du se hvor mange kommuner som ligger innenfor det aktuelle intervallet. Over diagrammet kan du velge hvilken metrikk som skal vises.",  
+      },
     },
     table: {
       en: "Data Table",

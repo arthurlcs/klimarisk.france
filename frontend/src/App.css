@@ -47,6 +47,19 @@
   background-color: var(--c-bg4);
   text-wrap: nowrap;
   padding-left: .5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.panel > h2 div:has(svg) {
+  display: flex;
+}
+
+.panel > h2 svg {
+  height: 1.2em;
 }
 
 .panelScroll {
