@@ -30,7 +30,7 @@ function ChartStats({ data, toggleStatVisible }: Props) {
               {l(t.chart.tooltip.norway)}
             </Tooltip>
           </div>
-          {(data.mean.fylke.value || data.median.fylke.value) && (
+          {(data.mean.fylke.value !== undefined || data.median.fylke.value !== undefined) && (
             <div className="fylke">
               <Tooltip text={l(t.chart.stats.tooltip.fylke)}>
                 {l(t.chart.tooltip.county)}
@@ -43,7 +43,7 @@ function ChartStats({ data, toggleStatVisible }: Props) {
             <div className={`chartStatName ${stat}`}>
               {stat === "mean" ? l(t.chart.stats.mean) : l(t.chart.stats.median)}:
             </div>
-            {(Object.entries(x) as [Region, RegionData][]).map(([region, val]) => val.value && (
+            {(Object.entries(x) as [Region, RegionData][]).map(([region, val]) => val.value !== undefined && (
               <label 
                 htmlFor={`${region}-${stat}`} 
                 key={`${region}-${stat}`}

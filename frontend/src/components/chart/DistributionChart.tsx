@@ -57,11 +57,13 @@ function getTicks(domain?: [number, number]): number[] {
   return [min10, (max10+min10)/2, max10];
 }
 
-function mean(arr: number[]): number {
+function mean(arr: number[]): number | undefined {
+  if (arr.length === 0) return undefined;
   return arr.reduce((sum, v) => sum + v, 0) / arr.length
 }
 
-function median(sortedArr: number[]): number {
+function median(sortedArr: number[]): number | undefined {
+  if (sortedArr.length === 0) return undefined;
   const mid = Math.floor(sortedArr.length / 2);
   return sortedArr.length % 2 === 0
     ? (sortedArr[mid - 1] + sortedArr[mid]) / 2
