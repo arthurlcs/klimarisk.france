@@ -14,12 +14,12 @@ const text = {
       en: "Switch Layout",
       no: "Bytt Oppsett",
       l1: {
-        en: "Spatial overview",
-        no: "",
+        en: "Nationwide overview",
+        no: "Landsdekkende oversikt",
       },
       l2: {
         en: "Municipality analysis",
-        no: "",
+        no: "Kommuneanalyse",
       },
     },
   },

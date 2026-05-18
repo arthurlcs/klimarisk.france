@@ -13,6 +13,14 @@ header h1 {
   line-height: calc(var(--header-height) - 0.4rem);
 }
 
+.headerControls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  height: inherit;
+}
+
 .dashboard {
   height: var(--dashboard-height);
   display: grid;

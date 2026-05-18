@@ -6,11 +6,19 @@ import YearControl from "./YearControl";
 import FlyToSelectedKommune from './FlyToSelectedKommune';
 import InvalidateMapSize from "./InvalidateMapSize";
 import KommuneLabel from './KommuneLabel';
+import { useState } from 'react';
 
 
 function Map() {
 
+  const [mouseOver, setMouseOver] = useState(false);
+
   return (
+    <div 
+      className="mapContainer"
+      onMouseEnter={() => setMouseOver(true)}
+      onMouseLeave={() => setMouseOver(false)}
+    >
     <MapContainer 
       className="klimamap" 
       center={[64, 10]} 
@@ -28,11 +36,12 @@ function Map() {
       />
       <KommuneLayer />
 
-      <KommuneLabel />
+      <KommuneLabel mouseOnMap={mouseOver} />
       <YearControl />
       <FlyToSelectedKommune />
       <InvalidateMapSize />
     </MapContainer>
+    </div>
   )
 }
 

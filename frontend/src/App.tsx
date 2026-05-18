@@ -14,9 +14,6 @@ function App() {
 
   const {
     fetchData,
-    highlightedKommune,
-    data,
-    selectedYear,
     selectedDistribuion, 
     layout,
   } = useDataStore();
@@ -34,7 +31,7 @@ function App() {
         <h1>
           Klimarisk
         </h1>
-        <div>
+        <div className="headerControls">
           <LayoutSelect />
           <LanguageSelect />
         </div>
