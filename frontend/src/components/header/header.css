@@ -4,30 +4,51 @@ header {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding-top: calc(var(--grid-gap) / 2);
+  box-sizing: border-box;
+  user-select: none;
 }
 
 header h1 {
   margin: 0;
-  padding: 0.2rem 1rem;
+  padding: 0 1rem;
   font-size: 1.5rem;
-  line-height: calc(var(--header-height) - 0.4rem);
+  line-height: var(--header-height);
+}
+
+header h1 a {
+  color: inherit;
+  text-decoration: none;
 }
 
 .headerControls {
   display: flex;
   flex-direction: row;
   align-items: center;
-  overflow: hidden;
-  height: inherit;
+  height: 100%;
+  gap: 3em;
 }
 
 .headerControls .label {
   display: inline-flex;
 }
 
+.yearSelect {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0;
+}
+
 .yearSelect button {
   box-sizing: border-box;
   height: var(--header-height);
+  padding: 0;
+  width: 3.5em;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
 }
 
 .yearSelect .selected {
@@ -40,21 +61,33 @@ header h1 {
   border-bottom: 2px solid black;
   box-sizing: border-box;
   height: var(--header-height);
+  padding: 0 .6em;
 }
 
 
 .languageSelect {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   height: var(--header-height);
+  padding: 0;
   font-size: 1rem;
 }
-.languageSelect > svg {
-  height: 1.4em;
+
+.languageIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: .2em;
+}
+
+.languageIcon svg {
+  height: 1.2em;
 }
 
 .languageCode {
   width: 2em;
+  line-height: var(--header-height);
+  text-align: left;
 }

@@ -9,13 +9,15 @@ function Header() {
   return (
     <header>
       <h1>
-        Klimarisk
+        <a href="https://github.com/tiltobias/klimarisk" target="_blank" rel="noopener noreferrer">
+          Klimarisk
+        </a>
       </h1>
       <div className="headerControls">
         <YearSelect />
         <LayoutSelect />
-        <LanguageSelect />
       </div>
+      <LanguageSelect />
     </header>
   )
 }

@@ -40,6 +40,11 @@ thead button {
   align-items: center;
 }
 
+thead button:hover,
+thead button:focus {
+  background: rgba(0, 0, 0, 0.3);
+} 
+
 .sortIcon {
   padding: 0 0 0 .2em;
   display: flex;

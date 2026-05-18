@@ -13,7 +13,9 @@ function LanguageSelect() {
       onClick={() => language === "en" ? setLanguage("no") : setLanguage("en")}
       className="languageSelect"
     >
-      <Globe />
+      <div className="languageIcon">
+        <Globe />
+      </div>
       <div className="languageCode">
         {language === "en" ? "EN" : "NO"}
       </div>
