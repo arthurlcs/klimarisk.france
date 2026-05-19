@@ -50,11 +50,14 @@ function buildHistogram(values: number[], bins: number, fylkeValues: number[]): 
   }));
 }
 
-function getTicks(domain?: [number, number]): number[] {
+function getTicks(domain?: [number, number], colors?: string[]): number[] {
   if (!domain) return [0, 1000];
-  const min10 = Math.floor(domain[0] / 10) * 10;
-  const max10 = Math.ceil(domain[1] / 10) * 10;
-  return [min10, (max10+min10)/2, max10];
+  const min10 = domain[0] //Math.floor(domain[0] / 10) * 10;
+  const max10 = domain[1] //Math.ceil(domain[1] / 10) * 10;
+  if (!colors || colors.length === 0) return [min10, (max10+min10)/2, max10];
+  return [...colors.map((_, i) => {
+    return Math.round(min10 + (i / colors.length) * (max10 - min10));
+  }), Math.round(max10)];
 }
 
 function mean(arr: number[]): number | undefined {
@@ -150,8 +153,8 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
 
   const ticks = useMemo(() => {
     if (!distribution) return [0, 100];
-    return getTicks(domain);
-  }, [distribution, domain]);
+    return getTicks(domain, riskColors);
+  }, [distribution, domain, riskColors]);
 
   const [visibleStats, setVisibleStats] = useState<Record<Region, Record<Stat, boolean>>>({
     norge: {
@@ -307,7 +310,7 @@ const CustomTick = (props: unknown) => {
   let textAnchor: "start" | "middle" | "end" = "middle";
 
   if (index === 0) textAnchor = "start";           // first tick → left-aligned
-  else if (index === 2) textAnchor = "end"; // last → right-aligned
+  else if (index === 5) textAnchor = "end"; // last → right-aligned
 
   return (
     <text
