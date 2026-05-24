@@ -9,21 +9,10 @@
       "metrics": [
         {
           "name": {
-            "no": "Råtefare",
-            "en": "Rot risk"
+            "no": "Tørke",
+            "en": "Drought"
           },
-          "key": "fRatefare"
-        },
-        {
-          "name": {
-            "no": "Snødekke",
-            "en": "Snow Cover"
-          },
-          "description": {
-            "no": "Denne indikatoren viser antall dager i året med snødybde på over 30 cm. Dette er snødybden som trengs for å lage skispor. Verdien er normalisert, slik at lave verdier er bra (mindre nedgang i dager med snø) og høye verdier er dårlig (større nedgang i dager med snø).",
-            "en": "This indicator is based on the number of days with at least 30 cm of snow depth. This is the necessary depth for going skiing. The value is normalized, meaning small values (good) indicate a lesser decline in days with snow, while greater values (bad) indicate larger decline in snow-days."
-          },
-          "key": "fSD30p"
+          "key": "fMrro30plt"
         },
         {
           "name": {
@@ -38,6 +27,27 @@
             "en": "Flood hazard"
           },
           "key": "fFlom"
+        },
+        {
+          "name": {
+            "no": "Kraftig nedbør",
+            "en": "Heavy precipitation"
+          },
+          "key": "fPr997"
+        },
+        {
+          "name": {
+            "no": "Kraftig vind",
+            "en": "Strong wind"
+          },
+          "key": "fSfcWind997"
+        },
+        {
+          "name": {
+            "no": "Skisesong",
+            "en": "Ski season"
+          },
+          "key": "fSwe60ae"
         }
       ]
     },
