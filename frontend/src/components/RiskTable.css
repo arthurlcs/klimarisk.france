@@ -15,6 +15,7 @@ thead {
   top: 0;
   background-color: var(--c-bg1);
   z-index: 10;
+  user-select: none;
 }
 
 thead::after { /* Table sticky header border-bottom */

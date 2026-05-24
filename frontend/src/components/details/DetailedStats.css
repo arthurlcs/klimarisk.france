@@ -16,6 +16,7 @@
   position: sticky;
   top: 0;
   background-color: var(--c-bg1);
+  z-index: 1;
 }
 .detailsHeader > div {
   width: 3.2em;
@@ -60,6 +61,7 @@
   flex: 1;
   padding-left: var(--detail-padding);
   display: flex;
+  /* z-index: 1; */
 }
 
 .detailsRank {
