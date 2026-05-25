@@ -3,6 +3,7 @@ import type { RankRisk } from "./DetailedStats";
 import DetailsElement from "./DetailsElement";
 import useLanguageStore, { t } from "../../hooks/useLanguageStore";
 import Tooltip from "../Tooltip";
+import { useEffect, useRef } from "react";
 
 
 interface Props {
@@ -36,6 +37,13 @@ function DetailsRisk({ r }: Props) {
   }) : r.elements;
 
 
+  const selectedDistRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (selectedDistRef.current !== null) {
+      selectedDistRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [selectedDistribuion]); // Should scroll to show selected distribution detail
+
   return (
     <div 
       className={`detailsRisk ${selectedDistribuion.type === "risk" ? "selected" : ""}`}
@@ -57,6 +65,7 @@ function DetailsRisk({ r }: Props) {
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "risk"})}
         className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlighted" : ""}`}
+        ref={selectedDistribuion.type === "risk" ? selectedDistRef : null}
       >
         <div
           className="colorBox"

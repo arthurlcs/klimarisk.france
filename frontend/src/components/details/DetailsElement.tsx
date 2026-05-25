@@ -3,6 +3,7 @@ import type { RankElement } from "./DetailedStats";
 import DetailsMetric from "./DetailsMetric";
 import useLanguageStore from "../../hooks/useLanguageStore";
 import Tooltip from "../Tooltip";
+import { useEffect, useRef } from "react";
 
 interface Props {
   e: RankElement;
@@ -35,6 +36,14 @@ function DetailsElement({ e }: Props) {
     return -(aVal - bVal)
   }) : e.metrics;
 
+
+  const selectedDistRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (selectedDistRef.current !== null) {
+      selectedDistRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [selectedDistribuion]); // Should scroll to show selected distribution detail
+
   return (
     <li className={`detailsElement ${selectedDistribuion.type === "element" && selectedDistribuion.key === e.key ? "selected" : ""}`}>
       <button 
@@ -42,6 +51,7 @@ function DetailsElement({ e }: Props) {
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "element", key: e.key})}
         className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "element" && highlightedDistribution.key === e.key ? "highlighted" : ""}`}
+        ref={selectedDistribuion.type === "element" && selectedDistribuion.key === e.key ? selectedDistRef : null}
       >
         <div
           className="colorBox"

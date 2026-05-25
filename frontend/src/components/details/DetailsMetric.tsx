@@ -2,6 +2,7 @@ import useDataStore, { type DistributionKey } from "../../hooks/useDataStore";
 import type { RankMetric } from "./DetailedStats";
 import useLanguageStore from "../../hooks/useLanguageStore";
 import Tooltip from "../Tooltip";
+import { useEffect, useRef } from "react";
 
 interface Props {
   m: RankMetric;
@@ -24,6 +25,14 @@ function DetailsMetric({ m }: Props) {
     setSelectedDistribution(key);
   }
 
+
+  const selectedDistRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (selectedDistRef.current !== null) {
+      selectedDistRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [selectedDistribuion]); // Should scroll to show selected distribution detail
+
   return (
     <li 
       className={`detailsMetric ${selectedDistribuion.type === "metric" && selectedDistribuion.key === m.key ? "selected" : ""}`}
@@ -33,6 +42,7 @@ function DetailsMetric({ m }: Props) {
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "metric", key: m.key})}
         className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "metric" && highlightedDistribution.key === m.key ? "highlighted" : ""}`}
+        ref={selectedDistribuion.type === "metric" && selectedDistribuion.key === m.key ? selectedDistRef : null}
       >
         <div
           className="colorBox"
