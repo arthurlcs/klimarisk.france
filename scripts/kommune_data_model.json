@@ -24,7 +24,7 @@
         {
           "name": {
             "no": "Råtefare",
-            "en": "Rot risk"
+            "en": "Rot decay"
           },
           "col_name": "fRåtefare2000_0_100",
           "key": "fRatefare"
@@ -110,7 +110,7 @@
         {
           "name": {
             "no": "Stormskade",
-            "en": "Storm exp."
+            "en": "Storm damage"
           },
           "col_name": "eStorm2000_0_100",
           "key": "eStorm"
@@ -118,7 +118,7 @@
         {
           "name": {
             "no": "Stormfloskade",
-            "en": "Storm surge exp."
+            "en": "Storm surge damage"
           },
           "col_name": "eStormflo2000_0_100",
           "key": "eStormflo"
@@ -126,7 +126,7 @@
         {
           "name": {
             "no": "Flomskade",
-            "en": "Flood exp."
+            "en": "Flood damage"
           },
           "col_name": "eFlom2000_0_100",
           "key": "eFlom"
@@ -134,7 +134,7 @@
         {
           "name": {
             "no": "Skredskade",
-            "en": "Landslide exp."
+            "en": "Landslide damage"
           },
           "col_name": "eSkred2000_0_100",
           "key": "eSkred"
@@ -142,7 +142,7 @@
         {
           "name": {
             "no": "Overvannsskade",
-            "en": "Water exp."
+            "en": "Surface water damage"
           },
           "col_name": "eOvervann2000_0_100",
           "key": "eOvervann"
