@@ -98,35 +98,35 @@
         {
           "name": {
             "no": "Stormskade",
-            "en": "Storm exp."
+            "en": "Storm damage"
           },
           "key": "eStorm"
         },
         {
           "name": {
             "no": "Stormfloskade",
-            "en": "Storm surge exp."
+            "en": "Storm surge damage"
           },
           "key": "eStormflo"
         },
         {
           "name": {
             "no": "Flomskade",
-            "en": "Flood exp."
+            "en": "Flood damage"
           },
           "key": "eFlom"
         },
         {
           "name": {
             "no": "Skredskade",
-            "en": "Landslide exp."
+            "en": "Landslide damage"
           },
           "key": "eSkred"
         },
         {
           "name": {
             "no": "Overvannsskade",
-            "en": "Water exp."
+            "en": "Surface water damage"
           },
           "key": "eOvervann"
         }
