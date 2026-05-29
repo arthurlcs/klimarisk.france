@@ -42,7 +42,7 @@ thead button {
 }
 
 thead button:hover,
-thead button:focus {
+thead button:focus-visible {
   background: rgba(0, 0, 0, 0.3);
 } 
 

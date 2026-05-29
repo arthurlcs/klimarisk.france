@@ -7,8 +7,7 @@
   --c-bg1: #fff;
   --c-bg2: #eee;
   --c-bg3: #ddd;
-  --c-bg4: #777;
-  /* --c-text: #213547; */
+  --c-bg4: #888;
   --c-text: #000;
   --c-accent: #000;
   --c-accent2: #444;
@@ -48,6 +47,7 @@ button {
   font-family: inherit;
 }
 
-button:hover {
+button:hover,
+button:focus-visible {
   background: rgba(0, 0, 0, 0.3);
 }
