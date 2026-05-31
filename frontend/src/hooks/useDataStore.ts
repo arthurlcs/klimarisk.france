@@ -75,13 +75,7 @@ const sumInvertibleValues = (metrics: Metric[], kommune: KommuneData): number =>
   return metrics.reduce((acc, metric) => acc + (metric.disabled ? 0 : (metric.invert === true ? 100-kommune[metric.key] : kommune[metric.key])), 0)
 }
 
-const defaultRiskColors = [
-  '#fff5f0',
-  '#fcbba1',
-  '#fb6a4a',
-  '#cb181d',
-  '#67000d'
-]
+import { riskColors as defaultRiskColors } from './constants';
 
 interface DataStore {
   dataModel: DataModel | null;
