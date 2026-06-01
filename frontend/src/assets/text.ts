@@ -105,6 +105,10 @@ const text = {
         en: "municipalities",
         no: "kommuner",
       },
+      interval: {
+        en: "Interval",
+        no: "Intervall",
+      },
     },
     stats: {
       mean: {

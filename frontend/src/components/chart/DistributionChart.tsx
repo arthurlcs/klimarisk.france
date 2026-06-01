@@ -16,13 +16,16 @@ type ChartPoint = {
   value: number;
   count: number;
   countCounty?: number;
+  cosmetic?: boolean;
+  intervalStart?: number;
+  intervalEnd?: number;
 };
 
-function buildHistogram(values: number[], bins: number, fylkeValues: number[]): ChartPoint[] {
+function buildHistogram(values: number[], bins: number, fylkeValues: number[], domain: [number, number]): ChartPoint[] {
   if (values.length === 0) return [];
 
-  const min = values[0];
-  const max = values[values.length - 1];
+  const min = domain[0];
+  const max = domain[1];
   const step = (max - min) / bins;
 
   const counts = Array(bins).fill(0);
@@ -43,11 +46,31 @@ function buildHistogram(values: number[], bins: number, fylkeValues: number[]): 
     fylkeCounts[index]++;
   }
 
-  return counts.map((count, i) => ({
+  const chartPoints = counts.map((count, i) => ({
     value: min + i * step + step / 2,
     count,
-    countCounty: fylkeCounts[i]
+    countCounty: fylkeCounts[i],
+    intervalStart: min + i * step,
+    intervalEnd: min + (i + 1) * step,
   }));
+
+  return [
+    // {
+    //   value: min - step / 2,
+    //   count: chartPoints[0].count,
+    //   // count: 0,
+    //   countCounty: chartPoints[0].countCounty,
+    //   cosmetic: true,
+    // },
+    ...chartPoints,
+    // {
+    //   value: max + step / 2,
+    //   count: chartPoints[chartPoints.length - 1].count,
+    //   // count: 0,
+    //   countCounty: chartPoints[chartPoints.length - 1].countCounty,
+    //   cosmetic: true,
+    // }
+  ];
 }
 
 function getTicks(domain?: [number, number]): number[] {
@@ -72,7 +95,7 @@ function median(sortedArr: number[]): number | undefined {
 
 
 
-function DistributionChart({ distributionKey, bins = 25 }: Props) {
+function DistributionChart({ distributionKey, bins = 20 }: Props) {
   const { 
     data,
     cache, 
@@ -116,10 +139,6 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     return fylkeValues.sort((a, b) => a - b)
   }, [distribution, selectedKommune, yearData, yearCache, distributionKey]);
 
-  const chartData = useMemo(() => {
-    if (!distribution) return []
-    return buildHistogram(distribution, bins, fylkeDistribution);
-  }, [distribution, bins, fylkeDistribution]);
 
   const kommuneData = yearData && selectedKommune ? yearData.byKommune[selectedKommune] : undefined;
   const kommuneCache = yearCache && selectedKommune ? yearCache.byKommune[selectedKommune] : undefined;
@@ -152,6 +171,11 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     if (!distribution) return [0, 100];
     return getTicks(domain);
   }, [distribution, domain]);
+
+  const chartData = useMemo(() => {
+    if (!distribution) return []
+    return buildHistogram(distribution, bins, fylkeDistribution, domain ?? [0, 1000]);
+  }, [distribution, bins, fylkeDistribution, domain]);
 
   const [visibleStats, setVisibleStats] = useState<Record<Region, Record<Stat, boolean>>>({
     norge: {
@@ -226,6 +250,18 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
               return [value, name];
             }}
             labelFormatter={(label) => `${l(t.chart.tooltip.value)}: ${Number(label).toFixed(1)}`}
+            content={(props) => {
+              if (!props.active || !props.payload || props.payload.length === 0) return null;
+              const payload = props.payload[0].payload as ChartPoint;
+              if (payload.cosmetic) return null; // don't show tooltip for cosmetic points
+              return (
+                <div className="customTooltip">
+                  <div>{`${l(t.chart.tooltip.interval)}: ${payload.intervalStart?.toFixed(0)} - ${payload.intervalEnd?.toFixed(0)}`}</div>
+                  <div style={{ color: "var(--c-norge)" }}>{`${l(t.chart.tooltip.norway)}: ${payload.count} ${l(t.chart.tooltip.kommuner)}`}</div>
+                  <div style={{ color: "var(--c-fylke)" }}>{`${l(t.chart.tooltip.county)}: ${payload.countCounty} ${l(t.chart.tooltip.kommuner)}`}</div>
+                </div>
+              )
+            }}
           />
           <Area
             type="monotone"
