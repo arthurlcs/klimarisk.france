@@ -109,3 +109,8 @@ g:focus {
   flex-direction: column;
   gap: .2em;
 }
+
+.customTooltip > div:first-child {
+  font-style: italic;
+  color: var(--c-accent2);
+}
