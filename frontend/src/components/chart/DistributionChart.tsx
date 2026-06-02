@@ -231,9 +231,17 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
               if (payload.cosmetic) return null; // don't show tooltip for cosmetic points
               return (
                 <div className="customTooltip">
-                  <div>{`${l(t.chart.tooltip.interval)}: ${payload.intervalStart?.toFixed(0)} - ${payload.intervalEnd?.toFixed(0)}`}</div>
-                  <div style={{ color: "var(--c-norge)" }}>{`${l(t.chart.tooltip.norway)}: ${payload.count} ${l(t.chart.tooltip.kommuner)}`}</div>
-                  <div style={{ color: "var(--c-fylke)" }}>{`${l(t.chart.tooltip.county)}: ${payload.countCounty} ${l(t.chart.tooltip.kommuner)}`}</div>
+                  <div>
+                    {`${l(t.chart.tooltip.interval)}: ${payload.intervalStart?.toFixed(0)} - ${payload.intervalEnd?.toFixed(0)}`}
+                  </div>
+                  <div style={{ color: "var(--c-norge)" }}>
+                    {`${l(t.chart.tooltip.norway)}: ${payload.count} ${l(t.chart.tooltip.kommuner)}`}
+                  </div>
+                  {selectedKommune && (
+                    <div style={{ color: "var(--c-fylke)" }}>
+                      {`${l(t.chart.tooltip.county)}: ${payload.countCounty} ${l(t.chart.tooltip.kommuner)}`}
+                    </div>
+                  )}
                 </div>
               )
             }}
