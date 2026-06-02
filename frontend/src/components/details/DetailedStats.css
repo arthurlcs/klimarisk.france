@@ -47,6 +47,7 @@
   padding-left: var(--detail-padding);
   padding-block: var(--detail-padding);
   font-weight: 400;
+  transition: 0;
 }
 
 .colorBox {
