@@ -183,7 +183,7 @@
         "no": "Responsindeksen viser kommunens innsats for å kjempe klimaproblemer. Her er høye verdier positivt, og veier negativt på den totale risikoen.",
         "en": "The Response index reflects the municipality's efforts in fighting climate issues. For this index greater values are good, and reduce the total risk."
       },
-      "invert": true,
+      "inverted": true,
       "indicators": [
         {
           "key": "rMaxTilskudd",

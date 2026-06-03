@@ -60,7 +60,7 @@ kommune_data_model = {
         "key": determinant["key"],
         "name": determinant["name"],
         **({"description": determinant["description"]} if "description" in determinant else {}),
-        **({"invert": determinant["invert"]} if "invert" in determinant else {}),
+        **({"invert": determinant["inverted"]} if "inverted" in determinant else {}),
         "metrics": [{
             "key": indicator["key"],
             "name": indicator["name"],
