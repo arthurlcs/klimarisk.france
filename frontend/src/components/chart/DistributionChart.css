@@ -97,3 +97,20 @@ g:focus {
 .chartStatsContainer .median {
   border-bottom: 2px dotted black;
 }
+
+
+.customTooltip {
+  pointer-events: none;
+  background-color: var(--c-bg1);
+  padding: .5em;
+  border: 1px solid var(--c-accent);
+  border-radius: .2em;
+  display: flex;
+  flex-direction: column;
+  gap: .2em;
+}
+
+.customTooltip > div:first-child {
+  font-style: italic;
+  color: var(--c-accent2);
+}

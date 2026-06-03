@@ -11,8 +11,6 @@ const text = {
   },
   header: {
     layout: {
-      en: "Switch Layout",
-      no: "Bytt Oppsett",
       l1: {
         en: "Nationwide overview",
         no: "Landsdekkende oversikt",
@@ -21,25 +19,13 @@ const text = {
         en: "Municipality analysis",
         no: "Kommuneanalyse",
       },
-      selected: {
+      label: {
         en: "Analysis mode",
         no: "Analysemodus",
       }
     },
     year: {
-      2000: {
-        en: "Current time",
-        no: "Nåtid",
-      },
-      2050: {
-        en: "Near future",
-        no: "Nær fremtid",
-      },
-      2100: {
-        en: "Far future",
-        no: "Fjern fremtid",
-      },
-      selected: {
+      label: {
         en: "Selected time",
         no: "Valgt tidspunkt",
       },
@@ -104,6 +90,10 @@ const text = {
       kommuner: {
         en: "municipalities",
         no: "kommuner",
+      },
+      interval: {
+        en: "Interval",
+        no: "Intervall",
       },
     },
     stats: {

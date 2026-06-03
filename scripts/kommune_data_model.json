@@ -1,167 +1,192 @@
 {
   "years": [
     {
-      "name": "2000",
+      "key": "2000",
+      "name": {
+        "no": "2000",
+        "en": "2000"
+      },
+      "description": {
+        "no": "Referanseperiode",
+        "en": "Reference period"
+      },
       "sheet_name": "KomRangNy_2000"
     },
     {
-      "name": "2050",
+      "key": "2050",
+      "name": {
+        "no": "2050",
+        "en": "2050"
+      },
+      "description": {
+        "no": "Nær fremtid",
+        "en": "Near future"
+      },
       "sheet_name": "KomRangNy_2050"
     },
     {
-      "name": "2100",
+      "key": "2100",
+      "name": {
+        "no": "2100",
+        "en": "2100"
+      },
+      "description": {
+        "no": "Fjern fremtid",
+        "en": "Far future"
+      },
       "sheet_name": "KomRangNy_2100"
     }
   ],
-  "elements": [
+  "determinants": [
     {
+      "key": "f",
       "name": {
         "en": "Hazard",
         "no": "Fare"
       },
-      "key": "f",
-      "metrics": [
+      "indicators": [
         {
+          "key": "fMrro30plt",
           "name": {
             "no": "Tørke",
             "en": "Drought"
           },
-          "col_name": "fMrro30plt_2000_0_100",
-          "key": "fMrro30plt"
+          "col_name": "fMrro30plt_2000_0_100"
         },
         {
+          "key": "fStormflo",
           "name": {
             "no": "Stormflofare",
             "en": "Storm surge"
           },
-          "col_name": "fStormflo2000_0_100",
-          "key": "fStormflo"
+          "col_name": "fStormflo2000_0_100"
         },
         {
+          "key": "fFlom",
           "name": {
             "no": "Flomfare",
             "en": "Flood hazard"
           },
-          "col_name": "fFlom2000_0_100",
-          "key": "fFlom"
+          "col_name": "fFlom2000_0_100"
         },
         {
+          "key": "fPr997",
           "name": {
             "no": "Kraftig nedbør",
             "en": "Heavy precipitation"
           },
-          "col_name": "fPr997_2000_0_100",
-          "key": "fPr997"
+          "col_name": "fPr997_2000_0_100"
         },
         {
+          "key": "fSfcWind997",
           "name": {
             "no": "Kraftig vind",
             "en": "Strong wind"
           },
-          "col_name": "fSfcWind997_2000_0_100",
-          "key": "fSfcWind997"
+          "col_name": "fSfcWind997_2000_0_100"
         },
         {
+          "key": "fSwe60ae",
           "name": {
             "no": "Skisesong",
             "en": "Ski season"
           },
-          "col_name": "fSwe60ae2000_0_100",
-          "key": "fSwe60ae"
+          "col_name": "fSwe60ae2000_0_100"
         }
       ]
     },
     {
+      "key": "s",
       "name": {
         "en": "Vulnerability",
         "no": "Sårbarhet"
       },
-      "key": "s",
-      "metrics": [
+      "indicators": [
         {
+          "key": "sBefTett",
           "name": {
             "no": "Befolkningstetthet",
             "en": "Population density"
           },
-          "col_name": "sBefTett2000_0_100",
-          "key": "sBefTett"
+          "col_name": "sBefTett2000_0_100"
         },
         {
+          "key": "sPrim",
           "name": {
             "no": "Primærnæring",
             "en": "Primary industry"
           },
-          "col_name": "sPrim2000_0_100",
-          "key": "sPrim"
+          "col_name": "sPrim2000_0_100"
         },
         {
+          "key": "sMob",
           "name": {
             "no": "Mobilitet",
             "en": "Mobility"
           },
-          "col_name": "sMob_2000_0_100",
-          "key": "sMob"
+          "col_name": "sMob_2000_0_100"
         },
         {
+          "key": "sVulPop",
           "name": {
             "no": "Sårbar befolkning",
             "en": "Vulnerable population"
           },
-          "col_name": "sVulPop2000_0_100",
-          "key": "sVulPop"
+          "col_name": "sVulPop2000_0_100"
         }
       ]
     },
     {
+      "key": "e",
       "name": {
         "en": "Exposure",
         "no": "Eksponering"
       },
-      "key": "e",
-      "metrics": [
+      "indicators": [
         {
+          "key": "eStorm",
           "name": {
             "no": "Stormskade",
             "en": "Storm damage"
           },
-          "col_name": "eStorm2000_0_100",
-          "key": "eStorm"
+          "col_name": "eStorm2000_0_100"
         },
         {
+          "key": "eStormflo",
           "name": {
             "no": "Stormfloskade",
             "en": "Storm surge damage"
           },
-          "col_name": "eStormflo2000_0_100",
-          "key": "eStormflo"
+          "col_name": "eStormflo2000_0_100"
         },
         {
+          "key": "eFlom",
           "name": {
             "no": "Flomskade",
             "en": "Flood damage"
           },
-          "col_name": "eFlom2000_0_100",
-          "key": "eFlom"
+          "col_name": "eFlom2000_0_100"
         },
         {
+          "key": "eSkred",
           "name": {
             "no": "Skredskade",
             "en": "Landslide damage"
           },
-          "col_name": "eSkred2000_0_100",
-          "key": "eSkred"
+          "col_name": "eSkred2000_0_100"
         },
         {
+          "key": "eOvervann",
           "name": {
             "no": "Overvannsskade",
             "en": "Surface water damage"
           },
-          "col_name": "eOvervann2000_0_100",
-          "key": "eOvervann"
+          "col_name": "eOvervann2000_0_100"
         }
       ]
     },
     {
+      "key": "r",
       "name": {
         "en": "Response",
         "no": "Respons"
@@ -170,40 +195,39 @@
         "no": "Responsindeksen viser kommunens innsats for å kjempe klimaproblemer. Her er høye verdier positivt, og veier negativt på den totale risikoen.",
         "en": "The Response index reflects the municipality's efforts in fighting climate issues. For this index greater values are good, and reduce the total risk."
       },
-      "key": "r",
       "invert": true,
-      "metrics": [
+      "indicators": [
         {
+          "key": "rMaxTilskudd",
           "name": {
             "no": "Tilskudd",
             "en": "Grants"
           },
-          "col_name": "rMaxTilskudd_0_100",
-          "key": "rMaxTilskudd"
+          "col_name": "rMaxTilskudd_0_100"
         },
         {
+          "key": "rDSB",
           "name": {
             "no": "Planlegging",
             "en": "Planning"
           },
-          "col_name": "rDSB_0_100",
-          "key": "rDSB"
+          "col_name": "rDSB_0_100"
         },
         {
+          "key": "rTiltak",
           "name": {
             "no": "Tiltak",
             "en": "Measures"
           },
-          "col_name": "rTiltak_0_100",
-          "key": "rTiltak"
+          "col_name": "rTiltak_0_100"
         },
         {
+          "key": "rBerekraft",
           "name": {
             "no": "Bærekraft",
             "en": "Sustainability"
           },
-          "col_name": "rBerekraft_0_100",
-          "key": "rBerekraft"
+          "col_name": "rBerekraft_0_100"
         }
       ]
     }

@@ -1,5 +1,4 @@
-import useDataStore, { type Year } from "../../hooks/useDataStore";
-import { useMemo } from "react";
+import useDataStore from "../../hooks/useDataStore";
 import Tooltip from "../Tooltip";
 import useLanguageStore, { t } from "../../hooks/useLanguageStore";
 
@@ -8,29 +7,25 @@ function YearSelect() {
   const {
     selectedYear,
     setSelectedYear,
-    data,
+    dataModel,
   } = useDataStore();
   const { l } = useLanguageStore();
 
-  const availableYears = useMemo(() => {
-    return (data && data.years ? Object.keys(data.years) : []) as Year[];
-  }, [data]);
-
-  if (!selectedYear || availableYears.length === 0) return null;
+  if (!selectedYear) return null;
 
   return (
     <div className="yearSelect">
       <div className="label">
-        {l(t.header.year.selected)}:
+        {l(t.header.year.label)}:
       </div>
-      {availableYears.map(year => (
+      {dataModel?.years.map(year => (
         <button
-          key={year}
-          onClick={() => setSelectedYear(year)}
-          className={year === selectedYear ? "selected" : ""}
+          key={year.key}
+          onClick={() => setSelectedYear(year.key)}
+          className={year.key === selectedYear ? "selected" : ""}
         >
-          <Tooltip text={l(t.header.year[year as "2000" | "2050" | "2100"])}>
-            {year}
+          <Tooltip text={l(year.description)}>
+            {l(year.name)}
           </Tooltip>
         </button>
       ))}

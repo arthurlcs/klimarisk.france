@@ -16,6 +16,9 @@ type ChartPoint = {
   value: number;
   count: number;
   countCounty?: number;
+  intervalStart?: number;
+  intervalEnd?: number;
+  cosmetic?: boolean;
 };
 
 function buildHistogram(values: number[], bins: number, fylkeValues: number[]): ChartPoint[] {
@@ -46,7 +49,9 @@ function buildHistogram(values: number[], bins: number, fylkeValues: number[]): 
   return counts.map((count, i) => ({
     value: min + i * step + step / 2,
     count,
-    countCounty: fylkeCounts[i]
+    countCounty: fylkeCounts[i],
+    intervalStart: min + i * step,
+    intervalEnd: min + (i + 1) * step,
   }));
 }
 
@@ -220,12 +225,26 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
           />
           {/* <YAxis /> */}
           <Tooltip 
-            formatter={(value, name) => {
-              if (name === "count") return [`${value} ${l(t.chart.tooltip.kommuner)}`, l(t.chart.tooltip.norway)];
-              if (name === "countCounty") return [`${value} ${l(t.chart.tooltip.kommuner)}`, l(t.chart.tooltip.county)];
-              return [value, name];
+            content={(props) => {
+              if (!props.active || !props.payload || props.payload.length === 0) return null;
+              const payload = props.payload[0].payload as ChartPoint;
+              if (payload.cosmetic) return null; // don't show tooltip for cosmetic points
+              return (
+                <div className="customTooltip">
+                  <div>
+                    {`${l(t.chart.tooltip.interval)}: ${payload.intervalStart?.toFixed(0)} - ${payload.intervalEnd?.toFixed(0)}`}
+                  </div>
+                  <div style={{ color: "var(--c-norge)" }}>
+                    {`${l(t.chart.tooltip.norway)}: ${payload.count} ${l(t.chart.tooltip.kommuner)}`}
+                  </div>
+                  {selectedKommune && (
+                    <div style={{ color: "var(--c-fylke)" }}>
+                      {`${l(t.chart.tooltip.county)}: ${payload.countCounty} ${l(t.chart.tooltip.kommuner)}`}
+                    </div>
+                  )}
+                </div>
+              )
             }}
-            labelFormatter={(label) => `${l(t.chart.tooltip.value)}: ${Number(label).toFixed(1)}`}
           />
           <Area
             type="monotone"

@@ -6,24 +6,31 @@ export type MetricKey = string & { readonly __brand: unique symbol};
 export type ElementKey = string & { readonly __brand: unique symbol};
 
 type Metric = {
+  key: MetricKey;
   name: Record<Language, string>; 
   description?: Record<Language, string>;
-  key: MetricKey;
   invert?: boolean;
   disabled: boolean;
 }
 
 type Element = {
+  key: ElementKey;
   name: Record<Language, string>;
   description?: Record<Language, string>;
-  key: ElementKey;
   invert?: boolean;
   disabled: boolean;
   metrics: Metric[];
 }
 
+type YearInfo = {
+  key: Year;
+  name: Record<Language, string>;
+  description?: Record<Language, string>;
+}
+
 type DataModel = { 
   elements: Element[];
+  years: YearInfo[];
 };
 
 type KommuneData = {
@@ -143,7 +150,7 @@ const useDataStore = create<DataStore>((set, get) => ({
       });
     });
 
-    const selectedYear = Object.keys(data.years)[0] as Year // TODO: Make default year property in kommune_data_model.json?
+    const selectedYear = dataModel.years[0].key; // TODO: Make default year property in kommune_data_model.json?
     set({ dataModel, data, selectedYear });
 
     get().refreshCacheDeep();
