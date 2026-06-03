@@ -57,14 +57,14 @@ with open(out_path, 'w', encoding='utf-8') as f:
 # Recreate the data model with only useful information for the frontend
 kommune_data_model = {
     "elements": [{
+        "key": element["key"],
         "name": element["name"],
         **({"description": element["description"]} if "description" in element else {}),
-        "key": element["key"],
         **({"invert": element["invert"]} if "invert" in element else {}),
         "metrics": [{
+            "key": metric["key"],
             "name": metric["name"],
             **({"description": metric["description"]} if "description" in metric else {}),
-            "key": metric["key"],
             **({"invert": metric["invert"]} if "invert" in metric else {}),
         } for metric in element["metrics"]],
     } for element in dm["elements"]]

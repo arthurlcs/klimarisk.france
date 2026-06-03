@@ -1,20 +1,21 @@
 {
   "elements": [
     {
+      "key": "f",
       "name": {
         "en": "Hazard",
         "no": "Fare"
       },
-      "key": "f",
       "metrics": [
         {
+          "key": "fRatefare",
           "name": {
             "no": "Råtefare",
             "en": "Rot decay"
-          },
-          "key": "fRatefare"
+          }
         },
         {
+          "key": "fSD30p",
           "name": {
             "no": "Snødekke",
             "en": "Snow Cover"
@@ -22,107 +23,107 @@
           "description": {
             "no": "Denne indikatoren viser antall dager i året med snødybde på over 30 cm. Dette er snødybden som trengs for å lage skispor. Verdien er normalisert, slik at lave verdier er bra (mindre nedgang i dager med snø) og høye verdier er dårlig (større nedgang i dager med snø).",
             "en": "This indicator is based on the number of days with at least 30 cm of snow depth. This is the necessary depth for going skiing. The value is normalized, meaning small values (good) indicate a lesser decline in days with snow, while greater values (bad) indicate larger decline in snow-days."
-          },
-          "key": "fSD30p"
+          }
         },
         {
+          "key": "fStormflo",
           "name": {
             "no": "Stormflofare",
             "en": "Storm surge"
-          },
-          "key": "fStormflo"
+          }
         },
         {
+          "key": "fFlom",
           "name": {
             "no": "Flomfare",
             "en": "Flood hazard"
-          },
-          "key": "fFlom"
+          }
         }
       ]
     },
     {
+      "key": "s",
       "name": {
         "en": "Vulnerability",
         "no": "Sårbarhet"
       },
-      "key": "s",
       "metrics": [
         {
+          "key": "sBefTett",
           "name": {
             "no": "Befolkningstetthet",
             "en": "Population density"
-          },
-          "key": "sBefTett"
+          }
         },
         {
+          "key": "sPrim",
           "name": {
             "no": "Primærnæring",
             "en": "Primary industry"
-          },
-          "key": "sPrim"
+          }
         },
         {
+          "key": "sMob",
           "name": {
             "no": "Mobilitet",
             "en": "Mobility"
-          },
-          "key": "sMob"
+          }
         },
         {
+          "key": "sVulPop",
           "name": {
             "no": "Sårbar befolkning",
             "en": "Vulnerable population"
-          },
-          "key": "sVulPop"
+          }
         }
       ]
     },
     {
+      "key": "e",
       "name": {
         "en": "Exposure",
         "no": "Eksponering"
       },
-      "key": "e",
       "metrics": [
         {
+          "key": "eStorm",
           "name": {
             "no": "Stormskade",
             "en": "Storm damage"
-          },
-          "key": "eStorm"
+          }
         },
         {
+          "key": "eStormflo",
           "name": {
             "no": "Stormfloskade",
             "en": "Storm surge damage"
-          },
-          "key": "eStormflo"
+          }
         },
         {
+          "key": "eFlom",
           "name": {
             "no": "Flomskade",
             "en": "Flood damage"
-          },
-          "key": "eFlom"
+          }
         },
         {
+          "key": "eSkred",
           "name": {
             "no": "Skredskade",
             "en": "Landslide damage"
-          },
-          "key": "eSkred"
+          }
         },
         {
+          "key": "eOvervann",
           "name": {
             "no": "Overvannsskade",
             "en": "Surface water damage"
-          },
-          "key": "eOvervann"
+          }
         }
       ]
     },
     {
+      "key": "r",
       "name": {
         "en": "Response",
         "no": "Respons"
@@ -131,36 +132,35 @@
         "no": "Responsindeksen viser kommunens innsats for å kjempe klimaproblemer. Her er høye verdier positivt, og veier negativt på den totale risikoen.",
         "en": "The Response index reflects the municipality's efforts in fighting climate issues. For this index greater values are good, and reduce the total risk."
       },
-      "key": "r",
       "invert": true,
       "metrics": [
         {
+          "key": "rMaxTilskudd",
           "name": {
             "no": "Tilskudd",
             "en": "Grants"
-          },
-          "key": "rMaxTilskudd"
+          }
         },
         {
+          "key": "rDSB",
           "name": {
             "no": "Planlegging",
             "en": "Planning"
-          },
-          "key": "rDSB"
+          }
         },
         {
+          "key": "rTiltak",
           "name": {
             "no": "Tiltak",
             "en": "Measures"
-          },
-          "key": "rTiltak"
+          }
         },
         {
+          "key": "rBerekraft",
           "name": {
             "no": "Bærekraft",
             "en": "Sustainability"
-          },
-          "key": "rBerekraft"
+          }
         }
       ]
     }
