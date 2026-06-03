@@ -164,5 +164,40 @@
         }
       ]
     }
+  ],
+  "years": [
+    {
+      "key": "2000",
+      "name": {
+        "no": "2000",
+        "en": "2000"
+      },
+      "description": {
+        "no": "Referanseperiode",
+        "en": "Reference period"
+      }
+    },
+    {
+      "key": "2050",
+      "name": {
+        "no": "2050",
+        "en": "2050"
+      },
+      "description": {
+        "no": "Nær fremtid",
+        "en": "Near future"
+      }
+    },
+    {
+      "key": "2100",
+      "name": {
+        "no": "2100",
+        "en": "2100"
+      },
+      "description": {
+        "no": "Fjern fremtid",
+        "en": "Far future"
+      }
+    }
   ]
 }

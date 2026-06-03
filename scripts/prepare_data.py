@@ -33,7 +33,7 @@ for year in dm["years"]:
         }
         for determinant in dm["determinants"]:
             for indicator in determinant["indicators"]:
-                indicator_value = row[fixKey(indicator["col_name"], year["name"])]
+                indicator_value = row[fixKey(indicator["col_name"], year["key"])]
 
                 kommune_data_year_byKommune[indicator["key"]] = indicator_value
 
@@ -49,7 +49,7 @@ for year in dm["years"]:
     for metric in kommune_data_year["byMetric"]:
         kommune_data_year["byMetric"][metric].sort()
 
-    kommune_data["years"][year["name"]] = kommune_data_year
+    kommune_data["years"][year["key"]] = kommune_data_year
 
 with open(out_path, 'w', encoding='utf-8') as f:
     json.dump(kommune_data, f, ensure_ascii=False, indent=2)
@@ -67,7 +67,13 @@ kommune_data_model = {
             **({"description": indicator["description"]} if "description" in indicator else {}),
             **({"invert": indicator["invert"]} if "invert" in indicator else {}),
         } for indicator in determinant["indicators"]],
-    } for determinant in dm["determinants"]]
+    } for determinant in dm["determinants"]],
+
+    "years": [{
+        "key": year["key"],
+        "name": year["name"],
+        "description": year["description"],
+    } for year in dm["years"]],
 }
 
 with open(out_path_model, "w", encoding="utf-8") as f:

@@ -1,15 +1,40 @@
 {
   "years": [
     {
-      "name": "2000",
+      "key": "2000",
+      "name": {
+        "no": "2000",
+        "en": "2000"
+        
+      },
+      "description": {
+        "no": "Referanseperiode",
+        "en": "Reference period"
+      },
       "sheet_name": "KomRang17_2000"
     },
     {
-      "name": "2050",
+      "key": "2050",
+      "name": {
+        "no": "2050",
+        "en": "2050"
+      },
+      "description": {
+        "no": "Nær fremtid",
+        "en": "Near future"
+      },
       "sheet_name": "KomRang17_2050"
     },
     {
-      "name": "2100",
+      "key": "2100",
+      "name": {
+        "no": "2100",
+        "en": "2100"
+      },
+      "description": {
+        "no": "Fjern fremtid",
+        "en": "Far future"
+      },
       "sheet_name": "KomRang17_2100"
     }
   ],
