@@ -11,8 +11,6 @@ const text = {
   },
   header: {
     layout: {
-      en: "Switch Layout",
-      no: "Bytt Oppsett",
       l1: {
         en: "Nationwide overview",
         no: "Landsdekkende oversikt",
@@ -21,13 +19,13 @@ const text = {
         en: "Municipality analysis",
         no: "Kommuneanalyse",
       },
-      selected: {
+      label: {
         en: "Analysis mode",
         no: "Analysemodus",
       }
     },
     year: {
-      selected: {
+      label: {
         en: "Selected time",
         no: "Valgt tidspunkt",
       },
