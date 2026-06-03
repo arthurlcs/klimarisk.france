@@ -72,8 +72,8 @@
             "en": "Inequality"
           },
           "description": {
-            "no": "Gini of inntekt kombinert for å uttrykke ulikhet",
-            "en": "Gini of income combined to express inequality"
+            "no": "Gini og inntekt kombinert for å uttrykke ulikhet",
+            "en": "Gini and income combined to express inequality"
           }
         },
         {
