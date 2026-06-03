@@ -59,13 +59,6 @@
       },
       "metrics": [
         {
-          "key": "sBefTett",
-          "name": {
-            "no": "Befolkningstetthet",
-            "en": "Population density"
-          }
-        },
-        {
           "key": "sPrim",
           "name": {
             "no": "Primærnæring",
@@ -73,17 +66,42 @@
           }
         },
         {
-          "key": "sMob",
+          "key": "sUlikhet",
           "name": {
-            "no": "Mobilitet",
-            "en": "Mobility"
+            "no": "Ulikhet",
+            "en": "Inequality"
+          },
+          "description": {
+            "no": "Gini of inntekt kombinert for å uttrykke ulikhet",
+            "en": "Gini of income combined to express inequality"
           }
         },
         {
-          "key": "sVulPop",
+          "key": "sExitPoints",
           "name": {
-            "no": "Sårbar befolkning",
-            "en": "Vulnerable population"
+            "no": "Exit points",
+            "en": "Exit points"
+          }
+        },
+        {
+          "key": "sBefTett",
+          "name": {
+            "no": "Befolkningstetthet",
+            "en": "Population density"
+          }
+        },
+        {
+          "key": "sRBef0_5",
+          "name": {
+            "no": "Barn 0-5 år",
+            "en": "Children 0-5 years"
+          }
+        },
+        {
+          "key": "sRBef67pl",
+          "name": {
+            "no": "Eldre 67+ år",
+            "en": "Elderly 67+ years"
           }
         }
       ]
@@ -177,10 +195,10 @@
   ],
   "years": [
     {
-      "key": "2000",
+      "key": "2025",
       "name": {
-        "no": "2000",
-        "en": "2000"
+        "no": "2025",
+        "en": "2025"
       },
       "description": {
         "no": "Referanseperiode",

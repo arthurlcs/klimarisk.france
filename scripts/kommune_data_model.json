@@ -1,16 +1,16 @@
 {
   "years": [
     {
-      "key": "2000",
+      "key": "2025",
       "name": {
-        "no": "2000",
-        "en": "2000"
+        "no": "2025",
+        "en": "2025"
       },
       "description": {
         "no": "Referanseperiode",
         "en": "Reference period"
       },
-      "sheet_name": "KomRangNy_2000"
+      "sheet_name": "KomRangNy_2025"
     },
     {
       "key": "2050",
@@ -103,14 +103,6 @@
       },
       "indicators": [
         {
-          "key": "sBefTett",
-          "name": {
-            "no": "Befolkningstetthet",
-            "en": "Population density"
-          },
-          "col_name": "sBefTett2000_0_100"
-        },
-        {
           "key": "sPrim",
           "name": {
             "no": "Primærnæring",
@@ -119,20 +111,48 @@
           "col_name": "sPrim2000_0_100"
         },
         {
-          "key": "sMob",
+          "key": "sUlikhet",
           "name": {
-            "no": "Mobilitet",
-            "en": "Mobility"
+            "no": "Ulikhet",
+            "en": "Inequality"
           },
-          "col_name": "sMob_2000_0_100"
+          "description": {
+            "no": "Gini of inntekt kombinert for å uttrykke ulikhet",
+            "en": "Gini of income combined to express inequality"
+          },
+          "col_name": "sUlikhet2000_0_100"
         },
         {
-          "key": "sVulPop",
+          "key": "sExitPoints",
           "name": {
-            "no": "Sårbar befolkning",
-            "en": "Vulnerable population"
+            "no": "Exit points",
+            "en": "Exit points"
           },
-          "col_name": "sVulPop2000_0_100"
+          "col_name": "sExitPoints2000_0_100"
+        },
+        {
+          "key": "sBefTett",
+          "name": {
+            "no": "Befolkningstetthet",
+            "en": "Population density"
+          },
+          "col_name": "sBefTett2000_0_100"
+        },
+        {
+          "key": "sRBef0_5",
+          "name": {
+            "no": "Barn 0-5 år",
+            "en": "Children 0-5 years"
+          },
+          "col_name": "sRBef0_5_2000_0_100"
+        },
+        {
+          "key": "sRBef67pl",
+          "name": {
+            "no": "Eldre 67+ år",
+            "en": "Elderly 67+ years"
+          },
+          "col_name": "sRBef67pl_2000_0_100"
         }
       ]
     },
