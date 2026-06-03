@@ -13,14 +13,14 @@
       "sheet_name": "KomRang17_2100"
     }
   ],
-  "elements": [
+  "determinants": [
     {
       "key": "f",
       "name": {
         "en": "Hazard",
         "no": "Fare"
       },
-      "metrics": [
+      "indicators": [
         {
           "key": "fRatefare",
           "name": {
@@ -65,7 +65,7 @@
         "en": "Vulnerability",
         "no": "Sårbarhet"
       },
-      "metrics": [
+      "indicators": [
         {
           "key": "sBefTett",
           "name": {
@@ -106,7 +106,7 @@
         "en": "Exposure",
         "no": "Eksponering"
       },
-      "metrics": [
+      "indicators": [
         {
           "key": "eStorm",
           "name": {
@@ -160,7 +160,7 @@
         "en": "The Response index reflects the municipality's efforts in fighting climate issues. For this index greater values are good, and reduce the total risk."
       },
       "invert": true,
-      "metrics": [
+      "indicators": [
         {
           "key": "rMaxTilskudd",
           "name": {

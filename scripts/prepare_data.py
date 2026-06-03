@@ -31,17 +31,17 @@ for year in dm["years"]:
         kommune_data_year_byKommune = {
             "name": row["KomNavn"],
         }
-        for element in dm["elements"]: #TODO: maybe rename element to indeks
-            for metric in element["metrics"]: #TODO: maybe rename metric to indikator
-                metric_value = row[fixKey(metric["col_name"], year["name"])]
+        for determinant in dm["determinants"]:
+            for indicator in determinant["indicators"]:
+                indicator_value = row[fixKey(indicator["col_name"], year["name"])]
 
-                kommune_data_year_byKommune[metric["key"]] = metric_value
+                kommune_data_year_byKommune[indicator["key"]] = indicator_value
 
                 # Add metric [] to byMetric dictionary if it doesnt exist
-                if metric["key"] not in kommune_data_year["byMetric"]:
-                    kommune_data_year["byMetric"][metric["key"]] = [metric_value]
+                if indicator["key"] not in kommune_data_year["byMetric"]:
+                    kommune_data_year["byMetric"][indicator["key"]] = [indicator_value]
                 else:
-                    kommune_data_year["byMetric"][metric["key"]].append(metric_value)
+                    kommune_data_year["byMetric"][indicator["key"]].append(indicator_value)
 
         kommune_data_year["byKommune"][iKomNr] = kommune_data_year_byKommune
 
@@ -57,17 +57,17 @@ with open(out_path, 'w', encoding='utf-8') as f:
 # Recreate the data model with only useful information for the frontend
 kommune_data_model = {
     "elements": [{
-        "key": element["key"],
-        "name": element["name"],
-        **({"description": element["description"]} if "description" in element else {}),
-        **({"invert": element["invert"]} if "invert" in element else {}),
+        "key": determinant["key"],
+        "name": determinant["name"],
+        **({"description": determinant["description"]} if "description" in determinant else {}),
+        **({"invert": determinant["invert"]} if "invert" in determinant else {}),
         "metrics": [{
-            "key": metric["key"],
-            "name": metric["name"],
-            **({"description": metric["description"]} if "description" in metric else {}),
-            **({"invert": metric["invert"]} if "invert" in metric else {}),
-        } for metric in element["metrics"]],
-    } for element in dm["elements"]]
+            "key": indicator["key"],
+            "name": indicator["name"],
+            **({"description": indicator["description"]} if "description" in indicator else {}),
+            **({"invert": indicator["invert"]} if "invert" in indicator else {}),
+        } for indicator in determinant["indicators"]],
+    } for determinant in dm["determinants"]]
 }
 
 with open(out_path_model, "w", encoding="utf-8") as f:
