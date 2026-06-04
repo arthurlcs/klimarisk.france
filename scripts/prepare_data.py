@@ -34,6 +34,8 @@ for year in dm["years"]:
         for determinant in dm["determinants"]:
             for indicator in determinant["indicators"]:
                 indicator_value = row[fixKey(indicator["col_name"], year["key"])]
+                if pd.isna(indicator_value):
+                    indicator_value = 0 # TODO: decide how to handle missing values, currently set to 0
 
                 kommune_data_year_byKommune[indicator["key"]] = indicator_value
 

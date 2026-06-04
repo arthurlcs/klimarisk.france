@@ -163,10 +163,38 @@
       "invert": true,
       "metrics": [
         {
-          "key": "rMaxTilskudd",
+          "key": "rNVESikring",
+          "name": {
+            "no": "Elvesikring",
+            "en": "River protection"
+          }
+        },
+        {
+          "key": "rMDirTilskudd",
           "name": {
             "no": "Tilskudd",
             "en": "Grants"
+          }
+        },
+        {
+          "key": "rAlderArealplan",
+          "name": {
+            "no": "Arealplan alder",
+            "en": "Land-Use plan age"
+          }
+        },
+        {
+          "key": "rPlanNedbygd",
+          "name": {
+            "no": "Nedbygging",
+            "en": "Land development"
+          }
+        },
+        {
+          "key": "rKlimaMon",
+          "name": {
+            "no": "Tiltak",
+            "en": "Measures"
           }
         },
         {
@@ -174,20 +202,6 @@
           "name": {
             "no": "Planlegging",
             "en": "Planning"
-          }
-        },
-        {
-          "key": "rTiltak",
-          "name": {
-            "no": "Tiltak",
-            "en": "Measures"
-          }
-        },
-        {
-          "key": "rBerekraft",
-          "name": {
-            "no": "Bærekraft",
-            "en": "Sustainability"
           }
         }
       ]

@@ -218,12 +218,44 @@
       "invert": true,
       "indicators": [
         {
-          "key": "rMaxTilskudd",
+          "key": "rNVESikring",
+          "name": {
+            "no": "Elvesikring",
+            "en": "River protection"
+          },
+          "col_name": "rNVESikring_0_100"
+        },
+        {
+          "key": "rMDirTilskudd",
           "name": {
             "no": "Tilskudd",
             "en": "Grants"
           },
-          "col_name": "rMaxTilskudd_0_100"
+          "col_name": "rMDirTilskudd_0_100"
+        },
+        {
+          "key": "rAlderArealplan",
+          "name": {
+            "no": "Arealplan alder",
+            "en": "Land-Use plan age"
+          },
+          "col_name": "rAlderArealplan_0_100"
+        },
+        {
+          "key": "rPlanNedbygd",
+          "name": {
+            "no": "Nedbygging",
+            "en": "Land development"
+          },
+          "col_name": "rPlanNedbygd_pApC_0_100"
+        },
+        {
+          "key": "rKlimaMon",
+          "name": {
+            "no": "Tiltak",
+            "en": "Measures"
+          },
+          "col_name": "rKlimaMon_0_100"
         },
         {
           "key": "rDSB",
@@ -232,22 +264,6 @@
             "en": "Planning"
           },
           "col_name": "rDSB_0_100"
-        },
-        {
-          "key": "rTiltak",
-          "name": {
-            "no": "Tiltak",
-            "en": "Measures"
-          },
-          "col_name": "rTiltak_0_100"
-        },
-        {
-          "key": "rBerekraft",
-          "name": {
-            "no": "Bærekraft",
-            "en": "Sustainability"
-          },
-          "col_name": "rBerekraft_0_100"
         }
       ]
     }
