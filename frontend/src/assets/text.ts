@@ -44,8 +44,8 @@ const text = {
       en: "Map View",
       no: "Kartvindu",
       tooltip: {
-        en: "This map shows the selected metric for all municipalities in Norway. The selected municipality is highlighted with a black outline. You can zoom and pan the map to explore different areas, and click on municipalities to select them. The colors represent the relative values of the currently selected metric, where stronger colors indicate higher values.",
-        no: "Dette kartet viser den valgte metrikken for alle kommuner i Norge. Den valgte kommunen er markert med en svart kantlinje. Du kan zoome og flytte kartet for å utforske ulike områder, og klikke på kommuner for å velge dem. Fargene representerer de relative verdiene til den valgte metrikken, der sterkere farger indikerer høyere verdier.",
+        en: "This map shows the selected metric for all municipalities in Norway. The selected municipality is highlighted with a black outline. You can zoom and pan the map to explore different areas, and click on municipalities to select them. The colors represent the relative values of the currently selected metric, where stronger colors indicate higher risk contribution.",
+        no: "Dette kartet viser den valgte metrikken for alle kommuner i Norge. Den valgte kommunen er markert med en svart kantlinje. Du kan zoome og flytte kartet for å utforske ulike områder, og klikke på kommuner for å velge dem. Fargene representerer de relative verdiene til den valgte metrikken, der sterkere farger indikerer høyere risikotillegg.",
       },
     },
     chart: {
