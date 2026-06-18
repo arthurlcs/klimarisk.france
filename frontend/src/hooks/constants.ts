@@ -1,3 +1,23 @@
+export const defaultRiskColors = [
+  '#fff5f0',
+  '#fcbba1',
+  '#fb6a4a',
+  '#cb181d',
+  '#67000d'
+];
+
+export const riskColors9 = [
+  '#fff5f0',
+  '#fee0d2',
+  '#fcbba1',
+  '#fc9272',
+  '#fb6a4a',
+  '#ef3b2c',
+  '#cb181d',
+  '#a50f15',
+  '#67000d'
+];
+
 export const hslRiskColors = [
   '#fff5f0',
   '#fff4ee',
