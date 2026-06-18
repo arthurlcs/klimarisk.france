@@ -64,6 +64,13 @@ function App() {
         >
           <DetailedStats />
         </Panel>
+        <Panel
+          title={l(t.panels.map)}
+          tooltip={l(t.panels.map.tooltip)}
+          className="map2"
+        >
+          <Map />
+        </Panel>
       </div>
     </>
   )
