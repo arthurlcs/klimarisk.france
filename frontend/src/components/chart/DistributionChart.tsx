@@ -1,11 +1,11 @@
 import { AreaChart, Area, XAxis, Tooltip, ReferenceLine, ResponsiveContainer, Line } from "recharts";
 import useDataStore, { type DistributionKey, type KommuneNr } from "../../hooks/useDataStore";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import DistributionSelect from "./DistributionSelect";
 import "./DistributionChart.css";
 import SteppedDomainGradient from "./SteppedDomainGradient";
 import useLanguageStore, { t } from "../../hooks/useLanguageStore";
-import ChartStats, { type ChartStatsData, type Region, type Stat } from "./ChartStats";
+// import ChartStats, { type ChartStatsData, type Region, type Stat } from "./ChartStats";
 
 type Props = {
   distributionKey: DistributionKey; 
@@ -62,18 +62,18 @@ function getTicks(domain?: [number, number]): number[] {
   return [min10, (max10+min10)/2, max10];
 }
 
-function mean(arr: number[]): number | undefined {
-  if (arr.length === 0) return undefined;
-  return arr.reduce((sum, v) => sum + v, 0) / arr.length
-}
+// function mean(arr: number[]): number | undefined {
+//   if (arr.length === 0) return undefined;
+//   return arr.reduce((sum, v) => sum + v, 0) / arr.length
+// }
 
-function median(sortedArr: number[]): number | undefined {
-  if (sortedArr.length === 0) return undefined;
-  const mid = Math.floor(sortedArr.length / 2);
-  return sortedArr.length % 2 === 0
-    ? (sortedArr[mid - 1] + sortedArr[mid]) / 2
-    : sortedArr[mid];
-}
+// function median(sortedArr: number[]): number | undefined {
+//   if (sortedArr.length === 0) return undefined;
+//   const mid = Math.floor(sortedArr.length / 2);
+//   return sortedArr.length % 2 === 0
+//     ? (sortedArr[mid - 1] + sortedArr[mid]) / 2
+//     : sortedArr[mid];
+// }
 
 
 
@@ -158,51 +158,51 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
     return getTicks(domain);
   }, [distribution, domain]);
 
-  const [visibleStats, setVisibleStats] = useState<Record<Region, Record<Stat, boolean>>>({
-    norge: {
-      mean: false,
-      median: false,
-    },
-    fylke: {
-      mean: false,
-      median: false,
-    },
-  });
+  // const [visibleStats, setVisibleStats] = useState<Record<Region, Record<Stat, boolean>>>({
+  //   norge: {
+  //     mean: false,
+  //     median: false,
+  //   },
+  //   fylke: {
+  //     mean: false,
+  //     median: false,
+  //   },
+  // });
   
-  const chartStatsData = useMemo(() => (
-    {
-      mean: {
-        norge: {
-          visible: visibleStats.norge.mean,
-          value: distribution ? mean(distribution) : undefined,
-        },
-        fylke: {
-          visible: visibleStats.fylke.mean,
-          value: fylkeDistribution ? mean(fylkeDistribution) : undefined,
-        },
-      },
-      median: {
-        norge: {
-          visible: visibleStats.norge.median,
-          value: distribution ? median(distribution) : undefined,
-        },
-        fylke: {
-          visible: visibleStats.fylke.median,
-          value: fylkeDistribution ? median(fylkeDistribution) : undefined,
-        },
-      },
-    } as ChartStatsData
-  ), [distribution, fylkeDistribution, visibleStats]);
+  // const chartStatsData = useMemo(() => (
+  //   {
+  //     mean: {
+  //       norge: {
+  //         visible: visibleStats.norge.mean,
+  //         value: distribution ? mean(distribution) : undefined,
+  //       },
+  //       fylke: {
+  //         visible: visibleStats.fylke.mean,
+  //         value: fylkeDistribution ? mean(fylkeDistribution) : undefined,
+  //       },
+  //     },
+  //     median: {
+  //       norge: {
+  //         visible: visibleStats.norge.median,
+  //         value: distribution ? median(distribution) : undefined,
+  //       },
+  //       fylke: {
+  //         visible: visibleStats.fylke.median,
+  //         value: fylkeDistribution ? median(fylkeDistribution) : undefined,
+  //       },
+  //     },
+  //   } as ChartStatsData
+  // ), [distribution, fylkeDistribution, visibleStats]);
 
-  function toggleStatVisible(region: Region, stat: Stat) {
-    setVisibleStats(prev => ({
-      ...prev,
-      [region]: {
-        ...prev[region],
-        [stat]: !prev[region][stat]
-      },
-    }));
-  }
+  // function toggleStatVisible(region: Region, stat: Stat) {
+  //   setVisibleStats(prev => ({
+  //     ...prev,
+  //     [region]: {
+  //       ...prev[region],
+  //       [stat]: !prev[region][stat]
+  //     },
+  //   }));
+  // }
   
   return (
     <div className="chartContainer">
@@ -275,7 +275,7 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
               strokeWidth={2}
             />
           )}
-          {Object.entries(chartStatsData).map(([stat, x]) => Object.entries(x).map(([region, v]) => v.visible && (
+          {/* {Object.entries(chartStatsData).map(([stat, x]) => Object.entries(x).map(([region, v]) => v.visible && (
             <ReferenceLine
               key={`${region}-${stat}`}
               x={v.value}
@@ -283,10 +283,10 @@ function DistributionChart({ distributionKey, bins = 25 }: Props) {
               strokeWidth={2}
               strokeDasharray={stat === "mean" ? "8 8" : "2 2"}
             />
-          )))}
+          )))} */}
         </AreaChart>
       </ResponsiveContainer>
-      <ChartStats data={chartStatsData} toggleStatVisible={toggleStatVisible} />
+      {/* <ChartStats data={chartStatsData} toggleStatVisible={toggleStatVisible} /> */}
     </div>
   );
 }

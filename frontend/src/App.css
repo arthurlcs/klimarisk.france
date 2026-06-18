@@ -19,7 +19,7 @@
     "tree map chart details"
     "table map map2 details";
   grid-template-columns: 0 5fr 4fr 2fr;
-  grid-template-rows: min(18em, 50%) minmax(40%, 2fr);
+  grid-template-rows: 3fr 4fr;
   padding-right: var(--grid-gap);
   padding-top: 8em;
 }
