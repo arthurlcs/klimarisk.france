@@ -1,0 +1,53 @@
+:root {
+  --header-height: 1.9rem;
+  --dashboard-height: calc(100vh - var(--header-height));
+  --grid-gap: 1em;
+  font-size: 14px;
+
+  --c-bg1: #fff;
+  --c-bg2: #eee;
+  --c-bg3: #ddd;
+  --c-bg4: #888;
+  --c-text: #000;
+  --c-accent: #000;
+  --c-accent2: #444;
+  --c-highlighted: #eee;
+  --c-selected: #4adbfb;
+  --c-selected2: #05c1eb;
+  --c-fylke: #396500;
+  --c-norge: #2c0065;
+  --c-map-border: var(--c-accent);
+}
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  background-color: var(--c-bg2);
+  color: var(--c-text);
+}
+
+button {
+  background: rgba(0, 0, 0, 0.0);
+  border: unset;
+  padding: .5em 1em;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+button:hover,
+button:focus-visible {
+  background: rgba(0, 0, 0, 0.3);
+}

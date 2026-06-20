@@ -1,0 +1,195 @@
+{
+  "elements": [
+    {
+      "key": "h",
+      "name": {
+        "fr": "Aléa",
+        "en": "Hazard"
+      },
+      "metrics": [
+        {
+          "key": "hFlood",
+          "name": {
+            "fr": "Inondation",
+            "en": "Flooding"
+          }
+        },
+        {
+          "key": "hSubm",
+          "name": {
+            "fr": "Submersion",
+            "en": "Storm Surge"
+          }
+        },
+        {
+          "key": "hHeat",
+          "name": {
+            "fr": "Canicule",
+            "en": "Heatwave"
+          }
+        },
+        {
+          "key": "hSsc",
+          "name": {
+            "fr": "Retrait-Gonflement des Argiles",
+            "en": "Shrinkage-Swelling of Clays"
+          }
+        },
+        {
+          "key": "hCycl",
+          "name": {
+            "fr": "Cyclone",
+            "en": "Cyclone"
+          }
+        },
+        {
+          "key": "hWildf",
+          "name": {
+            "fr": "Feux de forêt",
+            "en": "Wildfire"
+          }
+        },
+        {
+          "key": "hSnow",
+          "name": {
+            "fr": "Réduction du manteau neigeux",
+            "en": "Snow cover reduction"
+          }
+        }
+      ]
+    },
+    {
+      "key": "s",
+      "name": {
+        "en": "Vulnerability",
+        "fr": "Vulnérabilité"
+      },
+      "metrics": [
+        {
+          "key": "vAge",
+          "name": {
+            "fr": "Age",
+            "en": "Age"
+          }
+        },
+        {
+          "key": "vPrim",
+          "name": {
+            "fr": "Secteur primaire",
+            "en": "Primary sector"
+          }
+        },
+        {
+          "key": "vWealth",
+          "name": {
+            "fr": "Richesse",
+            "en": "Wealth"
+          }
+        }
+      ]
+    },
+    {
+      "key": "e",
+      "name": {
+        "en": "Exposure",
+        "fr": "Exposition"
+      },
+      "metrics": [
+        {
+          "key": "eBiodiv",
+          "name": {
+            "fr": "Biodiversité",
+            "en": "Biodiversity"
+          }
+        },
+        {
+          "key": "ePop",
+          "name": {
+            "fr": "Population",
+            "en": "Population"
+          }
+        },
+        {
+          "key": "eBuild",
+          "name": {
+            "fr": "Bâtiments",
+            "en": "Buildings"
+          }
+        }
+      ]
+    },
+    {
+      "key": "r",
+      "name": {
+        "en": "Response",
+        "fr": "Réponse"
+      },
+      "description": {
+        "fr": "L'index de Réponse reflète les efforts de la municipalité pour faire face aux problèmes climatiques.",
+        "en": "The Response index reflects the municipality's efforts in fighting climate issues."
+      },
+      "metrics": [
+        {
+          "key": "rPlan",
+          "name": {
+            "fr": "Planification",
+            "en": "Planning"
+          }
+        },
+        {
+          "key": "rResour",
+          "name": {
+            "fr": "Ressources",
+            "en": "Resources"
+          }
+        }
+      ]
+    }
+  ],
+  "years": [
+    {
+      "key": "Ref",
+      "name": {
+        "fr": "Réf",
+        "en": "Ref"
+      },
+      "description": {
+        "fr": "Période de référence",
+        "en": "Reference period"
+      }
+    },
+    {
+      "key": "2030",
+      "name": {
+        "fr": "2030",
+        "en": "2030"
+      },
+      "description": {
+        "fr": "Horizon proche",
+        "en": "Near future"
+      }
+    },
+    {
+      "key": "2050",
+      "name": {
+        "fr": "2050",
+        "en": "2050"
+      },
+      "description": {
+        "fr": "Horizon moyen",
+        "en": "Medium future"
+      }
+    },
+    {
+      "key": "2100",
+      "name": {
+        "fr": "2100",
+        "en": "2100"
+      },
+      "description": {
+        "fr": "Horizon lointain",
+        "en": "Far future"
+      }
+    }
+  ]
+}

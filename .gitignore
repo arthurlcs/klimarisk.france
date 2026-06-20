@@ -1,0 +1,26 @@
+# Node / Vite / React
+node_modules/
+dist/
+.vite/
+*.local
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+frontend/node_modules/
+frontend/dist/
+frontend/public/data/kommune_data.json

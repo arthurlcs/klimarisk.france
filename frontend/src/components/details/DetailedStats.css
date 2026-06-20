@@ -1,0 +1,183 @@
+/* ==========================================================================
+   1. STRUCTURE GLOBALE ET SUPPRESSION DES PUCES (UL / LI)
+   ========================================================================== */
+
+.detailsList {
+  padding: 0;
+  margin: 0;
+  display: block !important;
+  height: auto !important;
+}
+
+.detailsList ul,
+.detailsList li,
+.detailsRisk ul,
+.detailsRisk li {
+  list-style: none !important;
+  list-style-type: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.detailsList ul ul {
+  padding-left: 1.5rem !important;
+}
+
+/* ==========================================================================
+   2. EN-TÊTE FIXE ET ALIGNÉ (FRANCE / DEPARTEMENT)
+   ========================================================================== */
+
+.detailsHeader {
+  display: flex;
+  user-select: none;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 1.5rem;
+  position: sticky;
+  top: 0;
+  background-color: var(--c-bg1);
+  z-index: 1;
+}
+
+/* Colonne France (En-tête) */
+.detailsHeader>div {
+  width: 5rem;
+  text-align: left;
+  color: var(--detailsHeaderColor);
+  border-bottom: 2px solid var(--detailsHeaderColor);
+}
+
+/* Colonne Département (En-tête) */
+.detailsHeader>div:last-child {
+  width: 6rem;
+  margin-left: 1.5rem;
+  text-align: left;
+}
+
+.detailsRisk {
+  display: block !important;
+  height: auto !important;
+}
+
+.detailsRisk.selected .detailsHeader {
+  background-color: var(--c-bg3);
+}
+
+/* ==========================================================================
+   3. CONTENEUR DE LIGNE (HANDLE) & NEUTRALISATION DES BOUTONS
+   ========================================================================== */
+
+.detailsHandle {
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-right: 2.5rem;
+  /* 🔥 Augmenté à 2.5rem pour la cohérence globale */
+  padding-left: var(--detail-padding);
+  padding-block: 0.2rem !important;
+  line-height: 1.4 !important;
+  font-weight: 400;
+  transition: 0;
+}
+
+.colorBox {
+  background-color: var(--risk-color);
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.detailsName {
+  color: var(--c-text);
+  flex: 1;
+  padding-left: var(--detail-padding);
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   4. ALIGNEMENT STRICT DES VALEURS DE CLASSEMENT (DONNÉES)
+   ========================================================================== */
+
+.detailsRank {
+  color: var(--c-norge);
+  width: 5.5rem;
+  text-align: right;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.detailsRankFylke {
+  color: var(--c-fylke);
+  width: 6.5rem;
+  margin-left: 1.5rem;
+  text-align: right;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   5. VARIATIONS DE TAILLES SELON LA HIÉRARCHIE DE L'ARBRE
+   ========================================================================== */
+
+.detailsRisk>.detailsHandle {
+  font-size: 1.6rem;
+  --detail-padding: .25em;
+}
+
+.detailsElement>.detailsHandle {
+  font-size: 1.2rem;
+  --detail-padding: .8em;
+}
+
+.detailsMetric>.detailsHandle {
+  font-size: 1rem;
+  --detail-padding: .2em;
+}
+
+/* ==========================================================================
+   6. ÉTATS INTERACTIFS (SURVOL ET SÉLECTION)
+   ========================================================================== */
+
+.detailsList .highlighted,
+.detailsHandle:hover {
+  background-color: var(--c-highlighted);
+}
+
+.detailsList .selected,
+.detailsRisk.selected>.detailsHandle,
+.detailsElement.selected>.detailsHandle,
+.detailsMetric.selected>.detailsHandle {
+  background-color: var(--c-bg3);
+}
+
+/* ==========================================================================
+   7. DESTRUCTION DES PROPRIÉTÉS FLEX/GRID INTERNES ET ESPACEMENT GÉRÉ
+   ========================================================================== */
+
+.detailsRisk>ul,
+.detailsRisk>ul>li,
+.detailsElement>ul,
+.detailsElement>ul>li {
+  display: block !important;
+  float: none !important;
+  clear: both !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.detailsRisk>ul>li {
+  margin-top: 1rem !important;
+}

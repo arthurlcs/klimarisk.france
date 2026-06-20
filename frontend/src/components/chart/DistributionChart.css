@@ -1,0 +1,140 @@
+.chartContainer {
+  user-select: none;
+  background-color: var(--c-bg3);
+  min-height: 12em;
+  overflow: hidden;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* 🔥 Force le conteneur à respecter la taille du panneau parent */
+}
+
+/* ==========================================================================
+   AJOUT CRITIQUE : FORCE LE WRAPPER DU GRAPH À RÉTRÉCIR SI L'ÉCRAN EST PETIT
+   ========================================================================== */
+.chartContainer>svg,
+.chartContainer>div:not(.distSelect):not(.chartStatsContainer) {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 0 !important;
+  /* 🔥 Permet au graphique de se contracter verticalement */
+  height: 100%;
+  width: 100%;
+}
+
+svg:focus,
+path:focus,
+g:focus {
+  outline: none;
+}
+
+.distSelect {
+  padding: .2em;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  /* Empêche le sélecteur d'être écrasé */
+}
+
+.distSelect select {
+  cursor: pointer;
+}
+
+.distSelect select:hover,
+.distSelect select:focus {
+  box-shadow: 0 0 .3em rgba(0, 0, 0, 0.3);
+}
+
+.chartStatsContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* 🔥 Permet aux stats de passer à la ligne si la largeur manque */
+  justify-content: center;
+  gap: 0.5rem 1rem;
+  padding-bottom: .2em;
+  flex-shrink: 0;
+  /* 🔥 Empêche le bloc de statistiques d'être masqué ou écrasé */
+}
+
+.chartStat {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.chartStatHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.chartStatHeader>div {
+  width: 5em;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chartStatName {
+  flex-grow: 1;
+  margin-right: 1em;
+}
+
+.chartStatVal {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  padding: .1em 0;
+  cursor: pointer;
+  width: 5em;
+  justify-content: center;
+}
+
+.chartStatVal:hover {
+  background-color: var(--c-highlighted);
+}
+
+.chartStatVal input {
+  margin: 0;
+  margin-right: .2em;
+}
+
+.chartStatVal>div {
+  min-width: 1.8em;
+  text-align: right;
+}
+
+.chartStatsContainer .norge {
+  color: var(--c-norge);
+}
+
+.chartStatsContainer .fylke {
+  color: var(--c-fylke);
+}
+
+.chartStatsContainer .mean {
+  border-bottom: 2px dashed black;
+}
+
+.chartStatsContainer .median {
+  border-bottom: 2px dotted black;
+}
+
+.customTooltip {
+  pointer-events: none;
+  background-color: var(--c-bg1);
+  padding: .5em;
+  border: 1px solid var(--c-accent);
+  border-radius: .2em;
+  display: flex;
+  flex-direction: column;
+  gap: .2em;
+}
+
+.customTooltip>div:first-child {
+  font-style: italic;
+  color: var(--c-accent2);
+}

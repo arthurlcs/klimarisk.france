@@ -1,0 +1,53 @@
+.mapContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.klimamap {
+  height: 100%;
+  outline: none;
+  position: relative;
+  /* Servira de point d'ancrage à la barre de recherche */
+}
+
+/* ==========================================================================
+   ANCRAGE ET CALIBRAGE DISCRET DE LA BARRE DE RECHERCHE SUR LA CARTE
+   ========================================================================== */
+.panel.map .kommuneSearchContainer {
+  position: absolute !important;
+  top: 10px;
+  /* Descendu légèrement pour ne pas entrer en conflit avec le label de commune s'il y en a un */
+  left: 10px;
+  width: 175px;
+  /* Largeur réduite pour être plus discret */
+  box-sizing: border-box;
+  padding: 0;
+  background: none;
+  z-index: 1000;
+  /* Passe au-dessus des tuiles géographiques */
+}
+
+.kommuneLabel {
+  position: absolute;
+  display: flex;
+  top: .4em;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--c-highlighted);
+  z-index: 1000;
+  font-size: 1.4rem;
+  box-shadow: 0 0 .1em rgba(0, 0, 0, 0.3);
+  line-height: 1em;
+  padding: .2em .4em;
+  pointer-events: none;
+}
+
+/* Intégration Option B : Bloquer le calcul de Recharts à -1 */
+.detailsElement ul,
+.chartContainer,
+.recharts-responsive-container {
+  width: 100% !important;
+  min-height: 250px !important;
+  position: relative !important;
+} 
