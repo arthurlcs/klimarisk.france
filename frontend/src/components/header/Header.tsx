@@ -1,4 +1,4 @@
-import './Header.css';
+import './header.css';
 import YearSelect from './YearSelect';
 import LayoutSelect from './LayoutSelect';
 import LanguageSelect from './LanguageSelect';
