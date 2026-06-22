@@ -1,42 +1,59 @@
 {
   "elements": [
     {
-      "key": "f",
+      "key": "h",
       "name": {
-        "en": "Hazard",
-        "no": "Fare"
+        "fr": "Aléa",
+        "en": "Hazard"
       },
       "metrics": [
         {
-          "key": "fRatefare",
+          "key": "hFlood",
           "name": {
-            "no": "Råtefare",
-            "en": "Rot decay"
+            "fr": "Inondation",
+            "en": "Flooding"
           }
         },
         {
-          "key": "fSD30p",
+          "key": "hSubm",
           "name": {
-            "no": "Snødekke",
-            "en": "Snow Cover"
-          },
-          "description": {
-            "no": "Denne indikatoren viser antall dager i året med snødybde på over 30 cm. Dette er snødybden som trengs for å lage skispor. Verdien er normalisert, slik at lave verdier er bra (mindre nedgang i dager med snø) og høye verdier er dårlig (større nedgang i dager med snø).",
-            "en": "This indicator is based on the number of days with at least 30 cm of snow depth. This is the necessary depth for going skiing. The value is normalized, meaning small values (good) indicate a lesser decline in days with snow, while greater values (bad) indicate larger decline in snow-days."
+            "fr": "Submersion",
+            "en": "Storm Surge"
           }
         },
         {
-          "key": "fStormflo",
+          "key": "hHeat",
           "name": {
-            "no": "Stormflofare",
-            "en": "Storm surge"
+            "fr": "Canicule",
+            "en": "Heatwave"
           }
         },
         {
-          "key": "fFlom",
+          "key": "hSsc",
           "name": {
-            "no": "Flomfare",
-            "en": "Flood hazard"
+            "fr": "Retrait-Gonflement des Argiles",
+            "en": "Shrinkage-Swelling of Clays"
+          }
+        },
+        {
+          "key": "hCycl",
+          "name": {
+            "fr": "Cyclone",
+            "en": "Cyclone"
+          }
+        },
+        {
+          "key": "hWildf",
+          "name": {
+            "fr": "Feux de forêt",
+            "en": "Wildfire"
+          }
+        },
+        {
+          "key": "hSnow",
+          "name": {
+            "fr": "Réduction du manteau neigeux",
+            "en": "Snow cover reduction"
           }
         }
       ]
@@ -45,35 +62,28 @@
       "key": "s",
       "name": {
         "en": "Vulnerability",
-        "no": "Sårbarhet"
+        "fr": "Vulnérabilité"
       },
       "metrics": [
         {
-          "key": "sBefTett",
+          "key": "vAge",
           "name": {
-            "no": "Befolkningstetthet",
-            "en": "Population density"
+            "fr": "Age",
+            "en": "Age"
           }
         },
         {
-          "key": "sPrim",
+          "key": "vPrim",
           "name": {
-            "no": "Primærnæring",
-            "en": "Primary industry"
+            "fr": "Secteur primaire",
+            "en": "Primary sector"
           }
         },
         {
-          "key": "sMob",
+          "key": "vWealth",
           "name": {
-            "no": "Mobilitet",
-            "en": "Mobility"
-          }
-        },
-        {
-          "key": "sVulPop",
-          "name": {
-            "no": "Sårbar befolkning",
-            "en": "Vulnerable population"
+            "fr": "Richesse",
+            "en": "Wealth"
           }
         }
       ]
@@ -82,42 +92,28 @@
       "key": "e",
       "name": {
         "en": "Exposure",
-        "no": "Eksponering"
+        "fr": "Exposition"
       },
       "metrics": [
         {
-          "key": "eStorm",
+          "key": "eBiodiv",
           "name": {
-            "no": "Stormskade",
-            "en": "Storm damage"
+            "fr": "Biodiversité",
+            "en": "Biodiversity"
           }
         },
         {
-          "key": "eStormflo",
+          "key": "ePop",
           "name": {
-            "no": "Stormfloskade",
-            "en": "Storm surge damage"
+            "fr": "Population",
+            "en": "Population"
           }
         },
         {
-          "key": "eFlom",
+          "key": "eBuild",
           "name": {
-            "no": "Flomskade",
-            "en": "Flood damage"
-          }
-        },
-        {
-          "key": "eSkred",
-          "name": {
-            "no": "Skredskade",
-            "en": "Landslide damage"
-          }
-        },
-        {
-          "key": "eOvervann",
-          "name": {
-            "no": "Overvannsskade",
-            "en": "Surface water damage"
+            "fr": "Bâtiments",
+            "en": "Buildings"
           }
         }
       ]
@@ -126,40 +122,25 @@
       "key": "r",
       "name": {
         "en": "Response",
-        "no": "Respons"
+        "fr": "Réponse"
       },
       "description": {
-        "no": "Responsindeksen viser kommunens innsats for å kjempe klimaproblemer. Her er høye verdier positivt, og veier negativt på den totale risikoen.",
-        "en": "The Response index reflects the municipality's efforts in fighting climate issues. For this index greater values are good, and reduce the total risk."
+        "fr": "L'index de Réponse reflète les efforts de la municipalité pour faire face aux problèmes climatiques.",
+        "en": "The Response index reflects the municipality's efforts in fighting climate issues."
       },
-      "invert": true,
       "metrics": [
         {
-          "key": "rMaxTilskudd",
+          "key": "rPlan",
           "name": {
-            "no": "Tilskudd",
-            "en": "Grants"
-          }
-        },
-        {
-          "key": "rDSB",
-          "name": {
-            "no": "Planlegging",
+            "fr": "Planification",
             "en": "Planning"
           }
         },
         {
-          "key": "rTiltak",
+          "key": "rResour",
           "name": {
-            "no": "Tiltak",
-            "en": "Measures"
-          }
-        },
-        {
-          "key": "rBerekraft",
-          "name": {
-            "no": "Bærekraft",
-            "en": "Sustainability"
+            "fr": "Ressources",
+            "en": "Resources"
           }
         }
       ]
@@ -167,35 +148,46 @@
   ],
   "years": [
     {
-      "key": "2000",
+      "key": "Ref",
       "name": {
-        "no": "2000",
-        "en": "2000"
+        "fr": "Réf",
+        "en": "Ref"
       },
       "description": {
-        "no": "Referanseperiode",
+        "fr": "Période de référence",
         "en": "Reference period"
+      }
+    },
+    {
+      "key": "2030",
+      "name": {
+        "fr": "2030",
+        "en": "2030"
+      },
+      "description": {
+        "fr": "Horizon proche",
+        "en": "Near future"
       }
     },
     {
       "key": "2050",
       "name": {
-        "no": "2050",
+        "fr": "2050",
         "en": "2050"
       },
       "description": {
-        "no": "Nær fremtid",
-        "en": "Near future"
+        "fr": "Horizon moyen",
+        "en": "Medium future"
       }
     },
     {
       "key": "2100",
       "name": {
-        "no": "2100",
+        "fr": "2100",
         "en": "2100"
       },
       "description": {
-        "no": "Fjern fremtid",
+        "fr": "Horizon lointain",
         "en": "Far future"
       }
     }
