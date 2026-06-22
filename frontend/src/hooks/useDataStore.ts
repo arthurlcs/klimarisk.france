@@ -152,11 +152,9 @@ type DomainCache = {
 };
 
 let riskColorCache: ColorMapCache = {};
-let distributionDomainCache: DomainCache = {};
 
 const clearComputedCaches = () => {
   riskColorCache = {};
-  distributionDomainCache = {};
 };
 
 const sumInvertibleValues = (metrics: Metric[], kommune: KommuneData): number => {
