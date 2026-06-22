@@ -145,11 +145,7 @@ type ColorMapCache = {
   [year: string]: {
     [distributionKey: string]: Record<string, string>;
   };
-};
-
-type DomainCache = {
-  [distributionKey: string]: [number, number] | undefined;
-};
+}
 
 let riskColorCache: ColorMapCache = {};
 
