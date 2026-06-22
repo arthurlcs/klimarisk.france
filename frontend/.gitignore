@@ -1,3 +1,5 @@
 node_modules/ 
 dist/ 
 public/data/kommune_data.json 
+.vercel
+.env*

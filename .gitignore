@@ -24,3 +24,5 @@ Thumbs.db
 frontend/node_modules/
 frontend/dist/
 frontend/public/data/kommune_data.json
+.vercel
+.env*

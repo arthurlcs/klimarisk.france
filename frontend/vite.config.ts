@@ -4,7 +4,12 @@ import react from '@vitejs/plugin-react-swc'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // INDISPENSABLE POUR GITHUB PAGES : correspond au nom de ton dépôt GitHub
   base: '/klimarisk/',
+
+  // Indique à Vite de traiter l'extension .gz comme un fichier statique brut
+  assetsInclude: ['**/*.gz'],
+
   build: {
     rollupOptions: {
       output: {

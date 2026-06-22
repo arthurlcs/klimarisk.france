@@ -2,12 +2,12 @@ import { create } from 'zustand';
 import { getDataFileJSON } from './getPublicUrl';
 import { type Language } from './useLanguageStore';
 
-export type MetricKey = string & { readonly __brand: unique symbol};
-export type ElementKey = string & { readonly __brand: unique symbol};
+export type MetricKey = string & { readonly __brand: unique symbol };
+export type ElementKey = string & { readonly __brand: unique symbol };
 
 type Metric = {
   key: MetricKey;
-  name: Record<Language, string>; 
+  name: Record<Language, string>;
   description?: Record<Language, string>;
   invert?: boolean;
   disabled: boolean;
@@ -28,7 +28,7 @@ type YearInfo = {
   description?: Record<Language, string>;
 }
 
-type DataModel = { 
+type DataModel = {
   elements: Element[];
   years: YearInfo[];
 };
@@ -38,8 +38,8 @@ type KommuneData = {
   [key: MetricKey]: number;
 }
 
-export type Year = string & { readonly __brand: unique symbol};
-export type KommuneNr = string & { readonly __brand: unique symbol};
+export type Year = string & { readonly __brand: unique symbol };
+export type KommuneNr = string & { readonly __brand: unique symbol };
 
 type Data = {
   years: {
@@ -62,10 +62,10 @@ type KommuneCache = {
 type Cache = {
   years: {
     [year: Year]: {
-      byKommune: { 
+      byKommune: {
         [kommuneNr: KommuneNr]: KommuneCache;
       }
-      byElement: { 
+      byElement: {
         [elementKey: ElementKey]: number[];
       }
       byTotalRisk: number[];
@@ -73,10 +73,10 @@ type Cache = {
   }
 }
 
-type DistributionKeyType = 
+type DistributionKeyType =
   | { type: "risk" }
-  | { type: "element"; key: ElementKey}
-  | { type: "metric"; key: MetricKey}
+  | { type: "element"; key: ElementKey }
+  | { type: "metric"; key: MetricKey }
 
 export type DistributionKey = DistributionKeyType;
 
@@ -161,7 +161,7 @@ const clearComputedCaches = () => {
 };
 
 const sumInvertibleValues = (metrics: Metric[], kommune: KommuneData): number => {
-  return metrics.reduce((acc, metric) => acc + (metric.disabled ? 0 : (metric.invert === true ? 100-kommune[metric.key] : kommune[metric.key])), 0)
+  return metrics.reduce((acc, metric) => acc + (metric.disabled ? 0 : (metric.invert === true ? 100 - kommune[metric.key] : kommune[metric.key])), 0)
 }
 
 const defaultRiskColors = [
@@ -174,7 +174,6 @@ const defaultRiskColors = [
   '#67000d'
 ];
 
-// Structure mémoire globale pour stocker les plages d'indices (Min/Max) calculées une seule fois
 type MinMaxMap = { [elementKey: string]: { min: number; max: number } };
 let globalMinMaxCache: MinMaxMap = {};
 
@@ -196,11 +195,11 @@ interface DataStore {
 
   highlightedKommune: KommuneNr | null;
   setHighlightedKommune: (kommune: KommuneNr | null) => void;
-  
+
   selectedKommune: KommuneNr | null;
   setSelectedKommune: (kommune: KommuneNr | null) => void;
 
-  selectedDistribuion: DistributionKey; 
+  selectedDistribuion: DistributionKey;
   setSelectedDistribution: (key: DistributionKey) => void;
 
   getDistributionDomain: (distributionKey: DistributionKey) => [number, number] | undefined;
@@ -220,42 +219,67 @@ interface DataStore {
 }
 
 const useDataStore = create<DataStore>((set, get) => ({
-  
+
   dataModel: null,
   data: null,
-  
+
   fetchData: async () => {
-    const data: Data = await getDataFileJSON('kommune_data.json');
-    const dataModel: DataModel = await getDataFileJSON('kommune_data_model.json');
+    try {
+      // 1. Chargement simultané des deux morceaux de données et du modèle en texte brut
+      const [resPart1, resPart2, responseModel] = await Promise.all([
+        fetch('data/kommune_data_part1.json'),
+        fetch('data/kommune_data_part2.json'),
+        fetch('data/kommune_data_model.json')
+      ]);
 
-    dataModel.elements.forEach(element => {
-      element.disabled = false;
-      element.metrics.forEach(metric => {
-        metric.disabled = false;
-      });
-    });
+      if (!resPart1.ok) throw new Error(`Erreur morceau 1: ${resPart1.status}`);
+      if (!resPart2.ok) throw new Error(`Erreur morceau 2: ${resPart2.status}`);
+      if (!responseModel.ok) throw new Error(`Erreur modèle: ${responseModel.status}`);
 
-    const selectedYear = dataModel.years[0].key;
-    set({ dataModel, data, selectedYear });
+      const part1: Data = await resPart1.json();
+      const part2: Data = await resPart2.json();
+      const dataModel: DataModel = await responseModel.json();
 
-    // OPTIMISATION FRONTIÈRE : Calculer la matrice globale des Min/Max UNE SEULE FOIS pour l'ensemble du territoire national
-    globalMinMaxCache = {};
-    for (const element of dataModel.elements) {
-      let min = Infinity;
-      let max = -Infinity;
-      for (const yearData of Object.values(data.years)) {
-        for (const kom of Object.values(yearData.byKommune)) {
-          const calculatedRisk = sumInvertibleValues(element.metrics, kom);
-          if (calculatedRisk < min) min = calculatedRisk;
-          if (calculatedRisk > max) max = calculatedRisk;
+      // 2. Fusion des deux dictionnaires d'années en un seul objet "data" global
+      const data: Data = {
+        years: {
+          ...part1.years,
+          ...part2.years
         }
+      };
+
+      // Initialisation par défaut du modèle
+      dataModel.elements.forEach(element => {
+        element.disabled = false;
+        element.metrics.forEach(metric => {
+          metric.disabled = false;
+        });
+      });
+
+      const selectedYear = dataModel.years[0].key;
+      set({ dataModel, data, selectedYear });
+
+      // Optimisation des extrema globaux pour les calculs d'indicateurs
+      globalMinMaxCache = {};
+      for (const element of dataModel.elements) {
+        let min = Infinity;
+        let max = -Infinity;
+        for (const yearData of Object.values(data.years)) {
+          for (const kom of Object.values(yearData.byKommune)) {
+            const calculatedRisk = sumInvertibleValues(element.metrics, kom);
+            if (calculatedRisk < min) min = calculatedRisk;
+            if (calculatedRisk > max) max = calculatedRisk;
+          }
+        }
+        globalMinMaxCache[element.key] = { min, max };
       }
-      globalMinMaxCache[element.key] = { min, max };
+
+      get().refreshCacheDeep();
+    } catch (error) {
+      console.error("Échec critique lors du chargement ou de la fusion des fichiers :", error);
     }
-
-    get().refreshCacheDeep();
   },
-
+  
   cache: null,
 
   refreshCacheDeep: () => {
@@ -272,46 +296,43 @@ const useDataStore = create<DataStore>((set, get) => ({
         byElement: {},
         byTotalRisk: [],
       };
-      
+
       for (const komNr of Object.keys(data.years[year as Year].byKommune)) {
         const kommuneCache: KommuneCache = { totalRisk: 0 };
-        
+
         let totalRisk = 0;
         for (const element of Object.values(dataModel.elements)) {
           const elementValue = calculateElementValue(element.key, komNr as KommuneNr, year as Year);
           if (elementValue !== null) {
-            kommuneCache[element.key] = elementValue; // Le score individuel reste intact (0-100)
-    
-            // Calcul de la valeur de base
-            const baseValue = element.disabled ? 0 : (element.invert === true ? 100 - elementValue : elementValue);
-            
-            // NOUVEAU : On applique le facteur 0,3 uniquement lors de l'addition au total
-           const isResponse = String(element.key).toLowerCase() === "r";
+            kommuneCache[element.key] = elementValue;
 
-           totalRisk += isResponse ? baseValue * 0.3 : baseValue;
-  }
-}
-kommuneCache.totalRisk = totalRisk;
+            const baseValue = element.disabled ? 0 : (element.invert === true ? 100 - elementValue : elementValue);
+            const isResponse = String(element.key).toLowerCase() === "r";
+
+            totalRisk += isResponse ? baseValue * 0.3 : baseValue;
+          }
+        }
+        kommuneCache.totalRisk = totalRisk;
 
         cache.years[year as Year].byKommune[komNr as KommuneNr] = kommuneCache;
       }
 
       for (const element of dataModel.elements) {
-        cache.years[year as Year].byElement[element.key] = 
+        cache.years[year as Year].byElement[element.key] =
           Object.values(cache.years[year as Year].byKommune)
-          .map(kommune => kommune[element.key])
-          .sort((a, b) => a - b);
+            .map(kommune => kommune[element.key])
+            .sort((a, b) => a - b);
       }
-      cache.years[year as Year].byTotalRisk = 
+      cache.years[year as Year].byTotalRisk =
         Object.values(cache.years[year as Year].byKommune)
-        .map(kommune => kommune.totalRisk)
-        .sort((a, b) => a - b);
+          .map(kommune => kommune.totalRisk)
+          .sort((a, b) => a - b);
     }
     clearComputedCaches();
     set({ cache });
   },
 
- refreshCacheRisk: () => {
+  refreshCacheRisk: () => {
     const { dataModel, cache } = get();
     if (!dataModel || !cache) return;
 
@@ -324,14 +345,11 @@ kommuneCache.totalRisk = totalRisk;
             const totalRisk = dataModel.elements.reduce((acc, element) => {
               const elementValue = cache.years[year as Year].byKommune[komNr as KommuneNr][element.key];
               const baseValue = element.disabled ? 0 : (element.invert === true ? 100 - elementValue : elementValue);
-              
-              // Identification stricte de l'élément Réponse via sa clé "r"
               const isResponse = String(element.key).toLowerCase() === "r";
-              
-              // On applique le facteur de pondération 0,3 si c'est la Réponse
+
               return acc + (isResponse ? baseValue * 0.3 : baseValue);
             }, 0);
-            
+
             return [komNr, { ...kommuneCache, totalRisk }];
           })
         );
@@ -354,7 +372,7 @@ kommuneCache.totalRisk = totalRisk;
     set({ cache: { ...cache, years: newYears } });
     clearComputedCaches();
   },
-  
+
   refreshCacheElement: (elementKey) => {
     const { cache, calculateElementValue, refreshCacheRisk, dataModel } = get();
     if (!cache || !dataModel) return;
@@ -398,7 +416,7 @@ kommuneCache.totalRisk = totalRisk;
               ];
             })
           )
-          
+
           const newElementDistribution = Object.values(newByKommune)
             .map(k => k[elementKey])
             .sort((a, b) => a - b);
@@ -407,7 +425,7 @@ kommuneCache.totalRisk = totalRisk;
             ...byElement,
             [elementKey]: newElementDistribution,
           }
-          
+
           return [
             year,
             {
@@ -424,7 +442,6 @@ kommuneCache.totalRisk = totalRisk;
     refreshCacheRisk();
   },
 
-  // OPTIMISATION CRITIQUE : Lecture directe de la plage d'index pré-calculée pour éviter les boucles imbriquées
   calculateElementValue: (elementKey, komNr, year) => {
     const { dataModel, data } = get()
     if (!dataModel || !data || !komNr || !year) return null
@@ -434,11 +451,9 @@ kommuneCache.totalRisk = totalRisk;
     if (!kommune) return null;
 
     const tmpRes = sumInvertibleValues(metrics, kommune)
-    
-    // Accès instantané O(1) aux extrema globaux calculés dans fetchData
     const bounds = globalMinMaxCache[elementKey];
     if (!bounds || bounds.min === bounds.max) return null;
-    
+
     return (tmpRes - bounds.min) / (bounds.max - bounds.min) * 100;
   },
 
@@ -465,7 +480,7 @@ kommuneCache.totalRisk = totalRisk;
   selectedYear: null,
   setSelectedYear: (year) => set({ selectedYear: year }),
   highlightedKommune: null,
-  setHighlightedKommune: (kommune) => set({ highlightedKommune: kommune }), 
+  setHighlightedKommune: (kommune) => set({ highlightedKommune: kommune }),
   selectedKommune: null,
   setSelectedKommune: (kommune) => set((state) => {
     if (state.selectedKommune === kommune) {
@@ -475,8 +490,8 @@ kommuneCache.totalRisk = totalRisk;
   }),
 
   selectedDistribuion: { type: "risk" } as DistributionKey,
-  setSelectedDistribution: (key) => set({ 
-    selectedDistribuion: key, 
+  setSelectedDistribution: (key) => set({
+    selectedDistribuion: key,
     riskColors: get().getRiskColors(key),
   }),
 
@@ -509,7 +524,7 @@ kommuneCache.totalRisk = totalRisk;
     }
     return [min, max];
   },
-  
+
   layout: "first",
   setLayout: (layout) => set({ layout }),
   highlightedDistribution: null,
@@ -519,15 +534,14 @@ kommuneCache.totalRisk = totalRisk;
     const { data, cache } = get()
     if (!data || !cache || !year || !cache.years[year]) return null;
 
-    // Adaptation pour la France : Regroupement par département (2 premiers caractères du code INSEE)
     const deptNr = komNr.slice(0, 2);
 
     if (distKey.type === "risk") {
-      return Object.entries(cache.years[year].byKommune).filter(([k]) => k.startsWith(deptNr)).map(([,k]) => (k as KommuneCache).totalRisk).sort((a, b) => a - b);
+      return Object.entries(cache.years[year].byKommune).filter(([k]) => k.startsWith(deptNr)).map(([, k]) => (k as KommuneCache).totalRisk).sort((a, b) => a - b);
     } else if (distKey.type === "element") {
-      return Object.entries(cache.years[year].byKommune).filter(([k]) => k.startsWith(deptNr)).map(([,k]) => (k as KommuneCache)[distKey.key]).sort((a, b) => a - b);
+      return Object.entries(cache.years[year].byKommune).filter(([k]) => k.startsWith(deptNr)).map(([, k]) => (k as KommuneCache)[distKey.key]).sort((a, b) => a - b);
     } else {
-      return Object.entries(data.years[year].byKommune).filter(([k]) => k.startsWith(deptNr)).map(([,k]) => (k as KommuneData)[distKey.key]).sort((a, b) => a - b);
+      return Object.entries(data.years[year].byKommune).filter(([k]) => k.startsWith(deptNr)).map(([, k]) => (k as KommuneData)[distKey.key]).sort((a, b) => a - b);
     }
   },
 
