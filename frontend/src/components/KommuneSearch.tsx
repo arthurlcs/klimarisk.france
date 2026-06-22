@@ -1,12 +1,10 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import useDataStore, { type KommuneNr } from "../hooks/useDataStore";
-import useLanguageStore, { t } from "../hooks/useLanguageStore";
 import { normalizeString } from "../hooks/statistics";
 import "./KommuneSearch.css";
 
 function KommuneSearch() {
     const { data, selectedYear, setSelectedKommune, selectedKommune } = useDataStore();
-    const { l } = useLanguageStore();
 
     const [query, setQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
@@ -70,7 +68,7 @@ function KommuneSearch() {
     function handleSelect(nr: KommuneNr, name: string) {
         setSelectedKommune(nr);
         setQuery(name);
-        setIsOpen(false);
+        isOpen && setIsOpen(false);
     }
 
     return (
@@ -95,7 +93,7 @@ function KommuneSearch() {
                                 <span className="suggestionName">{k.name}</span>
                                 <span className="suggestionDept">({String(k.nr).slice(0, 2)})</span>
                             </button>
-                        </li>       
+                        </li>
                     ))}
                 </ul>
             )}

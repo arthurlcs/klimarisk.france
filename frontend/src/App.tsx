@@ -5,7 +5,6 @@ import Map from './components/map/Map'
 import DistributionChart from './components/chart/DistributionChart';
 import RiskTree from './components/RiskTree';
 import RiskTable from './components/RiskTable';
-import KommuneSearch from './components/KommuneSearch'; // Corrigé la typo Kommmune
 import DetailedStats from './components/details/DetailedStats';
 import useLanguageStore, { t } from './hooks/useLanguageStore';
 import Header from './components/header/Header';
