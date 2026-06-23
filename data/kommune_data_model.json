@@ -6,12 +6,20 @@
         "fr": "Aléa",
         "en": "Hazard"
       },
+      "description": {
+        "fr": "Occurrence potentielle d'un événement physique d'origine climatique pouvant causer des dommages.",
+        "en": "Potential occurrence of a climate-induced physical event that may cause damage or loss."
+      },
       "metrics": [
         {
           "key": "hFlood",
           "name": {
             "fr": "Inondation",
             "en": "Flooding"
+          },
+          "description": {
+            "fr": "Part de la superficie communale couverte par un risque d'inondation par débordement de cours d'eau, multipliée par un facteur d'augmentation de variation de précipitations extrêmes.",
+            "en": "Proportion of the municipality area covered by a river flooding risk, multiplied by a factor of rainfall intensity increase."
           }
         },
         {
@@ -19,6 +27,10 @@
           "name": {
             "fr": "Submersion",
             "en": "Storm Surge"
+          },
+          "description": {
+            "fr": "Part de la superficie communale couverte par un risque d'inondation par un risque de submersion marine, multipliée par un facteur d'élévation du niveau de la mer",
+            "en": "Proportion of the municipality area covered by a storm surge risk, multiplied by a factor of sea-level rise."
           }
         },
         {
@@ -26,6 +38,10 @@
           "name": {
             "fr": "Canicule",
             "en": "Heatwave"
+          },
+          "description": {
+            "fr": "Nombre de \"jours très chauds\" par an",
+            "en": "Number of \"very hot days\" per year."
           }
         },
         {
@@ -33,6 +49,10 @@
           "name": {
             "fr": "Retrait-Gonflement des Argiles",
             "en": "Shrinkage-Swelling of Clays"
+          },
+          "description": {
+            "fr": "Part de la surface communale avec un risque identifié de RGA, multiplié par un facteur d'augmentation de l'intensité de la sécheresse",
+            "en": "Proportion of the municipality area with identified shrinkage-swelling risk, multiplied by a factor of drought intensity increase."
           }
         },
         {
@@ -40,6 +60,10 @@
           "name": {
             "fr": "Cyclone",
             "en": "Cyclone"
+          },
+          "description": {
+            "fr": "Variation dans l'intensité des cyclones tropicaux",
+            "en": "Variation in the intensity of tropical cyclones."
           }
         },
         {
@@ -47,6 +71,10 @@
           "name": {
             "fr": "Feux de forêt",
             "en": "Wildfire"
+          },
+          "description": {
+            "fr": "Nombre de jour avec un risque sgnificatif de feux de forêt",
+            "en": "Number of days with a significant risk of forest fires."
           }
         },
         {
@@ -54,6 +82,10 @@
           "name": {
             "fr": "Réduction du manteau neigeux",
             "en": "Snow cover reduction"
+          },
+          "description": {
+            "fr": "Variation du nombre de jours enneigés à la plus haute altitude de la commmune",
+            "en": "Variation in the number of snow-covered days at the highest altitude of the municipality."
           }
         }
       ]
@@ -64,12 +96,20 @@
         "en": "Vulnerability",
         "fr": "Vulnérabilité"
       },
+      "description": {
+        "fr": "Prédisposition intrinsèque des caractéristiques socio-économiques à subir des effets préjudiciables.",
+        "en": "Intrinsic predisposition of socio-economic characteristics to be adversely affected."
+      },
       "metrics": [
         {
           "key": "vAge",
           "name": {
             "fr": "Age",
             "en": "Age"
+          },
+          "description": {
+            "fr": "Part de la population âgée de plus de 65 ans et de moins de 15 ans.",
+            "en": "Share of the population older than 65 years old and younger than 15 years old."
           }
         },
         {
@@ -77,6 +117,10 @@
           "name": {
             "fr": "Secteur primaire",
             "en": "Primary sector"
+          },
+          "description": {
+            "fr": "Part de l'emploi dans le secteur primaire.",
+            "en": "Share of the employment in the primary sector."
           }
         },
         {
@@ -84,6 +128,10 @@
           "name": {
             "fr": "Richesse",
             "en": "Wealth"
+          },
+          "description": {
+            "fr": "Revenu médian",
+            "en": "Median income"
           }
         }
       ]
@@ -94,12 +142,20 @@
         "en": "Exposure",
         "fr": "Exposition"
       },
+      "description": {
+        "fr": "Présence de personnes, d'infrastructures et d'écosystèmes.",
+        "en": "Presence of people, infrastructure, and ecosystems in zones susceptible to hazards."
+      },
       "metrics": [
         {
           "key": "eBiodiv",
           "name": {
             "fr": "Biodiversité",
             "en": "Biodiversity"
+          },
+          "description": {
+            "fr": "Proportion de la surface communale avec un statut de zone naturelle protégée.",
+            "en": "Proportion of the municipal surface with a status of protected area."
           }
         },
         {
@@ -107,6 +163,10 @@
           "name": {
             "fr": "Population",
             "en": "Population"
+          },
+          "description": {
+            "fr": "Densité de population",
+            "en": "Population density"
           }
         },
         {
@@ -114,6 +174,10 @@
           "name": {
             "fr": "Bâtiments",
             "en": "Buildings"
+          },
+          "description": {
+            "fr": "Nombre de maisons menacées par les inondations, les submersions et le RGA",
+            "en": "Number of houses threatened by flooding, storum surges and SSC."
           }
         }
       ]
@@ -134,6 +198,10 @@
           "name": {
             "fr": "Planification",
             "en": "Planning"
+          },
+          "description": {
+            "fr": "Existence d'un plan d'adaptation local (PCAET).",
+            "en": "Existence of a local adaptation plan (PCAET)."
           }
         },
         {
@@ -141,6 +209,10 @@
           "name": {
             "fr": "Ressources",
             "en": "Resources"
+          },
+          "description": {
+            "fr": "Nombre de demandes de subventions au Fonds Vert pour des projets d'adaptation",
+            "en": "Number of applications to the Green fund for adaptation projects "
           }
         }
       ]
