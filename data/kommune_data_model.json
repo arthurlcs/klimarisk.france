@@ -73,7 +73,7 @@
             "en": "Wildfire"
           },
           "description": {
-            "fr": "Nombre de jour avec un risque sgnificatif de feux de forêt",
+            "fr": "Nombre de jour avec un risque significatif de feux de forêt",
             "en": "Number of days with a significant risk of forest fires."
           }
         },
@@ -84,7 +84,7 @@
             "en": "Snow cover reduction"
           },
           "description": {
-            "fr": "Variation du nombre de jours enneigés à la plus haute altitude de la commmune",
+            "fr": "Variation du nombre de jours enneigés à la plus haute altitude de la commune",
             "en": "Variation in the number of snow-covered days at the highest altitude of the municipality."
           }
         }
@@ -177,7 +177,7 @@
           },
           "description": {
             "fr": "Nombre de maisons menacées par les inondations, les submersions et le RGA",
-            "en": "Number of houses threatened by flooding, storum surges and SSC."
+            "en": "Number of houses threatened by flooding, storm surges and SSC."
           }
         }
       ]
