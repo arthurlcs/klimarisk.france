@@ -8,7 +8,6 @@
   height: 100%;
   outline: none;
   position: relative;
-  /* Servira de point d'ancrage à la barre de recherche */
 }
 
 /* ==========================================================================
@@ -16,16 +15,13 @@
    ========================================================================== */
 .panel.map .kommuneSearchContainer {
   position: absolute !important;
-  top: 10px;
-  /* Descendu légèrement pour ne pas entrer en conflit avec le label de commune s'il y en a un */
-  left: 10px;
-  width: 175px;
-  /* Largeur réduite pour être plus discret */
+  top: 8px;
+  left: 8px;
+  width: 300px;
   box-sizing: border-box;
   padding: 0;
   background: none;
   z-index: 1000;
-  /* Passe au-dessus des tuiles géographiques */
 }
 
 .kommuneLabel {
@@ -43,11 +39,54 @@
   pointer-events: none;
 }
 
-/* Intégration Option B : Bloquer le calcul de Recharts à -1 */
 .detailsElement ul,
 .chartContainer,
 .recharts-responsive-container {
   width: 100% !important;
   min-height: 250px !important;
   position: relative !important;
-} 
+}
+
+/* ==========================================================================
+   GESTIONNAIRE DE COUCHES INTERACTIF DISCRET (LÉGENDE)
+   ========================================================================== */
+.mapLayerOverlayControl {
+  position: absolute;
+  bottom: 10px;
+  /* Placé au-dessus des attributions MapLibre basiques */
+  right: 8px;
+  background-color: var(--c-bg1, #ffffff);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  user-select: none;
+}
+
+.overlayControlItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--c-text, #333333);
+  font-weight: 500;
+}
+
+.overlayControlItem input[type="checkbox"] {
+  cursor: pointer;
+  margin: 0;
+  
+  /* Force l'application de la couleur sur les navigateurs modernes */
+  appearance: auto !important; 
+  -webkit-appearance: auto !important;
+  accent-color: #fcbba1 !important; /* Code hexa de ton orange de secours */
+}
+
+.controlLabelText {
+  line-height: 1;
+}

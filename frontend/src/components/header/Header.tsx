@@ -9,7 +9,7 @@ function Header() {
   return (
     <header>
       <h1>
-        <a href="https://github.com/tiltobias/klimarisk" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/arthurlcs/klimarisk.france" target="_blank" rel="noopener noreferrer">
           Klimarisk
         </a>
       </h1>

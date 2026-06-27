@@ -4,7 +4,31 @@ import useDataStore, { type KommuneNr } from "../hooks/useDataStore";
 import "./RiskTable.css";
 import useLanguageStore, { t } from "../hooks/useLanguageStore";
 import Tooltip from "./Tooltip";
-import { MoveDown as ArrowDown, MoveUp as ArrowUp } from "lucide-react";
+import { MoveDown as ArrowDown, MoveUp as ArrowUp, Layers } from "lucide-react";
+
+const DEPARTEMENTS_MAP: Record<string, string> = {
+  "01": "Ain", "02": "Aisne", "03": "Allier", "04": "Alpes-de-Haute-Provence", "05": "Hautes-Alpes",
+  "06": "Alpes-Maritimes", "07": "Ardèche", "08": "Ardennes", "09": "Ariège", "10": "Aube",
+  "11": "Aude", "12": "Aveyron", "13": "Bouches-du-Rhône", "14": "Calvados", "15": "Cantal",
+  "16": "Charente", "17": "Charente-Maritime", "18": "Cher", "19": "Corrèze", "2A": "Corse-du-Sud",
+  "2B": "Haute-Corse", "21": "Côte-d'Or", "22": "Côtes-d'Armor", "23": "Creuse", "24": "Dordogne",
+  "25": "Doubs", "26": "Drôme", "27": "Eure", "28": "Eure-et-Loir", "29": "Finistère",
+  "30": "Gard", "31": "Haute-Garonne", "32": "Gers", "33": "Gironde", "34": "Hérault",
+  "35": "Ille-et-Vilaine", "36": "Indre", "37": "Indre-et-Loire", "38": "Isère", "39": "Jura",
+  "40": "Landes", "41": "Loir-et-Cher", "42": "Loire", "43": "Haute-Loire", "44": "Loire-Atlantique",
+  "45": "Loiret", "46": "Lot", "47": "Lot-et-Garonne", "48": "Lozère", "49": "Maine-et-Loire",
+  "50": "Manche", "51": "Marne", "52": "Haute-Marne", "53": "Mayenne", "54": "Meurthe-et-Moselle",
+  "55": "Meuse", "56": "Morbihan", "57": "Moselle", "58": "Nièvre", "59": "Nord",
+  "60": "Oise", "61": "Orne", "62": "Pas-de-Calais", "63": "Puy-de-Dôme", "64": "Pyrénées-Atlantiques",
+  "65": "Hautes-Pyrénées", "66": "Pyrénées-Orientales", "67": "Bas-Rhin", "68": "Haut-Rhin",
+  "69": "Rhône", "70": "Haute-Saône", "71": "Saône-et-Loire", "72": "Sarthe", "73": "Savoie",
+  "74": "Haute-Savoie", "75": "Paris", "76": "Seine-Maritime", "77": "Seine-et-Marne", "78": "Yvelines",
+  "79": "Deux-Sèvres", "80": "Somme", "81": "Tarn", "82": "Tarn-et-Garonne", "83": "Var",
+  "84": "Vaucluse", "85": "Vendée", "86": "Vienne", "87": "Haute-Vienne", "88": "Vosges",
+  "89": "Yonne", "90": "Territoire de Belfort", "91": "Essonne", "92": "Hauts-de-Seine",
+  "93": "Seine-Saint-Denis", "94": "Val-de-Marne", "95": "Val-d'Oise",
+  "971": "Guadeloupe", "972": "Martinique", "973": "Guyane", "974": "La Réunion", "976": "Mayotte"
+};
 
 function RiskTable() {
   const {
@@ -18,9 +42,12 @@ function RiskTable() {
     setHighlightedKommune,
     layout,
     highlightedDistribution,
-    selectedDistribuion,
+    selectedDistribution,
     getRiskColor,
+    aggregationLevel,
+    setAggregationLevel
   } = useDataStore();
+
   const { l } = useLanguageStore();
 
   const [sortKey, setSortKey] = useState<string>("totalRisk");
@@ -54,26 +81,63 @@ function RiskTable() {
     }
   };
 
+  const headers = useMemo(() => {
+    if (!dataModel) return [];
+
+    return dataModel.elements.filter(e => !e.disabled).flatMap(e => {
+      const elementHeader = {
+        key: e.key,
+        name: e.name,
+        description: e.description,
+        isDeterminant: true,
+        ...(e.invert ? { invert: true } : {}),
+      };
+
+      if (layout === "second") {
+        const metricsHeaders = e.metrics.filter(m => !m.disabled).map(m => ({
+          key: m.key,
+          name: m.name,
+          description: m.description,
+          isDeterminant: false,
+          ...(!!m.invert !== !!e.invert ? { invert: true } : {}),
+        }));
+        return [elementHeader, ...metricsHeaders];
+      }
+
+      return [elementHeader];
+    });
+  }, [dataModel, layout]);
+
   const rows = useMemo(() => {
     if (!data || !cache || !dataModel || !selectedYear) return [];
+
     const tmp = Object.keys(data.years[selectedYear].byKommune).map(k => {
       const kommuneData = data.years[selectedYear].byKommune[k as KommuneNr];
       const kommuneCache = cache.years[selectedYear].byKommune[k as KommuneNr];
+
+      let displayName = kommuneData.name as string;
+
+      if (aggregationLevel === "departement") {
+        const deptCode = String(k).padStart(2, '0');
+        displayName = DEPARTEMENTS_MAP[deptCode] || displayName;
+      }
+
       return {
-        name: kommuneData.name as string,
-        komNr: k,
+        name: displayName,
+        komNr: k as KommuneNr,
         totalRisk: kommuneCache.totalRisk as number,
         ...Object.fromEntries(dataModel.elements.map(e => [e.key, kommuneCache[e.key]])),
         ...layout === "second" ? Object.fromEntries(dataModel.elements.flatMap(e => e.metrics.map(m => [m.key, kommuneData[m.key]]))) : {},
       }
     });
+
     return tmp as {
       name: string;
       komNr: KommuneNr;
       totalRisk: number;
       [key: string]: string | number;
     }[];
-  }, [data, cache, dataModel, selectedYear, layout]);
+  }, [data, cache, dataModel, selectedYear, layout, aggregationLevel]);
 
   const rowsSorted = useMemo(() => {
     return [...rows].sort((a, b) => {
@@ -88,21 +152,6 @@ function RiskTable() {
       return 0;
     });
   }, [rows, sortKey, sortAscending]);
-
-  const headers = [
-    ...dataModel?.elements.filter(e => !e.disabled).map(e => ({
-      key: e.key,
-      name: e.name,
-      description: e.description,
-      ...(e.invert ? { invert: true } : {}),
-    })) || [],
-    ...layout === "second" ? dataModel?.elements.filter(e => !e.disabled).flatMap(e => e.metrics.filter(m => !m.disabled).map(m => ({
-      key: m.key,
-      name: m.name,
-      description: m.description,
-      ...(!!m.invert !== !!e.invert ? { invert: true } : {}),
-    }))) || [] : [],
-  ]
 
   const listRef = useRef<List | null>(null);
   const selectedRowRef = useRef<HTMLDivElement>(null);
@@ -198,13 +247,13 @@ function RiskTable() {
         <div className="rt-cell kommuneCol">
           {row.name}
         </div>
-        <div className={`rt-cell numeric ${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""} ${selectedDistribuion.type === "risk" ? "selectedCol" : ""}`}>
+        <div className={`rt-cell numeric totalRiskCol ${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""} ${selectedDistribution.type === "risk" ? "selectedCol" : ""}`}>
           {renderValue(row.totalRisk)}
         </div>
         {headers.map((header, headerIndex) => (
           <div
             key={`${index}-${headerIndex}`}
-            className={`rt-cell numeric ${(highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key) ? "highlightedCol" : ""} ${selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? "selectedCol" : ""}`}
+            className={`rt-cell numeric ${header.isDeterminant ? 'determinantCol' : ''} ${(highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key) ? "highlightedCol" : ""} ${selectedDistribution.type !== "risk" && selectedDistribution.key === header.key ? "selectedCol" : ""}`}
           >
             {renderValue(row[header.key])}
           </div>
@@ -213,23 +262,54 @@ function RiskTable() {
     );
   };
 
+  // Résolution contextuelle de l'en-tête textuel selon l'échelle territoriale active
+  const getTableHeaderName = () => {
+    if (aggregationLevel === "commune") return l(t.table.kommune);
+    if (aggregationLevel === "epci") return "EPCI";
+    return l(t.table.departement) || "Department";
+  };
+
   return (
     <div className="riskTableContainer">
+      <div className="aggregation-controls">
+        <span className="agg-label">
+          <Layers size={16} /> {l(t.table.level) || "Level :"}
+        </span>
+        <button
+          className={`agg-btn ${aggregationLevel === "commune" ? "active" : ""}`}
+          onClick={() => setAggregationLevel("commune")}
+        >
+          {l(t.table.communes) || "Municipalities"}
+        </button>
+        <button
+          className={`agg-btn ${aggregationLevel === "epci" ? "active" : ""}`}
+          onClick={() => setAggregationLevel("epci")}
+        >
+          EPCI
+        </button>
+        <button
+          className={`agg-btn ${aggregationLevel === "departement" ? "active" : ""}`}
+          onClick={() => setAggregationLevel("departement")}
+        >
+          {l(t.table.departements) || "Departments"}
+        </button>
+      </div>
+
       <div className="rt-table">
         <div className="rt-thead" ref={headerRef}>
           <div className="rt-row rt-header">
             <div className="rt-cell indexCol">#</div>
             <div className="rt-cell kommuneCol">
               <button type="button" onClick={() => handleSort("name")}>
-                {l(t.table.kommune)}
+                {getTableHeaderName()}
                 <div className="sortIcon">
                   {sortKey === "name" && (sortAscending ? <ArrowUp /> : <ArrowDown />)}
                 </div>
               </button>
             </div>
             <div
-              className={`rt-cell numeric ${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""} ${selectedDistribuion.type === "risk" ? "selectedCol" : ""}`}
-              ref={selectedDistribuion.type === "risk" ? selectedColRef : null}
+              className={`rt-cell numeric totalRiskCol ${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlightedCol" : ""} ${selectedDistribution.type === "risk" ? "selectedCol" : ""}`}
+              ref={selectedDistribution.type === "risk" ? selectedColRef : null}
             >
               <button type="button" onClick={() => handleSort("totalRisk")}>
                 {l(t.common.totalRisk)}
@@ -241,8 +321,8 @@ function RiskTable() {
             {headers.map((header, index) => (
               <div
                 key={index}
-                className={`rt-cell numeric ${highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key ? "highlightedCol" : ""} ${selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? "selectedCol" : ""}`}
-                ref={selectedDistribuion.type !== "risk" && selectedDistribuion.key === header.key ? selectedColRef : null}
+                className={`rt-cell numeric ${header.isDeterminant ? 'determinantCol' : ''} ${highlightedDistribution && highlightedDistribution?.type !== "risk" && highlightedDistribution.key === header.key ? "highlightedCol" : ""} ${selectedDistribution.type !== "risk" && selectedDistribution.key === header.key ? "selectedCol" : ""}`}
+                ref={selectedDistribution.type !== "risk" && selectedDistribution.key === header.key ? selectedColRef : null}
               >
                 <button type="button" onClick={() => handleSort(header.key, header.invert)}>
                   <Tooltip text={l(header.description)}>

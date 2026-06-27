@@ -1,24 +1,36 @@
+/* ==========================================================================
+   1. CONTENEUR PRINCIPAL (RESTAURATION DU FOND GRIS D'ORIGINE)
+   ========================================================================== */
 .chartContainer {
   user-select: none;
-  background-color: var(--c-bg3);
+  background-color: var(--c-bg3) !important;
+  /* Force le fond gris d'origine */
   min-height: 12em;
   overflow: hidden;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   height: 100%;
-  /* 🔥 Force le conteneur à respecter la taille du panneau parent */
+  padding: 0.5em !important;
+  /* Réduit l'espace interne pour maximiser le graphique */
+  box-sizing: border-box;
 }
 
-/* ==========================================================================
-   AJOUT CRITIQUE : FORCE LE WRAPPER DU GRAPH À RÉTRÉCIR SI L'ÉCRAN EST PETIT
-   ========================================================================== */
-.chartContainer>svg,
-.chartContainer>div:not(.distSelect):not(.chartStatsContainer) {
+/* Zone technique pour isoler et calibrer le ResponsiveContainer de Recharts */
+.mainChartArea {
   flex-grow: 1;
   flex-shrink: 1;
   min-height: 0 !important;
-  /* 🔥 Permet au graphique de se contracter verticalement */
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.chartContainer>svg,
+.mainChartArea>div {
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 0 !important;
   height: 100%;
   width: 100%;
 }
@@ -29,12 +41,14 @@ g:focus {
   outline: none;
 }
 
+/* ==========================================================================
+   2. SÉLECTEUR DE MÉTRIQUE (ZONE SUPÉRIEURE)
+   ========================================================================== */
 .distSelect {
   padding: .2em;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  /* Empêche le sélecteur d'être écrasé */
 }
 
 .distSelect select {
@@ -46,83 +60,116 @@ g:focus {
   box-shadow: 0 0 .3em rgba(0, 0, 0, 0.3);
 }
 
-.chartStatsContainer {
+/* ==========================================================================
+   3. PANNEAU DES STATISTIQUES (VERROUILLÉ SUR UNE SEULE LIGNE HORIZONTALE)
+   ========================================================================== */
+.chartContainer .chartStatsContainer {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  /* 🔥 Permet aux stats de passer à la ligne si la largeur manque */
+  flex-wrap: nowrap !important;
+  /* 🔥 Interdit strictement le retour à la ligne */
   justify-content: center;
-  gap: 0.5rem 1rem;
-  padding-bottom: .2em;
+  align-items: center;
+  gap: 0 1.5rem !important;
+  /* Ajustement de l'écart horizontal pour sécuriser l'espace */
+  padding: 0.2em 0 !important;
+  margin: 0 !important;
   flex-shrink: 0;
-  /* 🔥 Empêche le bloc de statistiques d'être masqué ou écrasé */
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1 !important;
 }
 
-.chartStat {
+/* Alignement structurel de chaque bloc de statistiques */
+.chartContainer .statGroup {
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 0.3rem !important;
+  flex-shrink: 0 !important;
+  /* Empêche le bloc complet de se faire écraser */
 }
 
-.chartStatHeader {
+/* Largeur fixe et alignement à gauche de tes intitulés */
+.chartContainer .statGroupLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--c-text, #333);
+  text-align: left !important;
+  white-space: nowrap;
+  display: block !important;
+  width: 58px !important;
+  /* Calibrage au millimètre pour resserrer et tout faire tenir */
+  min-width: 58px !important;
+  max-width: 58px !important;
+}
+
+.chartContainer .statGroupOptions {
   display: flex;
   flex-direction: row;
-  justify-content: end;
-}
-
-.chartStatHeader>div {
-  width: 5em;
-  text-align: center;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 0.3rem !important;
 }
 
-.chartStatName {
-  flex-grow: 1;
-  margin-right: 1em;
-}
-
-.chartStatVal {
+/* Style des puces / boutons de sélection interactifs */
+.chartContainer .compactStatToggle {
   display: flex;
   flex-direction: row;
-  align-self: center;
-  padding: .1em 0;
+  align-items: center;
+  gap: 0.2rem !important;
   cursor: pointer;
-  width: 5em;
-  justify-content: center;
+  padding: 2px 4px !important;
+  margin: 0 !important;
+  border-radius: 4px;
+  background: transparent !important;
+  transition: background-color 0.15s ease;
 }
 
-.chartStatVal:hover {
-  background-color: var(--c-highlighted);
+.chartContainer .compactStatToggle:hover {
+  background-color: var(--c-highlighted, rgba(0, 0, 0, 0.05)) !important;
 }
 
-.chartStatVal input {
-  margin: 0;
-  margin-right: .2em;
+.chartContainer .hiddenCheckbox {
+  display: none !important;
 }
 
-.chartStatVal>div {
-  min-width: 1.8em;
-  text-align: right;
+.chartContainer .compactStatToggle .statIndicator {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
 }
 
-.chartStatsContainer .norge {
-  color: var(--c-norge);
+.chartContainer .compactStatToggle.norge {
+  color: var(--c-norge) !important;
 }
 
-.chartStatsContainer .fylke {
-  color: var(--c-fylke);
+.chartContainer .compactStatToggle.fylke {
+  color: var(--c-fylke) !important;
 }
 
-.chartStatsContainer .mean {
-  border-bottom: 2px dashed black;
+.chartContainer .statLabelText {
+  font-size: 0.78rem;
 }
 
-.chartStatsContainer .median {
-  border-bottom: 2px dotted black;
+.chartContainer .statValueNumber {
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-left: 0.1rem;
 }
 
+.chartContainer .compactStatToggle.active.mean {
+  border-bottom: 2px dashed currentColor !important;
+}
+
+.chartContainer .compactStatToggle.active.median {
+  border-bottom: 2px dotted currentColor !important;
+}
+
+/* ==========================================================================
+   4. TOOLTIP DE RECHARTS
+   ========================================================================== */
 .customTooltip {
   pointer-events: none;
   background-color: var(--c-bg1);

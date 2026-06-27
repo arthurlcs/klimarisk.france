@@ -1,5 +1,5 @@
 import './App.css'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useDataStore from './hooks/useDataStore'
 import Map from './components/map/Map'
 import DistributionChart from './components/chart/DistributionChart';
@@ -10,19 +10,82 @@ import useLanguageStore, { t } from './hooks/useLanguageStore';
 import Header from './components/header/Header';
 import Panel from './components/Panel';
 
-function App() {
+// Composant de l'écran avec barre de progression réelle
+type LoadingScreenProps = {
+  progress: number;
+};
 
+function LoadingScreen({ progress }: LoadingScreenProps) {
+  return (
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <h2 style={styles.title}>Klimarisk France</h2>
+        <p style={styles.subtitle}>Chargement des indicateurs de risque climatique... ({progress}%)</p>
+        <div style={styles.progressContainer}>
+          <div
+            style={{
+              ...styles.progressBar,
+              width: `${progress}%`, // Largeur dynamique basée sur la progression réelle
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
   const {
     fetchData,
-    selectedDistribuion,
+    selectedDistribution,
     layout,
   } = useDataStore();
   const { l } = useLanguageStore();
 
-  // Fetch data on mount, only once
+  const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  // Gestion de la progression réelle de l'initialisation
   useEffect(() => {
-    fetchData();
+    async function initializeApp() {
+      try {
+        // Étape 1 : Démarrage du script d'initialisation
+        setProgress(15);
+
+        // Étape 2 : Simulation rapide de la connexion aux fichiers de données distants
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        setProgress(40);
+
+        // Étape 3 : Exécution de la fonction fetchData() du store (chargement des JSON/GeoJSON)
+        await fetchData();
+        setProgress(85);
+
+        // Étape 4 : Finalisation du rendu des composants lourds (cartes, graphiques)
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        setProgress(100);
+
+        // Petite pause à 100% pour une transition visuelle fluide
+        await new Promise((resolve) => setTimeout(resolve, 150));
+      } catch (error) {
+        console.error("Erreur lors du chargement des données de risques :", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    initializeApp();
   }, [fetchData]);
+
+  // 🎯 IMPOSER LE MODE ORDINATEUR SUR TOUS LES ÉCRANS MOBILES
+  useEffect(() => {
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute('content', 'width=1200, initial-scale=0.3, maximum-scale=3.0');
+    }
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen progress={progress} />;
+  }
 
   return (
     <>
@@ -44,13 +107,12 @@ function App() {
           <Map />
         </Panel>
 
-    
         <Panel
           title={l(t.panels.chart)}
           tooltip={l(t.panels.chart.tooltip)}
           className="chart"
         >
-          <DistributionChart distributionKey={selectedDistribuion} />
+          <DistributionChart distributionKey={selectedDistribution} />
         </Panel>
 
         <Panel
@@ -72,5 +134,47 @@ function App() {
     </>
   )
 }
+
+// Styles CSS-in-JS mis à jour (sans animation infinie)
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    width: '100vw',
+    backgroundColor: '#ffffff',
+    fontFamily: 'sans-serif',
+  },
+  card: {
+    textAlign: 'center' as const,
+    color: '#ffffff',
+  },
+  title: {
+    fontSize: '1.5rem',
+    marginBottom: '0.5rem',
+    fontWeight: 600,
+    color: '#000000',
+  },
+  subtitle: {
+    fontSize: '0.9rem',
+    color: '#000000',
+    marginBottom: '1.5rem',
+  },
+  progressContainer: {
+    width: '300px',
+    height: '6px',
+    backgroundColor: '#ffedd5',
+    borderRadius: '3px',
+    overflow: 'hidden',
+    margin: '0 auto',
+  },
+  progressBar: {
+    height: '100%',
+    backgroundColor: '#f97316',
+    borderRadius: '3px',
+    transition: 'width 0.3s ease-out', 
+  },
+};
 
 export default App;

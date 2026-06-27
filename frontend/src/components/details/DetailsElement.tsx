@@ -18,13 +18,13 @@ function DetailsElement({ e }: Props) {
     selectedKommune,
     data,
     selectedYear,
-    selectedDistribuion,
+    selectedDistribution,
     highlightedDistribution,
   } = useDataStore();
   const { l } = useLanguageStore();
 
   function handleInspectDistribution(key: DistributionKey) {
-    if (selectedDistribuion.type === "element" && key.type === "element" && selectedDistribuion.key === key.key) return setSelectedDistribution({ type: "risk" });
+    if (selectedDistribution.type === "element" && key.type === "element" && selectedDistribution.key === key.key) return setSelectedDistribution({ type: "risk" });
     setSelectedDistribution(key);
   }
 
@@ -42,16 +42,16 @@ function DetailsElement({ e }: Props) {
     if (selectedDistRef.current !== null) {
       selectedDistRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-  }, [selectedDistribuion]); // Should scroll to show selected distribution detail
+  }, [selectedDistribution]); // Should scroll to show selected distribution detail
 
   return (
-    <li className={`detailsElement ${selectedDistribuion.type === "element" && selectedDistribuion.key === e.key ? "selected" : ""}`}>
+    <li className={`detailsElement ${selectedDistribution.type === "element" && selectedDistribution.key === e.key ? "selected" : ""}`}>
       <button 
         onMouseEnter={() => setHighlightedDistribution({type: "element", key: e.key})}
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "element", key: e.key})}
         className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "element" && highlightedDistribution.key === e.key ? "highlighted" : ""}`}
-        ref={selectedDistribuion.type === "element" && selectedDistribuion.key === e.key ? selectedDistRef : null}
+        ref={selectedDistribution.type === "element" && selectedDistribution.key === e.key ? selectedDistRef : null}
       >
         <div
           className="colorBox"

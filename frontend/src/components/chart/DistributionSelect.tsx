@@ -20,7 +20,7 @@ function decodeDistributionKey(value: string): DistributionKey {
 function DistributionSelect() {
   const {
     dataModel, 
-    selectedDistribuion, 
+    selectedDistribution, 
     setSelectedDistribution, 
   } = useDataStore();
   const { l } = useLanguageStore();
@@ -29,7 +29,7 @@ function DistributionSelect() {
     <div className="distSelect">
       <select
         onChange={e => setSelectedDistribution(decodeDistributionKey(e.target.value))}
-        value={encodeDistributionKey(selectedDistribuion)}
+        value={encodeDistributionKey(selectedDistribution)}
       >
         <option value="risk">
           {l(t.common.totalRisk)}

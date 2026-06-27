@@ -15,13 +15,13 @@ function DetailsMetric({ m }: Props) {
     setSelectedDistribution,
     selectedKommune,
     getRiskColor,
-    selectedDistribuion,
+    selectedDistribution,
     highlightedDistribution,
   } = useDataStore();
   const { l } = useLanguageStore();
 
   function handleInspectDistribution(key: DistributionKey) {
-    if (selectedDistribuion.type === "metric" && key.type === "metric" && selectedDistribuion.key === key.key) return setSelectedDistribution({ type: "risk" });
+    if (selectedDistribution.type === "metric" && key.type === "metric" && selectedDistribution.key === key.key) return setSelectedDistribution({ type: "risk" });
     setSelectedDistribution(key);
   }
 
@@ -31,18 +31,18 @@ function DetailsMetric({ m }: Props) {
     if (selectedDistRef.current !== null) {
       selectedDistRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-  }, [selectedDistribuion]); // Should scroll to show selected distribution detail
+  }, [selectedDistribution]); // Should scroll to show selected distribution detail
 
   return (
     <li 
-      className={`detailsMetric ${selectedDistribuion.type === "metric" && selectedDistribuion.key === m.key ? "selected" : ""}`}
+      className={`detailsMetric ${selectedDistribution.type === "metric" && selectedDistribution.key === m.key ? "selected" : ""}`}
     >
       <button 
         onMouseEnter={() => setHighlightedDistribution({type: "metric", key: m.key})}
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({type: "metric", key: m.key})}
         className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "metric" && highlightedDistribution.key === m.key ? "highlighted" : ""}`}
-        ref={selectedDistribuion.type === "metric" && selectedDistribuion.key === m.key ? selectedDistRef : null}
+        ref={selectedDistribution.type === "metric" && selectedDistribution.key === m.key ? selectedDistRef : null}
       >
         <div
           className="colorBox"

@@ -4,13 +4,24 @@
   flex-grow: 1;
 }
 
+/* 🎯 Ajustement structurel pour l'alignement de l'icône */
+.treeRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
 .treeHandle {
   cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: left;
-  padding-right: 4.5rem;
+  flex: 1;
+  padding-right: 1rem;
   line-height: 1.1em;
   padding-left: var(--detail-padding);
   padding-block: 0.25em;
@@ -35,30 +46,56 @@
   overflow: visible;
 }
 
-
 .riskTree ul {
   list-style: none;
   padding-left: 2rem;
   margin: 0;
 }
-.riskTree > ul {
+
+.riskTree>ul {
   padding: 0;
 }
 
-.treeElement > .treeHandle {
+/* Correction des héritages de taille sur treeRow */
+.treeElement .treeHandle {
   font-size: 1.2rem;
   --detail-padding: .5em;
 }
-.treeMetric > .treeHandle {
+
+.treeMetric .treeHandle {
   font-size: 1rem;
   --detail-padding: .4em;
 }
 
 .riskTree .highlighted,
-.treeHandle:hover {
+.treeRow:hover {
   background-color: var(--c-highlighted);
 }
 
 .riskTree .disabled {
   background-color: var(--c-bg1);
+}
+
+/* Styles dédiés à l'icône d'information */
+.treeInfoIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 1.5rem;
+  z-index: 10;
+}
+
+.infoChar {
+  color: var(--c-text-muted, #888888);
+  font-size: 0.95rem;
+  cursor: help;
+  transition: color 0.15s ease;
+}
+
+.treeRow:hover .infoChar {
+  color: var(--c-text, #444444);
+}
+
+.infoChar:hover {
+  color: var(--c-accent, #fb6a4a) !important;
 }

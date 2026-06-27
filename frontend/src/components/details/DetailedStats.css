@@ -6,7 +6,9 @@
   padding: 0;
   margin: 0;
   display: block !important;
-  height: auto !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  background-color: var(--c-bg3);
 }
 
 .detailsList ul,
@@ -24,7 +26,7 @@
 }
 
 /* ==========================================================================
-   2. EN-TÊTE FIXE ET ALIGNÉ (FRANCE / DEPARTEMENT)
+   2. EN-TÊTE FIXE ET ALIGNÉ (ECHELLE NATIONALE / SYSTÈME MACRO)
    ========================================================================== */
 
 .detailsHeader {
@@ -32,26 +34,28 @@
   user-select: none;
   flex-direction: row;
   justify-content: flex-end;
-  padding-right: 1.5rem;
+  padding-right: 2.5rem;
+  /* Ajusté à 2.5rem pour s'aligner sur la zone d'action detailsHandle */
   position: sticky;
   top: 0;
   background-color: var(--c-bg1);
   z-index: 1;
 }
 
-/* Colonne France (En-tête) */
+/* Colonne Référence Nationale / Globale (En-tête) */
 .detailsHeader>div {
-  width: 5rem;
-  text-align: left;
+  width: 7rem;
+  /* Augmenté légèrement pour offrir plus de flexibilité aux libellés longs */
+  text-align: right;
   color: var(--detailsHeaderColor);
   border-bottom: 2px solid var(--detailsHeaderColor);
 }
 
-/* Colonne Département (En-tête) */
+/* Colonne Échelle Territoriale Locale / Intermédiaire (En-tête) */
 .detailsHeader>div:last-child {
-  width: 6rem;
+  width: 6.5rem;
   margin-left: 1.5rem;
-  text-align: left;
+  text-align: right;
 }
 
 .detailsRisk {
@@ -81,7 +85,6 @@
   align-items: center;
   justify-content: flex-start;
   padding-right: 2.5rem;
-  /* 🔥 Augmenté à 2.5rem pour la cohérence globale */
   padding-left: var(--detail-padding);
   padding-block: 0.2rem !important;
   line-height: 1.4 !important;
@@ -105,6 +108,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Permet au nom de s'étirer au maximum et de tronquer proprement */
 }
 
 /* ==========================================================================

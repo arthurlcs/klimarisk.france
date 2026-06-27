@@ -5,13 +5,12 @@ import useLanguageStore, { t } from "../../hooks/useLanguageStore";
 import Tooltip from "../Tooltip";
 import { useEffect, useRef } from "react";
 
-
 interface Props {
   r: RankRisk;
+  countyName?: string; // 👈 1. Déclaration de la nouvelle prop optionnelle
 }
 
-function DetailsRisk({ r }: Props) {
-
+function DetailsRisk({ r, countyName }: Props) { // 👈 2. Récupération de countyName
   const {
     selectedKommune,
     setHighlightedDistribution,
@@ -19,7 +18,7 @@ function DetailsRisk({ r }: Props) {
     getRiskColor,
     cache,
     selectedYear,
-    selectedDistribuion,
+    selectedDistribution,
     highlightedDistribution,
   } = useDataStore();
   const { l } = useLanguageStore();
@@ -28,25 +27,23 @@ function DetailsRisk({ r }: Props) {
     setSelectedDistribution(key);
   }
 
-  const kommuneCache = cache && selectedYear && selectedKommune ? cache.years[selectedYear].byKommune[selectedKommune] : null
-  
+  const kommuneCache = cache && selectedYear && selectedKommune ? cache.years[selectedYear].byKommune[selectedKommune] : null;
+
   const sortedElements = kommuneCache ? [...r.elements].sort((a, b) => {
     const aVal = a.invert ? 100 - kommuneCache[a.key] : kommuneCache[a.key];
     const bVal = b.invert ? 100 - kommuneCache[b.key] : kommuneCache[b.key];
-    return -(aVal - bVal)
+    return -(aVal - bVal);
   }) : r.elements;
-
 
   const selectedDistRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (selectedDistRef.current !== null) {
       selectedDistRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-  }, [selectedDistribuion]); // Should scroll to show selected distribution detail
-
+  }, [selectedDistribution]);
 
   return (
-    <div className={`detailsRisk ${selectedDistribuion.type === "risk" ? "selected" : ""}`}>
+    <div className={`detailsRisk ${selectedDistribution.type === "risk" ? "selected" : ""}`}>
       <div className="detailsHeader">
         <div style={{ "--detailsHeaderColor": "var(--c-norge)" } as React.CSSProperties}>
           <Tooltip text={l(t.details.tooltip.norge)}>
@@ -55,7 +52,8 @@ function DetailsRisk({ r }: Props) {
         </div>
         <div style={{ "--detailsHeaderColor": "var(--c-fylke)" } as React.CSSProperties}>
           <Tooltip text={l(t.details.tooltip.fylke)}>
-            {l(t.chart.tooltip.county)}
+            {/* 🎯 3. Utilisation de countyName s'il existe, sinon fallback linguistique */}
+            {countyName || l(t.chart.tooltip.county)}
           </Tooltip>
         </div>
       </div>
@@ -64,7 +62,7 @@ function DetailsRisk({ r }: Props) {
         onMouseLeave={() => setHighlightedDistribution(null)}
         onClick={() => handleInspectDistribution({ type: "risk" })}
         className={`detailsHandle ${highlightedDistribution && highlightedDistribution.type === "risk" ? "highlighted" : ""}`}
-        ref={selectedDistribuion.type === "risk" ? selectedDistRef : null}
+        ref={selectedDistribution.type === "risk" ? selectedDistRef : null}
       >
         <div
           className="colorBox"
@@ -80,7 +78,6 @@ function DetailsRisk({ r }: Props) {
           {r.rankFylke}
         </div>
       </button>
-      {/* AJOUT CLASSE : Permet de cibler l'espacement vertical des blocs enfants */}
       <ul className="detailsElementsContainer">
         {sortedElements.map((e, eIndex) => (
           <DetailsElement key={eIndex} e={e} />

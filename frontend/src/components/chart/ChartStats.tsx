@@ -10,61 +10,71 @@ type RegionData = {
 }
 
 type StatData = Record<Region, RegionData>
-
 export type ChartStatsData = Record<Stat, StatData>
 
 interface Props {
   data: ChartStatsData;
   toggleStatVisible: (region: Region, stat: Stat) => void;
+  countyName?: string; //
 }
 
-function ChartStats({ data, toggleStatVisible }: Props) {
+function ChartStats({ data, toggleStatVisible, countyName }: Props) {
   const { l } = useLanguageStore();
 
   return (
     <div className="chartStatsContainer">
-      <div>
-        <div className="chartStatHeader">
-          <div className="norge">
-            <Tooltip text={l(t.chart.stats.tooltip.norge)}>
-              {l(t.chart.tooltip.norway)}
-            </Tooltip>
-          </div>
-          {(data.mean.fylke.value !== undefined || data.median.fylke.value !== undefined) && (
-            <div className="fylke">
-              <Tooltip text={l(t.chart.stats.tooltip.fylke)}>
-                {l(t.chart.tooltip.county)}
-              </Tooltip>
-            </div>
-          ) || null}
-        </div>
-        {(Object.entries(data) as [Stat, StatData][]).map(([stat, x]) => (
-          <div key={stat} className="chartStat">
-            <div className={`chartStatName ${stat}`}>
-              {stat === "mean" ? l(t.chart.stats.mean) : l(t.chart.stats.median)}:
-            </div>
-            {(Object.entries(x) as [Region, RegionData][]).map(([region, val]) => val.value !== undefined && (
-              <label 
-                htmlFor={`${region}-${stat}`} 
-                key={`${region}-${stat}`}
-                className={`chartStatVal ${region}`}
-              >
-                <input 
-                  type="checkbox" 
-                  id={`${region}-${stat}`}
-                  checked={data[stat][region].visible}
-                  onChange={() => toggleStatVisible(region, stat)}
-                />
-                <div>
-                  {val.value.toFixed()}
-                </div>
-              </label>
-            ) || null)}
-          </div>
-        ))}
-      </div>
+      {(Object.entries(data) as [Stat, StatData][]).map(([stat, regions]) => (
+        <table key={stat} className="statsTable">
+          <tbody>
+            <tr className="statsRow">
+              {/* Intitulé aligné à gauche */}
+              <td className="statGroupLabel">
+                {stat === "mean" ? l(t.chart.stats.mean) : l(t.chart.stats.median)} :
+              </td>
+
+              {/* Puces d'options */}
+              <td className="statGroupOptions">
+                {(Object.entries(regions) as [Region, RegionData][]).map(([region, val]) => {
+                  if (val.value === undefined) return null;
+
+                  const tooltipText = region === "norge"
+                    ? l(t.chart.stats.tooltip.norge)
+                    : l(t.chart.stats.tooltip.fylke);
+
+                  return (
+                    <Tooltip key={`${region}-${stat}`} text={tooltipText}>
+                      <label
+                        htmlFor={`${region}-${stat}`}
+                        className={`compactStatToggle ${region} ${stat} ${val.visible ? "active" : ""}`}
+                      >
+                        <input
+                          type="checkbox"
+                          id={`${region}-${stat}`}
+                          checked={val.visible}
+                          onChange={() => toggleStatVisible(region, stat)}
+                          className="hiddenCheckbox"
+                        />
+                        <span className="statIndicator"></span>
+                        <span className="statLabelText">
+                          {region === "norge"
+                            ? l(t.chart.tooltip.norway)
+                            : (countyName || l(t.chart.tooltip.county))
+                          }
+                        </span>
+                        <span className="statValueNumber">
+                          {val.value.toFixed()}
+                        </span>
+                      </label>
+                    </Tooltip>
+                  );
+                })}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      ))}
     </div>
-  )
+  );
 }
 
 export default ChartStats;

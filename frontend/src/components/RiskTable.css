@@ -22,15 +22,12 @@
   top: 0;
   background-color: var(--c-bg1);
   z-index: 12;
-  /* Au-dessus des lignes du corps */
   user-select: none;
   overflow-x: hidden;
-  /* Masque la barre mais permet le scroll JS */
   display: flex;
   width: 100%;
 }
 
-/* Masquage cross-browser de la barre de scroll de l'en-tête */
 .rt-thead::-webkit-scrollbar {
   display: none;
 }
@@ -39,32 +36,17 @@
   scrollbar-width: none;
 }
 
-.rt-thead::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: .1em;
-  bottom: -.1em;
-  pointer-events: none;
-  background-color: var(--c-accent);
-  z-index: 15;
-  /* S'assure que la bordure passe au-dessus de tout */
-}
-
 .rt-thead button {
-  padding: 0 .5em;
+  padding: 0 0.5em;
   background: none;
   border: none;
   text-wrap: nowrap;
   display: flex;
   flex-direction: row;
   outline: none;
-  width: 8rem;
-  flex: 0 0 8rem;
-  justify-content: flex-start;
+  width: 100%;
+  justify-content: center;
   align-items: center;
-
   box-sizing: border-box;
   cursor: pointer;
   color: inherit;
@@ -74,14 +56,13 @@
 
 .rt-thead button:hover,
 .rt-thead button:focus-visible {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .sortIcon {
-  padding: 0 0 0 .2em;
+  padding-left: 0.2em;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
 }
 
 .sortIcon svg {
@@ -90,7 +71,7 @@
 }
 
 /* ==========================================================================
-   CORPS ET CORRECTION DES LIGNES REACT-WINDOW
+   CORPS ET ALIGNEMENT REACT-WINDOW
    ========================================================================== */
 .rt-tbody {
   flex: 1;
@@ -98,8 +79,6 @@
   position: relative;
 }
 
-/* CORRECTIF CRITIQUE : Cible le conteneur interne généré par react-window 
-   pour l'empêcher de compresser vos colonnes */
 .rt-tbody>div>div {
   min-width: max-content !important;
 }
@@ -111,16 +90,18 @@
   box-sizing: border-box;
   user-select: none;
   cursor: pointer;
-
-  /* FORCE la ligne à s'étaler sur la somme de ses cellules (écrase le style en ligne) */
   width: max-content !important;
   min-width: max-content !important;
 }
 
 .rt-row.rt-header {
   cursor: default;
+  height: 38px;
 }
 
+/* ==========================================================================
+   DIMENSIONS STRICTES DES CELLULES
+   ========================================================================== */
 .rt-cell {
   padding: 0.5em;
   white-space: nowrap;
@@ -131,210 +112,204 @@
   align-items: center;
 }
 
-/* ==========================================================================
-   COLONNES FIGÉES (STICKY) GAUCHE
-   ========================================================================== */
+/* 1. Colonne Index (#) */
 .rt-cell.indexCol {
   position: sticky;
   left: 0;
   background-color: var(--c-bg1);
   color: var(--c-norge);
   z-index: 9;
-  padding: 0 0.5em;
-  box-sizing: border-box;
-  min-width: 4.2em;
-  width: 4.2em;
-  flex: 0 0 4.2em;
+  min-width: 4.2em !important;
+  width: 4.2em !important;
+  flex: 0 0 4.2em !important;
   justify-content: flex-end;
 }
 
-/* Z-index renforcé dans l'en-tête pour ne pas être écrasé par les données qui défilent */
 .rt-thead .rt-cell.indexCol {
   z-index: 13;
-  background-color: var(--c-bg1) !important;
 }
 
 .rt-cell.indexCol::before {
   content: "";
   display: block;
   position: absolute;
-  top: .2em;
-  bottom: .2em;
+  top: 0.2em;
+  bottom: 0.2em;
   left: 0;
   background-color: var(--risk-color);
-  width: .4em;
+  width: 0.4em;
 }
 
+/* 2. Colonne Commune (Alignée à gauche et surlignée) */
 .rt-cell.kommuneCol {
   position: sticky;
   left: 4.2em;
   background-color: var(--c-bg1);
   z-index: 9;
-  width: 12em;
-  flex: 0 0 12em;
+  min-width: 15em !important;
+  width: 15em !important;
+  flex: 0 0 15em !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Z-index renforcé dans l'en-tête */
 .rt-thead .rt-cell.kommuneCol {
   z-index: 13;
-  background-color: var(--c-bg1) !important;
+  justify-content: flex-start !important;
+  padding-left: 0.5rem !important;
+}
+
+.rt-thead .rt-cell.kommuneCol button {
+  font-weight: 550 !important;
+  justify-content: flex-start !important;
 }
 
 .rt-cell.kommuneCol::after {
   content: "";
   position: absolute;
   top: 0;
-  right: -.3em;
-  width: .3em;
+  right: -0.3em;
+  width: 0.3em;
   bottom: 0;
   pointer-events: none;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0));
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0));
 }
 
+/* 3. Colonnes numériques standards */
 .rt-cell.numeric {
   text-align: right;
   justify-content: flex-end;
   padding-right: 1rem;
-  width: 6rem !important;
-  /* 🔥 Taille réduite pour des cases plus étroites */
-  flex: 0 0 6rem !important;
-  /* 🔥 Fixe la largeur stricte pour le corps */
+  min-width: 7rem !important;
+  width: 7rem !important;
+  flex: 0 0 7rem !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.rt-thead .rt-cell.numeric {
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 0 !important;
+}
+
+.rt-thead .rt-cell.numeric button {
+  width: 7rem !important;
+  flex: 0 0 7rem !important;
+  font-size: 1rem !important;
+  line-height: 0.8rem;
+  white-space: normal !important;
+}
+
+.rt-thead .rt-cell {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15) !important;
 }
 
 /* ==========================================================================
-   SÉLECTIONS ET HIGHLIGHTS
+   COULEURS : LES 4 DÉTERMINANTS (ORANGE LÉGER - 8% & 15%)
+   ========================================================================== */
+.rt-cell.numeric.determinantCol {
+  background-color: rgba(253, 141, 60, 0.08) !important;
+}
+
+.rt-thead .rt-cell.numeric.determinantCol {
+  background-color: rgba(253, 141, 60, 0.15) !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+.rt-thead .rt-cell.numeric.determinantCol button {
+  font-weight: 550 !important;
+}
+
+/* ==========================================================================
+   COULEURS : TOTAL RISK (ORANGE ACCENTUÉ - 18% & 28%)
+   ========================================================================== */
+.rt-cell.numeric.totalRiskCol {
+  background-color: rgba(253, 141, 60, 0.18) !important;
+}
+
+.rt-thead .rt-cell.numeric.totalRiskCol {
+  background-color: rgba(253, 141, 60, 0.28) !important;
+}
+
+.rt-thead .rt-cell.numeric.totalRiskCol button {
+  font-weight: 600 !important;
+}
+
+/* ==========================================================================
+   SÉLECTIONS, HOVERS ET ACTIONS (RÈGLES DE PRIORITÉ VISUELLE)
    ========================================================================== */
 .rt-cell.highlightedCol {
-  background-color: var(--c-highlighted);
+  background-color: var(--c-highlighted) !important;
 }
 
 .rt-cell.selectedCol {
-  background-color: var(--c-bg3);
+  background-color: var(--c-bg3) !important;
 }
 
-.rt-row.selected,
-.rt-row.selected .indexCol,
-.rt-row.selected .kommuneCol {
-  background-color: var(--c-selected);
-}
-
+/* Hover sur la ligne complète */
 .rt-row.highlighted,
 .rt-row.highlighted .indexCol,
-.rt-row.highlighted .kommuneCol {
-  background-color: var(--c-highlighted);
+.rt-row.highlighted .kommuneCol,
+.rt-row.highlighted .determinantCol,
+.rt-row.highlighted .totalRiskCol {
+  background-color: var(--c-highlighted) !important;
 }
 
+/* Ligne sélectionnée */
+.rt-row.selected,
+.rt-row.selected .indexCol,
+.rt-row.selected .kommuneCol,
+.rt-row.selected .determinantCol,
+.rt-row.selected .totalRiskCol {
+  background-color: var(--c-selected) !important;
+}
+
+/* Cas spécifiques d'intersections actives */
 .rt-row.selected .highlightedCol,
 .rt-row.selected .selectedCol {
-  background-color: var(--c-selected);
+  background-color: var(--c-selected) !important;
   font-weight: bold;
 }
 
 /* ==========================================================================
-   CORRECTIF D'ALIGNEMENT STRICT EN-TÊTE / CORPS
+   CONTRÔLES D'AGRÉGATION SPATIALE
    ========================================================================== */
-
-/* 1. Configuration de base pour toutes les cellules de l'en-tête */
-.rt-thead .rt-cell {
-  justify-content: flex-start !important;
-  text-align: left !important;
-  overflow: hidden !important;
+.aggregation-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--c-bg2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
 }
 
-/* 2. Cible UNIQUEMENT les en-têtes numériques pour leur donner les 6rem */
-.rt-thead .rt-cell:not(.indexCol):not(.kommuneCol) {
-  width: 6rem !important;
-  flex: 0 0 6rem !important;
+.agg-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--c-text-muted, #666);
+  font-weight: 500;
+  margin-right: 0.5rem;
 }
 
-/* 3. Restitue la taille exacte de la colonne Index (#) dans l'en-tête */
-.rt-thead .rt-cell.indexCol {
-  width: 4.2em !important;
-  flex: 0 0 4.2em !important;
-  justify-content: flex-end !important;
-  /* Maintient l'alignement à droite du '#' si désirez */
+.agg-btn {
+  background: var(--c-bg1);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--c-text);
+  transition: all 0.2s ease;
 }
 
-/* 4. Restitue la taille exacte de la colonne Municipality dans l'en-tête */
-.rt-thead .rt-cell.kommuneCol {
-  width: 12em !important;
-  flex: 0 0 12em !important;
+.agg-btn:hover {
+  background: var(--c-bg3);
 }
 
-/* 5. Ajustement des boutons à l'intérieur des seules colonnes numériques */
-.rt-thead .rt-cell:not(.indexCol):not(.kommuneCol) button {
-  width: 6rem !important;
-  flex: 0 0 6rem !important;
-  justify-content: flex-start !important;
-  align-items: center !important;
-  padding: 0 0.5em !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
-
-/* ==========================================================================
-   ÉPAISSISSEMENT DE LA LIGNE HORIZONTALE ET BORDURES LATÉRALES
-   ========================================================================== */
-
-/* 1. Ligne horizontale principale du bas (En-tête) */
-.rt-thead::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-
-  /* 🔥 MODIFIÉ : Augmentation de l'épaisseur (de .1em à 3px) */
-  height: 3px !important;
-  bottom: -3px !important;
-
-  pointer-events: none;
-  background-color: var(--c-accent);
-  z-index: 15;
-}
-
-/* 2. Barre latérale verticale entre chaque en-tête numérique */
-.rt-thead .rt-cell:not(.indexCol):not(.kommuneCol) {
-  border-right: 1px solid rgba(0, 0, 0, 0.2) !important;
-  box-sizing: border-box;
-}
-
-/* 3. Barre latérale verticale pour séparer la colonne "Municipality" des chiffres */
-.rt-thead .rt-cell.kommuneCol {
-  border-right: 1px solid rgba(0, 0, 0, 0.2) !important;
-  box-sizing: border-box;
-}
-
-/* ==========================================================================
-   VRAIE BORDURE HORIZONTALE SOUS LES EN-TÊTES
-   ========================================================================== */
-
-.rt-thead .rt-cell {
-  /* 🔥 AJOUT : Crée une ligne horizontale épaisse et bien visible sous chaque en-tête */
-  border-bottom: 3px solid var(--c-accent, #fb6a4a) !important;
-
-  box-sizing: border-box;
-}
-
-/* Optionnel : Si l'en-tête global possède un fond, on s'assure qu'il ne masque pas la bordure */
-.rt-thead {
-  border-bottom: 3px solid var(--c-accent, #fb6a4a) !important;
-}
-
-/* ==========================================================================
-   NIVEAU DE SÉCURITÉ FINAL (AJOUTÉ POUR FIXER L'ÉPAISSEUR NOIRE)
-   ========================================================================== */
-
-/* Désactive l'excès d'épaisseur noire provoqué par l'en-tête global et le pseudo-élément */
-.rt-thead::after {
-  display: none !important;
-}
-
-.rt-thead {
-  border-bottom: none !important;
-}
-
-/* Écrase l'épaisseur sur les cellules pour appliquer un séparateur horizontal fin et discret */
-.rt-thead .rt-cell {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2) !important;
+.agg-btn.active {
+  background: var(--c-accent, #fb6a4a);
+  color: white;
+  border-color: transparent;
+  font-weight: bold;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
